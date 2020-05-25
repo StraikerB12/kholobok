@@ -2,7 +2,7 @@ node_modules/
 package-lock.json
 yarn.lock
 yarn-error.log
-admWeb/
+kholobokBiz/
 .idea
 dist
 .node_modules_global/
