@@ -4,7 +4,10 @@
     "description": "Video host, fron of kholobok.biz",
     "author": "Shavyrin Igor <des-star@ibox.ru>",
     "main": "index.js",
-    "scripts": {},
+    "scripts": {
+        "dev_src": "webpack-dev-server --mode development",
+        "build_src": "rimraf html && webpack --mode production"
+    },
     "browserslist": [
         "> 1%",
         "last 2 versions",
@@ -15,6 +18,7 @@
     },
     "dependencies": {
         "autoprefixer": "^9.5.1",
+        "axios": "^0.19.2",
         "element-ui": "^2.13.0",
         "favicons-webpack-plugin": "^0.0.9",
         "fingerprintjs": "^0.5.3",
