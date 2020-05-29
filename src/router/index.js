@@ -10,9 +10,20 @@ const router = new Router({
   routes: [
     {
       path: '/',
+      name: 'MainPage',
+      component: () => import('~/components/MainPage')
+    },
+
+    {
+      path: '/login',
       name: 'Authorization',
       component: () => import('~/components/Authorization'),
-      meta: { isAuth: true },
+      props: true
+    },
+    {
+      path: '/regin',
+      name: 'Registration',
+      component: () => import('~/components/Registration'),
       props: true
     }
   ]
