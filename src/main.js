@@ -4,7 +4,7 @@ import '~/assets/scss/Fonts.scss';
 import Vue from 'vue';
 import App from '~/App';
 
-import router from '~/router';
+import {router} from '~/router';
 import store from '~/store';
 
 (async () => {

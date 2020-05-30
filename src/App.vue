@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view class="rootApp"></router-view>
+    <router-view class=""></router-view>
   </div>
 </template>
 
@@ -22,3 +22,10 @@
     }
   }
 </script>
+
+<style lang="scss">
+  body{
+    padding: 0;
+    margin: 0;
+  }
+</style>
