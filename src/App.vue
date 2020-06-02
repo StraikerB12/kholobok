@@ -1,15 +1,17 @@
 <template>
   <div id="app">
-    <router-view class=""></router-view>
+    <messages></messages>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+  import Messages from '~/components/info/Messages';
 
   export default {
     name: 'App',
     components: {
-      
+      Messages
     },
     computed: {
       
@@ -27,5 +29,10 @@
   body{
     padding: 0;
     margin: 0;
+    
   }
+  *{
+    box-sizing: border-box;
+  }
+  @import '~font-awesome/css/font-awesome.min.css';
 </style>

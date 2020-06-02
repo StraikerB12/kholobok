@@ -2,7 +2,7 @@ module.exports = () => ({
   module: {
     rules: [
       {
-        test: /\.(png|jpg|jpeg|gif|svg|svgz|eot|ttf|woff|woff2|otf)(\?.+)?$/,
+        test: /\.(webp|png|jpg|jpeg|gif|svg|svgz|eot|ttf|woff|woff2|otf)(\?.+)?$/,
         use: [
           {
             loader: 'url-loader',
