@@ -34,13 +34,10 @@
 <script>
   export default {
     name: 'Main',
-    data: () => ({
-      userName: '',
-      password: '',
-    }),
-    methods: {
-      
-    }
+    data: () => ({}),
+    created(){},
+    computed:{},
+    methods: {}
   }
 </script>
 

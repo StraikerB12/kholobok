@@ -21,7 +21,8 @@
 </template>
 
 <script>
-  import {routers} from '~/router/';
+  import { mapActions } from 'vuex'
+  
 
   export default {
     name: 'Authorization',
@@ -32,24 +33,24 @@
 
     }),
     async created() {
-      // console.log(routers);
+      console.log(this.token);
     },
     computed:{
-      
+      token(){
+        return this.$store.state.user.tokenRefresh
+      }
     },
     methods: {
       onSignIn () {
         const {login, password} = this;
-
-        this.$store.dispatch('USER_LOGIN', { login, password }).then((response) => {
-          console.log(response);
-
-          this.$store.dispatch('setMessages', { title: '277'});
-          this.$store.dispatch('setMessages', { title: '278'});
-          // this.$router.push('/');
+        this.userLogin({login, password}).then(() => {
+          this.$router.push({name: 'Registration'});
         });
+      },
 
-      }
+      ...mapActions([
+        'userLogin'
+      ])
     }
   }
 </script>

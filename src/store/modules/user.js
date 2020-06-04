@@ -1,8 +1,4 @@
-
-const signIn = (login, password) => {
-    return {login, password};
-}
-
+import axios from "axios";
 
 
 
@@ -10,31 +6,68 @@ export default {
     // namespaced: true,
 
     state: {
-        token: '',
+        token: '123',
         tokenRefresh: '',
-        status: 'user'
+        status: ''
     },
     getters: {
-        status: state => {
-            return state.status;
-        } 
+        
     },
-    mutations: {},
+    mutations: {
+        setToken(state, payload){
+            state.token = payload;
+        },
+        setTokenRefresh(state, payload){
+            state.tokenRefresh = payload;
+        },
+        setStatus(state, payload){
+            state.status = payload;
+        }
+    },
 
     actions: {
-        USER_LOGIN: ({commit}, {login, password}) => {
+        userLogin: ({commit, dispatch}, user) => {
 
-            return {login, password};
 
-            // return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
 
-            //     signIn(user.login, user.password).then(response => {
-            //         resolve(response);
-            //     }).catch(error => {
-            //         reject(error);
-            //     });
-            // });
+                dispatch('requestApi', {url: 'oauth/login', data: user})
+                .then(({bearer_token, refresh_token, right}) => {
+
+                    commit('setToken', bearer_token);
+                    commit('setTokenRefresh', refresh_token);
+                    commit('setStatus', right);
+
+                    resolve();
+                }).catch((error) => {
+                    console.log(error);
+                })
+
+            });
             
         },
+
+        resetToken: async ({state, dispatch, commit}) => {
+
+            if(state.tokenRefresh != ''){
+                const response = await dispatch('requestApi', {url: 'oauth/token', data: {token: state.tokenRefresh}});
+                if(response.operation === false){
+                    return false; 
+                }
+                commit('setToken', response.bearer_token);
+                return true;
+            }else{
+                return false;
+            }
+
+        },
+
+        isAuth: async ({state, dispatch}) => {
+            if(state.token != ''){
+                return await dispatch('resetToken');
+            }else{
+                return false;
+            }
+        }
     }
 }

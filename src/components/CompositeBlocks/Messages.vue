@@ -24,12 +24,10 @@
     }),
     async created() {
       
-      // console.log(this.$store.getters.messages);
-      // console.log(this.$store.getters.status);
     },
     computed:{
       messagesList(){
-        return this.$store.getters.messages;
+        return this.$store.state.messages;
       }
     },
 

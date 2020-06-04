@@ -2,7 +2,7 @@
     <div>
         <main class="form-main">
 
-            <form action="" method="post" class="form-in">
+            <div class="form-in">
                 <h1><a href="/">kholobok.biz</a></h1>
                 <p>Регистрация</p>
 
@@ -13,10 +13,10 @@
                 
                 <!-- <strong>{{ $errors->first('password_confirmation') }}</strong> -->
 
-                <button>Зарегистрироваться</button>
+                <button v-on:click="onRegistr()">Зарегистрироваться</button>
 
                 <a href="/login">Войти</a>
-            </form>
+            </div>
 
         </main>
     </div>
@@ -30,7 +30,9 @@
       password: '',
     }),
     methods: {
-      
+      onRegistr(){
+        this.requestApi({url: 'oauth/exits'})
+      }
     }
   }
 </script>

@@ -9,7 +9,18 @@ import App from '~/App';
 import {router} from '~/router';
 import store from '~/store';
 
+import { mapActions } from 'vuex'
+
+
 (async () => {
+
+  Vue.mixin({
+    methods: {
+      ...mapActions([
+        'requestApi'
+      ])
+    }
+  })
 
   new Vue({
     el: '#app',
