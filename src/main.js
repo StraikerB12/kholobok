@@ -2,6 +2,9 @@
 
 
 import '~/assets/scss/Fonts.scss';
+import '~/assets/scss/Forms.scss';
+import '~/assets/scss/Display.scss';
+import '~/assets/scss/index.scss';
 
 import Vue from 'vue';
 import App from '~/App';
@@ -16,6 +19,14 @@ import { mapActions } from 'vuex'
 
   Vue.mixin({
     methods: {
+      getMethod(method, data){
+        
+        return this.requestApi({ url: 'front/' + method, data, method: 'GET'});
+      },
+      postMethod(method, data){
+        return this.requestApi({ url: 'front/' + method, data});
+      },
+
       ...mapActions([
         'requestApi'
       ])

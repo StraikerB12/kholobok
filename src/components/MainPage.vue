@@ -8,7 +8,7 @@
         </div>
     </header>
 
-    <main class="landing-main">
+    <div class="landing-main">
         <div class="block1 block">
             <div class="contener">
                 <h1>Online<br>Видео-плеер</h1>
@@ -21,7 +21,7 @@
                 <div class="image3"></div>
             </div>
         </div>
-    </main>
+    </div>
 
     <footer class="landing-footer">
         <div>Все права защещены</div>

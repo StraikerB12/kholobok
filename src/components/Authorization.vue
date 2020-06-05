@@ -1,23 +1,14 @@
 <template>
-  <main class="form-main">
-
+  <div class="form-main">
     <div class="form-in">
-
       <h1><a href="/">kholobok.biz</a></h1>
-
       <input type="text" v-model="login" placeholder="Логин">
       <input type="password" v-model="password" placeholder="Пароль">
-
       <button v-on:click="onSignIn()">Войти</button>
-
-      <!-- <div class="error-form-login"></div> -->
-
       <a href="/regin">Регистрация</a>
       <a href="/logreset">Забыли пароль?</a>
-
     </div>
-
-  </main>
+  </div>
 </template>
 
 <script>
@@ -44,7 +35,7 @@
       onSignIn () {
         const {login, password} = this;
         this.userLogin({login, password}).then(() => {
-          this.$router.push({name: 'Registration'});
+          this.$router.go();
         });
       },
 

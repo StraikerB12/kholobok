@@ -1,11 +1,15 @@
 <template>
-    <main class="form-main">
-        
+  <div class="content-site">
+    <slot name="menu"></slot>
+    <main>
+      <div class="main">
         <slot name="header"></slot>
-        <slot name="menu"></slot>
-        panel
-
+        <div class="main__content">
+            panel
+        </div>
+      </div>
     </main>
+  </div>
 </template>
 
 <script>

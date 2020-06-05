@@ -15,7 +15,10 @@ export const routers = [
   {
     path: '/',
     name: 'MainPage',
-    component: () => import('~/components/MainPage')
+    component: () => import('~/components/MainPage'),
+    meta: {
+      visible: false
+    }
   },
 
   {
@@ -23,7 +26,8 @@ export const routers = [
     name: 'Authorization',
     component: () => import('~/components/Authorization'),
     meta: {
-      middleware: [guest]
+      middleware: [guest],
+      visible: false
     }
   },
   {
@@ -31,7 +35,8 @@ export const routers = [
     name: 'Registration',
     component: () => import('~/components/Registration'),
     meta: {
-      middleware: [guest]
+      middleware: [guest],
+      visible: false
     }
   },
   {
@@ -39,7 +44,8 @@ export const routers = [
     name: 'LogReset',
     component: () => import('~/components/LogReset'),
     meta: {
-      middleware: [guest]
+      middleware: [guest],
+      visible: false
     }
   },
 
@@ -50,19 +56,36 @@ export const routers = [
     component: () => import('~/components/AdminPanel/AdminPanel'),
     props: true,
     meta: {
-      middleware: [auth]
+      middleware: [auth],
+      title: "Панель",
+      visible: true,
+      rights: ['client', 'redactor'] // Указанны статусы которым доступ закрыт
     }
   },
+
+
   {
     path: '/video',
     name: 'VideoPage',
     component: () => import('~/components/VideoPage/VideoPage'),
-    props: {
-      title: "Видео"
-    },
+    props: true,
     meta: {
       middleware: [auth],
-      title: "Видео"
+      title: "Видео",
+      visible: true,
+      rights: []
+    }
+  },
+  {
+    path: '/tikets',
+    name: 'TiketsPage',
+    component: () => import('~/components/TiketsPage/TiketsPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Тикеты",
+      visible: true,
+      rights: []
     }
   }
 ]
