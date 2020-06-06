@@ -87,6 +87,18 @@ export const routers = [
       visible: true,
       rights: []
     }
+  },
+  {
+    path: '/cabinet',
+    name: 'CabinetPage',
+    component: () => import('~/components/CabinetPage/CabinetPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Кабиет",
+      visible: false,
+      rights: []
+    }
   }
 ]
 

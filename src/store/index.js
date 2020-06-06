@@ -30,6 +30,7 @@ export default new Vuex.Store({
   },
   actions: {
     setMessages: ({commit}, payload) => {
+      if( !Array.isArray(payload) ){payload = [payload]}
       payload.forEach( item => {
         commit('setMessages', item);
         setTimeout(() => {
@@ -39,24 +40,31 @@ export default new Vuex.Store({
     },
 
 
-    requestApi: ({state, dispatch}, {url, data = null, method = 'POST'}) => {
+    requestApi: ({state, dispatch, commit}, {url, data = null, method = 'POST'}) => {
       console.log('Использование requestApi');
+
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${state.user.token}`;
 
         axios({url: siteUrl + url, data, method})
         .then( async ({data: {data, messages}}) => {
 
+          // console.log(data, messages);
+          dispatch('setMessages', messages);
           if( messages[0] && messages[0].code == 412){
-
+            
             if(await dispatch('resetToken')){
-                router.go();
+              router.go();
             }else{
-                router.push({name: 'Authorization'});
+              commit('setToken', '');
+              commit('setTokenRefresh', '');
+              commit('setStatus', '');
+              router.push({name: 'Authorization'});
+              return;
             }
           }
-          dispatch('setMessages', messages);
-          if(data.operation && data.operation === false){
+          
+          if(data && data.operation === false){
             reject(data); 
           }else{
             resolve(data);
@@ -64,7 +72,7 @@ export default new Vuex.Store({
             
         })
         .catch((error) => {
-            dispatch('setMessages', [error]);
+          dispatch('setMessages', [error]);
         })
       });
 

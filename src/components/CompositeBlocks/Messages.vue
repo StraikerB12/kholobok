@@ -71,16 +71,16 @@
   .messages{
     position: fixed;
     right: 30px;
-    top: 20px;
+    top: 80px;
     z-index: 99999999999999999999;
     font-family: 'Montserrat-Regular';
 
     &__item{
-      width: 300px;
+      width: 320px;
       padding: 15px 20px;
       border-radius: 5px;
       // box-shadow: 0 0 5px -2px #000;
-      margin: 10px 0;
+      margin-bottom: 10px;
       border:1px solid #d3d3d3;
       background: #fff;
       transition: all 0.5s;
@@ -101,7 +101,9 @@
       &-content{}
       &-title{
         font-family: 'Montserrat-Medium';
-        line-height: 34px;
+        font-size: 16px;
+        line-height: 17px;
+        padding: 8px 0;
       }
     }
 

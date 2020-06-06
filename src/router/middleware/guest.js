@@ -9,6 +9,7 @@ export default async function guest ({next, store}){
         mainPage = 'AdminPanel';
     }
 
+    console.log(await store.dispatch('isAuth'));
     if( await store.dispatch('isAuth') ){
         return next({name: mainPage});
     }

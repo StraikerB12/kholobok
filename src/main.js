@@ -20,7 +20,6 @@ import { mapActions } from 'vuex'
   Vue.mixin({
     methods: {
       getMethod(method, data){
-        
         return this.requestApi({ url: 'front/' + method, data, method: 'GET'});
       },
       postMethod(method, data){
@@ -28,10 +27,11 @@ import { mapActions } from 'vuex'
       },
 
       ...mapActions([
-        'requestApi'
+        'requestApi',
+        'setMessages'
       ])
     }
-  })
+  });
 
   new Vue({
     el: '#app',
