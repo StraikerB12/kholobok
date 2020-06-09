@@ -55,10 +55,10 @@
 
 <style lang='scss' scoped>
 
-    .VideoPage{
+    .AdminPanel{
         background: url(../../assets/images/svg-icons/HOME.svg) no-repeat center/ 40px; 
     }
-    .player{
+    .PlayerPage{
         background: url(../../assets/images/svg-icons/PLAY.svg) no-repeat center/ 35px;
     }
     .pages{
@@ -70,8 +70,11 @@
     .TiketsPage{
         background: url(../../assets/images/svg-icons/MAIL.svg) no-repeat center/ 40px;
     }
-    .users{
+    .UsersPage{
         background: url(../../assets/images/svg-icons/SHARE.svg) no-repeat center/ 40px;
+    }
+    .StatsPage{
+        background: url(../../assets/images/svg-icons/STATISTICS.svg) no-repeat center/ 40px;
     }
 
 

@@ -62,6 +62,18 @@ export const routers = [
       rights: ['client', 'redactor'] // Указанны статусы которым доступ закрыт
     }
   },
+  {
+    path: '/cabinet',
+    name: 'CabinetPage',
+    component: () => import('~/components/CabinetPage/CabinetPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Кабиет",
+      visible: false,
+      rights: []
+    },
+  },
 
 
   {
@@ -89,17 +101,43 @@ export const routers = [
     }
   },
   {
-    path: '/cabinet',
-    name: 'CabinetPage',
-    component: () => import('~/components/CabinetPage/CabinetPage'),
+    path: '/player',
+    name: 'PlayerPage',
+    component: () => import('~/components/PlayerPage/PlayerPage'),
     props: true,
     meta: {
       middleware: [auth],
-      title: "Кабиет",
-      visible: false,
+      title: "Плеер",
+      visible: true,
       rights: []
     }
+  },
+  
+  {
+    path: '/users',
+    name: 'UsersPage',
+    component: () => import('~/components/UsersPage/UsersPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Пользователи",
+      visible: true,
+      rights: ['client', 'redactor', 'managing']
+    }
+  },
+  {
+    path: '/stats',
+    name: 'StatsPage',
+    component: () => import('~/components/StatsPage/StatsPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Статистика",
+      visible: true,
+      rights: ['client', 'redactor', 'managing']
+    }
   }
+  
 ]
 
 export const router = new Router({

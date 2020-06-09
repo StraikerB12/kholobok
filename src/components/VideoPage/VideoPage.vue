@@ -690,8 +690,14 @@
 
       // Скопировать адрес
       copyAdress: function(id){
-          navigator.clipboard.writeText('<iframe src="https://kholobok.biz/show/' + id + '" frameborder="0" width="610" height="370" allowfullscreen></iframe>');
-          this.$root.$emit('getMessage', [{ tupe: "info", message: "Элемент скопирован" }] );
+
+        this.$copyText('<iframe src="https://kholobok.biz/show/' + id + '" frameborder="0" width="610" height="370" allowfullscreen></iframe>').then((e) => {
+          this.setMessages({tupe: 'info', message: 'Элемент скопирован'});
+        }, (e) => {
+          this.setMessages({ message: 'Ошибка копирования'});
+          console.log(e)
+        })
+          
       },
 
       // Очистить фильтр
