@@ -136,6 +136,20 @@ export const routers = [
       visible: true,
       rights: ['client', 'redactor', 'managing']
     }
+  },
+
+
+  {
+    path: '/*',
+    name: 'StatsPage',
+    component: () => import('~/components/CompositeBlocks/Error404Page'),
+    props: true,
+    meta: {
+      // middleware: [auth],
+      title: "Ошибка 404",
+      visible: false,
+      rights: []
+    }
   }
   
 ]

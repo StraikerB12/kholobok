@@ -3,10 +3,12 @@ import Vuex from 'vuex';
 import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
 
+import { Notification } from 'element-ui';
+
 import user from './modules/user';
 import {router} from '~/router';
 
-const siteUrl = 'https://kholobok.biz/';
+const siteUrl = 'https://api.kholobok.biz/';
 
 Vue.use(Vuex);
 
@@ -49,10 +51,16 @@ export default new Vuex.Store({
         axios({url: siteUrl + url, data, method})
         .then( async ({data: {data, messages}}) => {
 
-          // console.log(data, messages);
-          dispatch('setMessages', messages);
+          
+          // dispatch('setMessages', messages);
+         
+          if(messages.lenght > 0 ){
+            messages.forEach(element => {
+              Notification({ type: element.tupe, title: 'Сообщение', message: element.message, customClass: 'messages-ui' });
+            });
+          }
+
           if( messages[0] && messages[0].code == 412){
-            
             if(await dispatch('resetToken')){
               router.go();
             }else{
@@ -72,7 +80,7 @@ export default new Vuex.Store({
             
         })
         .catch((error) => {
-          dispatch('setMessages', [error]);
+          Notification({ type: 'error', title: 'Ошибка', message: error, customClass: 'messages-ui' });
         })
       });
 

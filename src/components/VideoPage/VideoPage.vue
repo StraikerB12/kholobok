@@ -12,7 +12,7 @@
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </div>
             </div>
-            <iframe :src=" 'https://kholobok.biz/show/' + filmId " frameborder="0" width="610" height="370"></iframe>
+            <iframe :src=" 'https://api.kholobok.biz/show/' + filmId " frameborder="0" width="610" height="370"></iframe>
         </div>
         <!-- End show video -->
 
@@ -691,10 +691,12 @@
       // Скопировать адрес
       copyAdress: function(id){
 
-        this.$copyText('<iframe src="https://kholobok.biz/show/' + id + '" frameborder="0" width="610" height="370" allowfullscreen></iframe>').then((e) => {
-          this.setMessages({tupe: 'info', message: 'Элемент скопирован'});
+        this.$copyText('<iframe src="https://api.kholobok.biz/show/' + id + '" frameborder="0" width="610" height="370" allowfullscreen></iframe>').then((e) => {
+          this.$notify.success({ title: 'Успех', message: 'Элемент скопирован', customClass: 'messages-ui' });
+          // this.setMessages({tupe: 'info', message: 'Элемент скопирован'});
         }, (e) => {
-          this.setMessages({ message: 'Ошибка копирования'});
+          this.$notify.error({ title: 'Ошибка', message: 'Ошибка копирования', customClass: 'messages-ui' });
+          // this.setMessages({ message: 'Ошибка копирования'});
           console.log(e)
         })
           

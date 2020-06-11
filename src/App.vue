@@ -42,6 +42,10 @@
     margin: 0;
   }
 
+  .messages-ui{
+    font-family: 'Montserrat-Medium';
+  }
+
   .content-site{
         width: 100%;
 
