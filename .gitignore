@@ -3,8 +3,10 @@ package-lock.json
 yarn.lock
 yarn-error.log
 kholobokBiz/
+kholobok.biz/
 .idea
 dist
 .node_modules_global/
 pushToDev
 pushToProd
+.gitignore
