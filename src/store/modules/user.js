@@ -8,20 +8,24 @@ export default {
     state: {
         token: '123',
         tokenRefresh: '',
-        status: ''
+        status: '',
+        name: ''
     },
     getters: {
         
     },
     mutations: {
         setToken(state, payload){
-            state.token = payload;
+          state.token = payload;
         },
         setTokenRefresh(state, payload){
-            state.tokenRefresh = payload;
+          state.tokenRefresh = payload;
         },
         setStatus(state, payload){
             state.status = payload;
+        },
+        setName(state, payload){
+            state.name = payload;
         }
     },
 
@@ -29,10 +33,11 @@ export default {
       userLogin: ({commit, dispatch}, user) => {
         return new Promise((resolve) => {
           dispatch('requestApi', {url: 'oauth/login', data: user})
-          .then(({bearer_token, refresh_token, right}) => {
+          .then(({bearer_token, refresh_token, right, name}) => {
             commit('setToken', bearer_token);
             commit('setTokenRefresh', refresh_token);
             commit('setStatus', right);
+            commit('setName', name);
             resolve();
           }).catch((error) => {
             console.log(error);
@@ -47,6 +52,7 @@ export default {
               commit('setToken', '');
               commit('setTokenRefresh', '');
               commit('setStatus', '');
+              commit('setName', '');
               resolve();
             }).catch((error) => {
               console.log(error);

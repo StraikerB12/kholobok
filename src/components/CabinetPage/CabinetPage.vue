@@ -7,7 +7,7 @@
         <div class="main__content">
            <div class="cabinet__head">
                 <h2 class="cabinet__title">{{ userInfo.login }}</h2>
-                <span class="cabinet__title-farm">{{ userAuth.status }}</span>
+                <span class="cabinet__title-farm">{{ userAuth.name }}</span>
             </div>
 
             <div class="cabinet__contener">
@@ -112,8 +112,7 @@
 
     computed:{
       userAuth(){ 
-        const {token,tokenRefresh,status} = this.$store.state.user;
-        return {token,tokenRefresh,status};
+        return this.$store.state.user;
       },
     },
 
@@ -167,22 +166,18 @@
 
         if (this.oldPassword == '' && this.newPassword == '' && this.passwordConfirmation == '') { 
           this.$notify.error({ title: 'Ошибка', message: 'Заполните все поля', customClass: 'messages-ui' });
-          // this.setMessages({message: 'Заполните все поля'}); 
           return; 
         }
         if(this.newPassword.length < 8){ 
           this.$notify.error({ title: 'Ошибка', message: 'Длинна пароля не менее 8 символов', customClass: 'messages-ui' });
-          // this.setMessages({message: 'Длинна пароля не менее 8 символов'}); 
           return; 
         }
         if(this.newPassword == this.oldPassword){ 
           this.$notify.error({ title: 'Ошибка', message: 'Новый пароль должен отличаться', customClass: 'messages-ui' });
-          // this.setMessages({message: 'Новый пароль должен отличаться'}); 
           return; 
         }
         if(this.passwordConfirmation != this.newPassword){ 
           this.$notify.error({ title: 'Ошибка', message: 'Новые пароли не совпадают', customClass: 'messages-ui' });
-          // this.setMessages({message: 'Новые пароли не совпадают'}); 
           return; 
         }
         
@@ -196,8 +191,6 @@
           this.passwordConfirmation = '';
 
           this.$notify.success({ title: 'Успех', message: 'Пароль изменен', customClass: 'messages-ui' });
-
-          // this.setMessages({tupe: 'info', message: 'Пароль изменен'});
         });
 
         

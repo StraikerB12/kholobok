@@ -761,8 +761,8 @@
           // Запрос к api
           this.postMethod('addVideoDB', {
             offset: this.updateUpOffset
-          }).then(() => {
-            // console.log(response);
+          }).then((response) => {
+            console.log(response);
             this.updateUpOffset = this.updateUpOffset + 50;
             this.stepsUp = this.stepsUp + response.steps;
             this.updateAddVideoDB(); // Рекурсивный вызов

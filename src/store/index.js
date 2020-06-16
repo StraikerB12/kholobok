@@ -21,13 +21,13 @@ export default new Vuex.Store({
   getters: {},
   mutations: {
     setRouterPosition: (state, payload) =>{
-        state.roterPosition = payload;
+      state.roterPosition = payload;
     },
     setMessages: (state, payload) => {
-        state.messages.push(payload);
+      state.messages.push(payload);
     },
     delMessages: (state, payload) => {
-        state.messages.splice(state.messages.indexOf(payload), 1);
+      state.messages.splice(state.messages.indexOf(payload), 1);
     }
   },
   actions: {
@@ -53,10 +53,9 @@ export default new Vuex.Store({
 
           
           // dispatch('setMessages', messages);
-         
-          if(messages.lenght > 0 ){
+          if(messages.length > 0 ){
             messages.forEach(element => {
-              Notification({ type: element.tupe, title: 'Сообщение', message: element.message, customClass: 'messages-ui' });
+              Notification({ type: element.tupe, title: 'Message', message: element.message, customClass: 'messages-ui' });
             });
           }
 

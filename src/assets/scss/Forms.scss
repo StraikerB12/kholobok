@@ -103,14 +103,26 @@
     color: #ca0505;
 }
 
-.element-form__input{
+.element-form__info{
+    text-align: left;
+    word-break: normal;
+}
+
+.element-form__input, .element-form .el-input{
+    width: calc( 100% - 20px );
+}
+.element-form__input, .element-form input{
+    padding: 0 !important;
     height: 20px;
     line-height: 20px;
-    width: calc( 100% - 20px );
     outline: none;
     border: none;
     background: #fff;
     font: 400 13.3333px Arial;
+}
+
+.element-form .el-input__suffix {
+    top: -10px ;
 }
 
 .element-form__button{

@@ -4,120 +4,10 @@
     <main>
 
       <!-- Modals -->
-      <div class="modal" v-show="modal">
-          <!-- New user -->
-          <div class="modal__form" v-show="modalPage.user">
-            <div class="close">
-              <div class="close__btn" v-on:click="closeModal()">
-                  <i class="fa fa-times" aria-hidden="true"></i>
-              </div>
-            </div>
+      <modal-add-user v-if="addUserShow" :visible="addUserShow" @close="closeModal()"></modal-add-user>
+      <modal-update-user v-if="updateUserShow" :visible="updateUserShow" :user="usersList[index].element" @close="closeModal()"></modal-update-user>
 
 
-              <div class="form">
-                <div class="form__grid-2">
-
-                  <div class="element-form" :class="{ 'element-form--error': validList[0].error }">
-                    <label for="" class="element-form__label">Логин <span class="element-form__label-req">*</span> </label>
-                    <input type="text" v-model="newUser.login" class="element-form__input">
-                  </div>
-
-                  <div class="element-form" :class="{ 'element-form--error': validList[1].error }">
-                    <label for="" class="element-form__label">Пароль <span class="element-form__label-req">*</span></label>
-                    <input type="text" v-model="newUser.password" class="element-form__input">
-
-                    <div class="element-form__button" v-on:click="newUser.password = generateKey()" title="Сгенерировать пароль">
-                      <i class="fa fa-key" aria-hidden="true"></i>
-                    </div>
-                  </div>
-
-                  <div class="element-form">
-                      <label for="" class="element-form__label">Тип записи <span class="element-form__label-req">*</span></label>
-                      
-                      <div class="element-form__contener">
-                        <div class="cheked">
-                          <input 
-                            class="cheked__input" 
-                            v-model="newUser.tupe" 
-                            value="client" 
-                            name="tupe" 
-                            type="radio" 
-                            id="tupe1">
-                          <label class="cheked__label" for="tupe1"><div></div></label>
-                        </div>
-                        <label for="tupe1" class="">Клиент</label>
-                      </div>
-
-                      <div class="element-form__contener">
-                        <div class="cheked">
-                          <input 
-                            class="cheked__input" 
-                            v-model="newUser.tupe" 
-                            value="redactor" 
-                            name="tupe" 
-                            type="radio" 
-                            id="tupe2">
-                          <label class="cheked__label" for="tupe2"><div></div></label>
-                        </div> 
-                        <label for="tupe2" class="">Редактор</label>
-                      </div>
-
-                      <div class="element-form__contener">
-                        <div class="cheked">
-                          <input 
-                            class="cheked__input" 
-                            v-model="newUser.tupe" 
-                            value="managing" 
-                            name="tupe" 
-                            type="radio" 
-                            id="tupe3">
-                          <label class="cheked__label" for="tupe3"><div></div></label>
-                        </div> 
-                        <label for="tupe3" class="">Менеджер</label>
-                      </div>
-                      
-                      <div class="element-form__contener">
-                        <div class="cheked">
-                          <input 
-                            class="cheked__input" 
-                            v-model="newUser.tupe" 
-                            value="administrator" 
-                            name="tupe" 
-                            type="radio" 
-                            id="tupe4">
-                          <label class="cheked__label" for="tupe4"><div></div></label>
-                        </div> 
-                        <label for="tupe4" class="">Администратор</label>
-                      </div>
-
-                    </div>
-
-                  </div>
-                  <div class="form__grid-2">
-
-                    <div class="element-form" :class="{ 'element-form--error': validList[2].error }">
-                      <label for="" class="element-form__label">Почта <span class="element-form__label-req">*</span></label>
-                      <input type="text" v-model="newUser.email" class="element-form__input">
-                    </div>
-                    <div class="element-form">
-                      <label for="" class="element-form__label">Имя</label>
-                      <input type="text" v-model="newUser.name" class="element-form__input">
-                    </div>
-                    <div class="element-form">
-                      <label for="" class="element-form__label">Фамилия</label>
-                      <input type="text" v-model="newUser.endnmae" class="element-form__input">
-                    </div>
-
-                  </div>
-              </div>
-
-              
-              <button class="button tikets-s__button-l" v-on:click="addUserSend()">Создать</button>
-              
-              
-          </div>
-          <!-- End new user -->
-      </div>
 
       <div class="main">
         <slot name="header"></slot>
@@ -125,13 +15,14 @@
 
           <div class="tikets-s">
               <div class="tikets-s__panel tikets-s__panel--center">
-                <div class="tikets-s__button-plat" :class="{ activ: !pageUsers }" v-on:click="openPageUsers(false)">Активные</div>
-                <div class="tikets-s__button-plat" :class="{ activ: pageUsers }" v-on:click="openPageUsers(true)">Заблокированные</div>
+                <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'users' }" v-on:click="openPageUsers('users')">Клиенты</div>
+                <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'kontrol' }" v-on:click="openPageUsers('kontrol')">Управляющие</div>
+                <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'block' }" v-on:click="openPageUsers('block')">Заблокированные</div>
               </div>
               <div class="tikets-s__panel">
                 <div class="tikets-s__button-l button" v-on:click="putStatusUser(0)">Заблокировать</div>
                 <div class="tikets-s__button-l button" v-on:click="putStatusUser(2)">Разблокировать</div>
-                <div class="tikets-s__button-r button" v-on:click="addUser()">Создать пользователя</div>
+                <div class="tikets-s__button-r button" v-on:click="addUserShow = true">Создать пользователя</div>
               </div>
             </div>
 
@@ -149,17 +40,14 @@
 
               <div class="articles__scrol" ref="articles__scrol">
                 <!-- For users -->
-                <div v-for="(value, name) in usersList" class="articles__item">
+                <div v-for="(value, index) in usersList" class="articles__item" :key="index">
 
                   <div class="articles__item-part table__col--50">
-
                     <div class="cheked">
                         <input class="cheked__input" v-model="value.chek" type="checkbox" name="" :id=" 'chek' + value.element.id ">
                         <label class="cheked__label" :for=" 'chek' + value.element.id "><div></div></label>
                     </div>
-
                   </div>
-
                   <p class="articles__item-part table__col-2--50"> 
                     <type-user :type="value.element.tupe"></type-user> 
                   </p>
@@ -172,8 +60,12 @@
                     <status-user :status="value.element.status"></status-user> 
                   </p>
 
-                  <p class="articles__item-part table__col-4">
+                  <p class="articles__item-part table__col-3">
                     {{ value.element.api_key }}
+                  </p>
+
+                  <p class="articles__item-part table__col-3">
+                    <button class="table_button" @click="updateUser(index)">Редактировать</button>
                   </p>
                     
                 </div>
@@ -190,30 +82,28 @@
   import typeUser from '~/components/UsersPage/TypeUser';
   import statusUser from '~/components/UsersPage/StatusUser';
 
+  import addUser from '~/components/UsersPage/ModalFormAddUser';
+  import updateUser from '~/components/UsersPage/ModalFormUpdateUser';
+
   export default {
     name: 'UsersPage',
     props: ['data'],
     components:{
       'type-user': typeUser,
       'status-user': statusUser,
+      'modal-add-user': addUser,
+      'modal-update-user': updateUser
     },
     data: function(){return{
 
-      modal: false,
       usersList: null,
-      pageUsers: false,
-      modalPage: {
-        user: false
-      },
+      pageUsers: 'users',
+      
 
-      newUser: {
-        login: '',
-        password: '',
-        tupe: 'client',
-        email: '',
-        name: '',
-        endname: ''
-      },
+      addUserShow: false,
+      updateUserShow: false,
+
+      index: 0,
 
       validList: [
         { item: 'login', error: false, text: 'Незаполнен логин' },
@@ -230,10 +120,10 @@
 
     methods: {
 
-      getUsers: function(tupe){
+      getUsers: function(type){
         this.postMethod('users.get', {
-          close: this.pageUsers,
-            tupe: tupe
+          page: this.pageUsers,
+          tupe: type
         }).then(response => {
           console.log(response);
           this.usersList = response.map(function(element){ 
@@ -242,44 +132,20 @@
         })
       },
 
-      openModal: function(modal){
-        this.modal = true;
-        this.modalPage[modal] = true;
+
+
+      updateUser(index){
+        this.updateUserShow = true;
+        this.index = index;
       },
 
-      closeModal: function(){
-        this.modal = false;
-        for (const key in this.modalPage){
-          this.modalPage[key] = false;
-        }
+      closeModal(){
+        this.updateUserShow = false;
+        this.addUserShow = false;
+        this.getUsers();
       },
 
-      addUser: function(){
-        this.modal = true;
-        this.modalPage.user = true;
-      },
-
-      addUserSend: function(){
-        this.errorList = [];
-        for (let i = 0; i < this.validList.length; i++) {
-            this.validList[i].error = false;
-        }
-        for (let i = 0; i < this.validList.length; i++) {
-            if( this.newUser[ this.validList[i].item ] == '' ){
-                this.validList[i].error = true;
-                this.errorList.push(this.validList[i].text);
-            }
-        }
-        if(this.errorList.length != 0){ return; }
-
-        this.postMethod('users.add', 
-          this.newUser
-        ).then(() => {
-          this.closeModal();
-          this.getUsers();
-          this.newUser.password = '';
-        })
-      },
+      
 
       putStatusUser: function(status){
         const ids = this.usersList
@@ -309,19 +175,6 @@
         return pass;
       },
 
-      getMessageList: function(id){
-          this.tiketMessages = null;
-
-          this.postMethod('tikets.getId', {
-            id: id
-          }).then(response => {
-            this.tiketMessages = response;
-            this.tiketMessages.map((function(el){ 
-              el.created_at = this.getDataS(el.created_at);
-              return el;
-            }).bind(this));
-          })
-      },
 
       sendTiket: function(){
         this.postMethod('tikets.add', {
@@ -340,6 +193,23 @@
 </script>
 
 <style lang='scss' scoped>
+
+  .table_button{
+    height: 28px;
+    border-radius: 3px;
+    border: 1px solid #bbbbbb;
+    padding: 5px 10px;
+    font-size: 14px;
+    background: #fff;
+    color: #8f8f8f;
+    cursor: pointer;
+  }
+  .table_button:hover{
+    border: 1px solid #1bd361;
+  }
+
+
+
   .tikets-s{
       padding: 0 10px;
   }
