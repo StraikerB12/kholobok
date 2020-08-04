@@ -2,7 +2,7 @@
   <header class="header">
     <div class="header__content">
 
-      <h2 class="header__title">{{title}}</h2>
+      <h2 class="header__title">Kholobok.biz</h2>
       <ul class="header__menu">
         <li class="header__item"></li>
         <li class="header__item">
@@ -22,25 +22,17 @@
 
   export default {
     name: 'Header',
-    data: () => ({
-        
-    }),
-
-    async created() {
-      // console.log(this.$router.currentRoute)
-    },
-
+    data: () => ({}),
+    async created() {},
     computed:{
-      title(){ return this.$router.currentRoute.meta.title}
+      // title(){ return this.$router.currentRoute.meta.title}
     },
-
     methods: {
       onSignOut () {
         this.userLogout().then(() => {
           this.$router.push({name: 'MainPage'});
         });
       },
-
       ...mapActions([
         'userLogout'
       ])
@@ -49,15 +41,19 @@
 </script>
 
 <style lang="scss" scoped>
+    // 38cf99
+    // 2fb887
+
     .header{
-        padding: 40px 10px 20px 10px;
+        padding: 25px 20px 25px 20px;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: stretch;
+        background: #181f39;
     }
     .header__content{
-        padding-bottom: 20px;
+        // padding-bottom: 20px;
         display: flex;
 
         flex-direction: row;
@@ -67,7 +63,7 @@
     .header__title{
         flex-grow: 10;
         font-family: 'Montserrat-Bold';
-        color: #282b34;
+        color: #fff;
         line-height: 30px;
         font-size: 28px;
     }
@@ -94,6 +90,6 @@
         transform-origin: 10px 15px;
     }
     .header__item-name:hover{
-        color: #323232;
+        color: #38cf99;
     }
 </style>

@@ -137,11 +137,23 @@ export const routers = [
       rights: ['client', 'redactor', 'managing']
     }
   },
+  {
+    path: '/ads',
+    name: 'AdsPage',
+    component: () => import('~/components/AdsPage/AdsPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Рекламный кабинет",
+      visible: true,
+      rights: ['client', 'redactor', 'managing']
+    }
+  },
 
 
   {
     path: '/*',
-    name: 'StatsPage',
+    name: 'Error',
     component: () => import('~/components/CompositeBlocks/Error404Page'),
     props: true,
     meta: {
@@ -163,6 +175,8 @@ export const router = new Router({
 
 // Выполнение промежуточного ПО
 router.beforeEach((to, from, next) => {
+  // console.log(to.path);
+  store.commit('setRoute', to.path);
   if(!to.meta.middleware){ return next()} // Проверка на наличие Middleware
   const middleware = to.meta.middleware; // Выборка Middleware
   const context = {to, from, next, store}; // Установка нового context

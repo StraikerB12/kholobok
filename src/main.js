@@ -6,6 +6,10 @@ import '~/assets/scss/Display.scss';
 import '~/assets/scss/Grid.scss';
 import '~/assets/scss/index.scss';
 
+import '~/assets/scss/Section.scss';
+
+import locale from 'element-ui/lib/locale/lang/ru-RU'
+
 import ElementUI from 'element-ui';
 import TrendChart from "vue-trend-chart";
 import VueClipboard from 'vue-clipboard2'
@@ -17,14 +21,14 @@ import App from '~/App';
 import {router} from '~/router';
 import store from '~/store';
 
+import DynamicStyle from 'vue-dynamic-style';
 
 
-
+Vue.use(DynamicStyle, { prefix: '', scoped: false});
 Vue.use(TrendChart);
-Vue.use(ElementUI);
-
-// VueClipboard.config.autoSetContainer = true;
+Vue.use(ElementUI, { locale })
 Vue.use(VueClipboard);
+
 
 
 (async () => {
@@ -40,7 +44,7 @@ Vue.use(VueClipboard);
 
       ...mapActions([
         'requestApi',
-        'setMessages'
+        // 'setMessages'
       ])
     }
   });

@@ -16,39 +16,28 @@ export default new Vuex.Store({
 
   state: {
     messages: [],
-    routerPosition: ''
+    route: null
   },
   getters: {},
   mutations: {
-    setRouterPosition: (state, payload) =>{
-      state.roterPosition = payload;
+    setRoute: (state, payload) => {
+      state.route = payload;
     },
-    setMessages: (state, payload) => {
-      state.messages.push(payload);
-    },
+    
     delMessages: (state, payload) => {
       state.messages.splice(state.messages.indexOf(payload), 1);
     }
   },
   actions: {
-    setMessages: ({commit}, payload) => {
-      if( !Array.isArray(payload) ){payload = [payload]}
-      payload.forEach( item => {
-        commit('setMessages', item);
-        setTimeout(() => {
-          commit('delMessages', item);
-        }, 6000);
-      });
-    },
-
 
     requestApi: ({state, dispatch, commit}, {url, data = null, method = 'POST'}) => {
       console.log('Использование requestApi');
 
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${state.user.token}`;
+        axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
 
-        axios({url: siteUrl + url, data, method})
+        axios({ url: siteUrl + url, data, method})
         .then( async ({data: {data, messages}}) => {
 
           

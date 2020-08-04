@@ -1,8 +1,14 @@
 <template>
-  <div class="content-site">
-    <slot name="menu"></slot>
-    <main>
-      <!-- Modals -->
+  <div class="main__content">
+
+    
+
+
+
+
+
+  
+    <!-- Modals -->
     <div class="modal" v-show="modal">
 
         <!-- Show video -->
@@ -13,6 +19,17 @@
                 </div>
             </div>
             <iframe :src=" 'https://api.kholobok.biz/show/' + filmId " frameborder="0" width="610" height="370"></iframe>
+        </div>
+        <!-- End show video -->
+
+        <!-- Show video -->
+        <div class="modal__form" v-show="modalPage.newfilm">
+            <div class="close">
+                <div class="close__btn" v-on:click="closeModal()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+            </div>
+            <iframe :src=" 'https://api.kholobok.biz/newshow/' + filmId " frameborder="0" width="610" height="370"></iframe>
         </div>
         <!-- End show video -->
 
@@ -205,16 +222,13 @@
 
 
 
-      <!-- Panels -->
-      <section class="panels">
-
-
+    <!-- Panels -->
+    <section class="panels" v-if="false">
         <!-- Update video bd -->
         <div class="panels__panel" v-if="isRight">
             <span class="panels__title">Загрузка с VideoDB</span>
             <p class="panels__info" v-if="next">Требуется загрузка</p>
             <div>
-                
                 <p class="panels__text">Загруженно: {{ count_vdb }} фаилов</p>
                 <p class="panels__text">Шагов: <input class="panels__input-let" type="text" v-model="steps"> < 6 </p>
             </div>
@@ -235,10 +249,9 @@
                 </div>
             </div>
             <button class="button" v-on:click="clickBtnVDB()">Загрузить</button>
-
             <button class="button" v-on:click="clickBtnUpdateVDB()">Обновить</button>
             <div>
-                <p class="panels__text">Стартовая точка: <input class="panels__input-let" type="text" v-model.number="updateUpOffset"></p>
+              <p class="panels__text">Стартовая точка: <input class="panels__input-let" type="text" v-model.number="updateUpOffset"></p>
             </div>
             <div class="panels__progress-bar">
                 <div v-if="preolaodedUp">
@@ -256,32 +269,17 @@
                 </div>
             </div>
 
-        </div>
-        <!-- End update video bd -->
-
-
-
-
+        </div><!-- End update video bd -->
         <div class="panels__panel">
             <button class="button" v-on:click="addFilm()">Добавить</button>
-        </div>
-
-
-
-
-        <!-- Search -->
+        </div><!-- Search -->
         <div class="panels__panel">
             <span class="panels__title">Поиск</span>
             <input class="panels__input" type="text" v-model="search" placeholder="Что искать ?">
-        </div>
-        <!-- End search -->
-
-        <!-- Year -->
-        <div class="panels__panel">
+        </div><!-- End search -->
+        <div class="panels__panel"><!-- Year -->
             <span class="panels__title">Год</span>
-
             <div class="panels__list " :class="{ 'panels__list--more': panelYears }">
-
                 <div class="panels__list-item" v-for="(rang, index) in range">
                     <div class="cheked">
                         <input 
@@ -298,23 +296,15 @@
                     </div>
                     <span class="panels__list-item-text">{{ rang.name }}</span>
                 </div>
-
             </div>
-
             <a class="panels__button-link" v-on:click.prevent="panelYears = !panelYears" href="#">
                 <span v-if="panelYears">Скрыть</span>
                 <span v-else>Показать</span>
             </a>
-        </div>
-        <!-- End year -->
-
-
-        <!-- Genres -->
-        <div class="panels__panel">
+        </div> <!-- End year -->
+        <div class="panels__panel"><!-- Genres -->
             <span class="panels__title">Жанры</span>
-
             <div class="panels__list " :class="{ 'panels__list--more': panelGenres }">
-
                 <div class="panels__list-item" v-for="(genre, index) in genres">
                     <div class="cheked">
                         <input 
@@ -329,23 +319,15 @@
                     </div>
                     <span class="panels__list-item-text">{{ genre.name }}</span>
                 </div>
-
             </div>
-
             <a class="panels__button-link" v-on:click.prevent="panelGenres = !panelGenres" href="#">
                 <span v-if="panelGenres">Скрыть</span>
                 <span v-else>Показать</span>
             </a>
-        </div>
-        <!-- End genres -->
-
-
-        <!-- Countries -->
-        <div class="panels__panel">
+        </div> <!-- End genres -->
+        <div class="panels__panel"><!-- Countries -->
             <span class="panels__title">Страны</span>
-
             <div class="panels__list" :class="{ 'panels__list--more': panelCountries }">
-            
                 <div class="panels__list-item" v-for="(country, index) in countries">
                     <div class="cheked">
                         <input 
@@ -360,133 +342,102 @@
                     </div>
                     <span class="panels__list-item-text">{{ country.name }}</span>
                 </div>
-                
             </div>
-
             <a class="panels__button-link" v-on:click.prevent="panelCountries = !panelCountries" href="#">
                 <span v-if="panelCountries">Скрыть</span>
                 <span v-else>Показать</span>
             </a>
-        </div>
-        <!-- End countries -->
-        
+        </div><!-- End countries -->
         <div class="panels__grup-button">
             <button class="button button--coll1" v-on:click="filterClear()"><i class="fa fa-trash" aria-hidden="true"></i></button>
             <button class="button button--coll3" v-on:click="videosGet()">Искать</button>
         </div>
-        
+    </section><!-- End panels -->
+    
 
 
-        <!-- 
-        <div class="panels__panel">
-            <span class="panels__title">Поиск</span>
 
-            <div class="select-box">
-                <div class="select-box__current" tabindex="1">
-                    <div class="select-box__value">
-                        <input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked">
-                        <p class="select-box__input-text">Все жанры</p>
-                    </div>
-                    <div class="select-box__value">
-                        <input class="select-box__input" type="radio" id="1" value="2" name="Ben">
-                        <p class="select-box__input-text">Боевик</p>
-                    </div>
-                    <div class="select-box__value">
-                        <input class="select-box__input" type="radio" id="2" value="3" name="Ben">
-                        <p class="select-box__input-text">Комедия</p>
-                    </div>
-                    <div class="select-box__value">
-                        <input class="select-box__input" type="radio" id="3" value="4" name="Ben">
-                        <p class="select-box__input-text">Мелодрамма</p>
-                    </div>
-                    <div class="select-box__value">
-                        <input class="select-box__input" type="radio" id="4" value="5" name="Ben">
-                        <p class="select-box__input-text">Военное</p>
-                    </div>
-                    <img class="select-box__icon" src="https://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true">
-                </div>
-                <ul class="select-box__list">
-                    <li><label class="select-box__option" for="0" aria-hidden="aria-hidden">Все жанры</label></li>
-                    <li><label class="select-box__option" for="1" aria-hidden="aria-hidden">Боевик</label></li>
-                    <li><label class="select-box__option" for="2" aria-hidden="aria-hidden">Комедия</label></li>
-                    <li><label class="select-box__option" for="3" aria-hidden="aria-hidden">Мелодрамма</label></li>
-                    <li><label class="select-box__option" for="4" aria-hidden="aria-hidden">Военное</label></li>
-                </ul>
-            </div>
-        </div> 
-        -->
-
-      </section>
-      <!-- End panels -->
-
-      <div class="main">
+    <div class="content-site">
+      <slot name="menu"></slot>
+      <div>
         <slot name="header"></slot>
-        <div class="main__content">
-          <section class="articles">
+        <main>
+          <div class="main">
 
-                <!-- Head video -->
-                <div class="articles__head">
-                    <div class="articles__head-1"></div>
-                    <p class="articles__head-2">Тип</p>
-                    <p class="articles__head-3">Название</p>
-                    <p class="articles__head-4">Качество</p>
-                    <p class="articles__head-5">Озвучка</p>
-                    <p class="articles__head-6">КиноПоиск</p>
-                    <p class="articles__head-7">Код</p>
-                </div>
-                <!-- End head video -->
+      
+            <section class="section">
+              <div>
+                <h2 class="section__title">{{ title }}</h2>
+              </div>
+              <div class="section__content">
 
-                <div class="articles__scrol" ref="articles__scrol">
-
-                    <!-- For video -->
-                    <div v-for="(value, name) in videos" class="articles__item">
-
-                        <div class="articles__item-part articles__head-1">
-                            <div class="cheked" v-if="isRight">
-                                <input class="cheked__input" type="checkbox" name="" :id=" 'chek' + value.id ">
-                                <label class="cheked__label" :for=" 'chek' + value.id "><div></div></label>
-                            </div>
-                            <a href="#" v-on:click.prevent="showInfo(name)"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </div>
-
-                        <p class="articles__item-part articles__head-2">
-                            <span class="element-cont" v-if=" value.tupe == 'movie' ">фильм</span>
-                            <span class="element-cont" v-else>сериал</span>
-                        </p>
-
-                        <p class="articles__item-part articles__head-3">{{ value.ru_name }}</p>
-                        
-                        <p class="articles__item-part articles__head-4">
-                            <span class="element-cont">{{ value.quality }}</span>
-                        </p>
-
-                        <p class="articles__item-part articles__head-5">{{ value.translation }}</p>
-
-                        <p class="articles__item-part articles__head-6">
-                            <span class="element-cont">{{ value.kinopoisk }}</span>
-                        </p>
-
-                        <p class="articles__item-part articles__head-7">
-                            <a href="#" v-on:click.prevent="showFilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
-                            <a href="#" v-on:click.prevent="copyAdress(value.id)" title="Скопировать"><i class="fa fa-code" aria-hidden="true"></i></a>
-                            <a href="#" v-on:click.prevent="openTiket(value.id, value.ru_name)" title="Обновление/Ошибка"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
-                        </p>
+                <section class="articles">
+                    <!-- Head video -->
+                    <div class="articles__head">
+                        <div class="articles__head-1"></div>
+                        <p class="articles__head-2">Тип</p>
+                        <p class="articles__head-3">Название</p>
+                        <p class="articles__head-4">Качество</p>
+                        <p class="articles__head-5">Озвучка</p>
+                        <p class="articles__head-6">КиноПоиск</p>
+                        <p class="articles__head-7">Код</p>
                     </div>
-                    <!-- End for video -->
+                    <!-- End head video -->
+                    <div class="articles__scrol" ref="articles__scrol">
+                        <!-- For video -->
+                        <div v-for="(value, index) in videos" :key="index" class="articles__item">
+                            <div class="articles__item-part articles__head-1">
+                                <div class="cheked" v-if="isRight">
+                                    <input class="cheked__input" type="checkbox" name="" :id=" 'chek' + value.id ">
+                                    <label class="cheked__label" :for=" 'chek' + value.id "><div></div></label>
+                                </div>
+                                <a href="#" v-on:click.prevent="showInfo(index)"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                            </div>
+                            <p class="articles__item-part articles__head-2">
+                                <span class="element-cont" v-if=" value.tupe == 'movie' ">фильм</span>
+                                <span class="element-cont" v-else>сериал</span>
+                            </p>
+                            <p class="articles__item-part articles__head-3">{{ value.ru_name }}</p>
+                            <p class="articles__item-part articles__head-4">
+                                <span class="element-cont">{{ value.quality }}</span>
+                            </p>
+                            <p class="articles__item-part articles__head-5">{{ value.translation }}</p>
+                            <p class="articles__item-part articles__head-6">
+                                <span class="element-cont">{{ value.kinopoisk }}</span>
+                            </p>
+                            <p class="articles__item-part articles__head-7">
+                                <a href="#" v-on:click.prevent="showNewfilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
+                                <a href="#" v-on:click.prevent="showFilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
+                                <a href="#" v-on:click.prevent="copyAdress(value.id)" title="Скопировать"><i class="fa fa-code" aria-hidden="true"></i></a>
+                                <a href="#" v-on:click.prevent="openTiket(value.id, value.ru_name)" title="Обновление/Ошибка"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+                            </p>
+                        </div>
+                        <!-- End for video -->
+                    </div>
 
-                </div>
 
-                <!-- Pagination -->
-                <div class="articles__pagination">
-                    <div v-for="value in paginations" v-if="value.look" class="articles__pagin-item articles__pagin-item--look">{{ value.content }}</div>
-                    <div v-else v-on:click="videosGet(value.page)" class="articles__pagin-item">{{ value.content }}</div>
-                </div>
-                <!-- End pagination -->
+                  <div class="articles__pagination">
+                    <el-pagination
+                      background
+                      layout="prev, pager, next"
+                      :total="count"
+                      :page-size="paginCount"
+                      :current-page="page"
+                      @current-change="videosGet">
+                    </el-pagination>
+                  </div>
+                </section>
 
-            </section>
-        </div>
+              </div>
+            </section> 
+
+
+
+          </div>
+        </main>
       </div>
-    </main>
+    </div>
+
   </div>
 </template>
 
@@ -535,7 +486,8 @@
             film: false,
             add: false,
             info: false,
-            tiket: false
+            tiket: false,
+            newfilm: false
         },
         filmId: 0,
         filmIndex: null,
@@ -563,7 +515,7 @@
 
       // хеш для страницы
       if( /page.*?(\d+)/.exec( window.location.hash ) != null){
-          this.page = /page.*?(\d+)/.exec( window.location.hash )[1];
+          this.page = Number(/page.*?(\d+)/.exec( window.location.hash )[1]);
       }
       // массив для фильтра года
       for (let i = 2001; i <= new Date().getFullYear(); i++) {
@@ -592,6 +544,9 @@
     },
 
     computed: {
+      title(){ return this.$router.currentRoute.meta.title},
+
+
       progress: function () {
         var rezult = (this.updateOffset - this.count_vdb) / (50 * this.steps) * 100;
         return Math.round(rezult);
@@ -616,11 +571,21 @@
 
     methods: {
 
+
+      paginationEvents(e){
+        this.videosGet(e);
+      },
+
       // Пердпросмотр фильма
       showFilm: function(id){
         this.filmId = id;
         this.modal = true;
         this.modalPage.film = true;
+      },
+      showNewfilm(id){
+        this.filmId = id;
+        this.modal = true;
+        this.modalPage.newfilm = true;
       },
 
       // Информация о фильме
@@ -672,82 +637,44 @@
         })
       },
 
-
         
       // Закрыть все модалки
       closeModal: function(){
         this.filmId = 0;
         this.modal = false;
         this.filmIndex = null;
-        
         for (const key in this.modalPage) {
           this.modalPage[key] = false;
         }
-
         this.updateFilmFlag = false;
         this.updateFilmData = null;
       },
 
       // Скопировать адрес
       copyAdress: function(id){
-
         this.$copyText('<iframe src="https://api.kholobok.biz/show/' + id + '" frameborder="0" width="610" height="370" allowfullscreen></iframe>').then((e) => {
           this.$notify.success({ title: 'Успех', message: 'Элемент скопирован', customClass: 'messages-ui' });
-          // this.setMessages({tupe: 'info', message: 'Элемент скопирован'});
         }, (e) => {
           this.$notify.error({ title: 'Ошибка', message: 'Ошибка копирования', customClass: 'messages-ui' });
-          // this.setMessages({ message: 'Ошибка копирования'});
           console.log(e)
         })
-          
       },
 
       // Очистить фильтр
       filterClear: function(){
         this.search = '';
         if( this.countries != null){
-            this.countries = this.modificationResponse(this.countries);
+          this.countries = this.modificationResponse(this.countries);
         }
         if( this.genres != null){
-            this.genres = this.modificationResponse(this.genres);
+          this.genres = this.modificationResponse(this.genres);
         }
         this.videosGet();
       },
 
 
 
-      /*
-      // Движение мыши на ползунке деапазона
-      rangeMoveMous: function(e){
-        if(this.range.flagMove){
-          if( (this.range.cursorPosition - e.clientX) > 0 ){
-            // right
-            if(this.range.positionMin < (this.range.width - 10) && this.range.activSpoter == 'Min'){
-              this.range.positionMin += (this.range.cursorPosition - e.clientX);
-            }
-            if(this.range.positionMax < this.range.positionMin - 20 && this.range.activSpoter == 'Max'){
-              this.range.positionMax += (this.range.cursorPosition - e.clientX);
-            }
-          }else if( (this.range.cursorPosition - e.clientX) < 0 ){
-            // left
-            if(this.range.positionMin > this.range.positionMax + 20 && this.range.activSpoter == 'Min'){
-              this.range.positionMin += (this.range.cursorPosition - e.clientX);
-            }
-            if(this.range.positionMax > -6 && this.range.activSpoter == 'Max'){
-              this.range.positionMax += (this.range.cursorPosition - e.clientX);
-            }
-          }
-          this.range.cursorPosition = e.clientX;
-        }
-      },
-      rangeDownMous: function(e, spoter){
-          this.range.activSpoter = spoter;
-          this.range.flagMove = true;
-          this.range.cursorPosition = e.clientX;
-      },
-      */
-
-
+      
 
       clickBtnUpdateVDB: function(){
         this.preolaodedUp = true;
@@ -786,242 +713,145 @@
           this.postMethod('addVideoDB', {
             offset: this.updateOffset
           }).then((response) => {
-            // console.log(response);
+            console.log(response);
             this.updateOffset = this.updateOffset + 50;
             this.addVideoDB(steps); // Рекурсивный вызов
           })
         }
       },
 
-        // Загрузка списка видео
-        videosGet: function(page = 1){
-          this.page = page;
-          window.location.hash = 'page'+ page;
+      // Загрузка списка видео
+      videosGet: function(page = 1){
+        this.page = page;
+        window.location.hash = 'page'+ page;
 
-          // Параметры запроса
-          let params = {
-            // account_key: this.data.api_key,
-            limit: this.paginCount,
-            offset: this.offsetPage,
-            search: this.search
-          };
-          
-          // Добавить строку стран
-          if( this.countries != null && this.countries.filter(function(e){return e.show}).length != 0){
-            params['countries'] = this.countries.reduce(function(acc,e){ if(e.show){acc.push(e.name)} return acc;}, []).join(',');
-          }
-          // Добавить строку жанров
-          if( this.genres != null && this.genres.filter(function(e){return e.show}).length != 0){
-            params['genres'] = this.genres.reduce(function(acc,e){ if(e.show){acc.push(e.name)} return acc;}, []).join(',');
-          }
-          // Добавить года
-          if(this.range.length > 7){
-            params['years'] = this.range[this.rangeId].to + ',' + this.range[this.rangeId].do;
-          }
-          
-          this.postMethod('getVideo', params).then((response) => {
-            this.count = response.count;
-            this.videos = response.items;
-            
-            this.getPaginations();
-            this.$refs.articles__scrol.scrollTop = 0;
-
-            if(
-              this.countries == null && 
-              this.genres == null && 
-              typeof response.countries != "undefined" && 
-              typeof response.genres != "undefined"
-            ){
-              this.countries = this.modificationResponse(response.countries);
-              this.genres = this.modificationResponse(response.genres);
-            }
-          });
-        },
-
-
-        modificationResponse: function(object){
-            // object.reduce()
-
-            return object.map(function(element){ 
-                return { id: element.id, name: element.name, show: false };
-            });
-        },
-
-
-
-        openTiket: function(id, name){
-            this.modal = true;
-            this.modalPage.tiket = true;
-
-            this.tiket.title = `Обновление видеофаила "${name}"`;
-            this.tiket.data.idFilm = id;
-        },
-        sendTiket: function(){
-            this.postMethod('tikets.add',{
-              tupe: 'film',
-              title: this.tiket.title,
-              message: this.tiket.text,
-              data: JSON.stringify( this.tiket.data )
-            }).then(() => {
-              this.closeModal();
-            })
-        },
-
-
-
-
-        getPaginations: function(){
-
-            var rez = Math.ceil( this.count / this.paginCount);
-            this.paginations = [];
-
-
-
-            function leftPagin(t){
-                if(t.page == 1){ t.paginations.push({content: '<', page: 0, look: true}); 
-                }else{ t.paginations.push({content: '<', page: +t.page - 1, look: false}); }
-            }
-            function rightPagin(t){
-                if(t.page == rez){ t.paginations.push({content: '>', page: 0, look: true});
-                }else{ t.paginations.push({content: '>', page: +t.page + 1,look: false}); }
-            }
-
-            if(rez < 8){
-
-                leftPagin(this);
-
-                for (let i = 1; i <= rez; i++) {
-                    if(i == this.page){
-                       this.paginations.push({content: i, page: 0, look: true}); 
-                    }else{
-                        this.paginations.push({content: i, page: i, look: false}); 
-                    }
-                }
-
-                rightPagin(this);
-
-            }else if(rez > 7 && rez <= 20){
-
-                if( (this.page > 0 && this.page < 3) || (this.page > (rez - 2) && this.page <= rez) ){
-                    leftPagin(this);
-
-                    for (let i = 1; i < 4; i++) {
-                        if(i == this.page){
-                           this.paginations.push({content: i, page: 0, look: true}); 
-                        }else{
-                            this.paginations.push({content: i, page: i, look: false}); 
-                        }
-                    }
-
-                    this.paginations.push({content: '...', page: 0, look: true}); 
-
-                    for (let i = rez - 2; i <= rez; i++) {
-                        
-                        if(i == this.page){
-                            this.paginations.push({content: i, page: 0, look: true}); 
-                        }else{
-                            this.paginations.push({content: i, page: i, look: false}); 
-                        }
-                    }
-
-                    rightPagin(this);
-
-                }else if( this.page > 2 && this.page < (rez - 1) ){
-
-                    leftPagin(this);
-                    this.paginations.push({content: 1, page: 1, look: false});
-                    this.paginations.push({content: '...', page: 0, look: true});
-                    this.paginations.push({content: +this.page - 1, page: +this.page - 1, look: false});
-                    this.paginations.push({content: this.page, page: this.page, look: true});
-                    this.paginations.push({content: +this.page + 1, page: +this.page + 1, look: false});
-                    this.paginations.push({content: '...', page: 0, look: true});
-                    this.paginations.push({content: rez, page: rez, look: false});
-                    rightPagin(this);
-
-                }
-
-            }else if(rez > 20){
-
-                console.log('zdes');
-
-                if( (this.page > 0 && this.page < 6) || (this.page > (rez - 5) && this.page <= rez) ){
-
-                    leftPagin(this);
-
-                    for (let i = 1; i < 6; i++) {
-                        if(i == this.page){
-                           this.paginations.push({content: i, page: 0, look: true}); 
-                        }else{
-                            this.paginations.push({content: i, page: i, look: false}); 
-                        }
-                    }
-
-                    this.paginations.push({content: '...', page: 0, look: true}); 
-
-                    let rezs = Math.ceil(rez / 2) + 2;
-                    for (let i = rezs - 5; i <= rezs; i++) {
-                        if(i == this.page){
-                            this.paginations.push({content: i, page: 0, look: true}); 
-                        }else{
-                            this.paginations.push({content: i, page: i, look: false}); 
-                        }
-                    }
-
-                    this.paginations.push({content: '...', page: 0, look: true}); 
-
-                    for (let i = rez - 5; i <= rez; i++) {
-                        if(i == this.page){
-                            this.paginations.push({content: i, page: 0, look: true}); 
-                        }else{
-                            this.paginations.push({content: i, page: i, look: false}); 
-                        }
-                    }
-
-                    rightPagin(this);
-
-                }else if( this.page > 5 && this.page < (rez - 4) ){
-
-                    leftPagin(this);
-
-                    this.paginations.push({content: 1, page: 1, look: false});
-                    this.paginations.push({content: 2, page: 2, look: false});
-                    this.paginations.push({content: 3, page: 3, look: false});
-
-                    this.paginations.push({content: '...', page: 0, look: true});
-
-                    this.paginations.push({content: +this.page - 4, page: +this.page - 4, look: false});
-                    this.paginations.push({content: +this.page - 3, page: +this.page - 3, look: false});
-                    this.paginations.push({content: +this.page - 2, page: +this.page - 2, look: false});
-                    this.paginations.push({content: +this.page - 1, page: +this.page - 1, look: false});
-
-                    this.paginations.push({content: this.page, page: this.page, look: true});
-
-                    this.paginations.push({content: +this.page + 1, page: +this.page + 1, look: false});
-                    this.paginations.push({content: +this.page + 2, page: +this.page + 2, look: false});
-                    this.paginations.push({content: +this.page + 3, page: +this.page + 3, look: false});
-                    this.paginations.push({content: +this.page + 4, page: +this.page + 4, look: false});
-
-                    this.paginations.push({content: '...', page: 0, look: true});
-
-                    this.paginations.push({content: rez-2, page: rez-2, look: false});
-                    this.paginations.push({content: rez-1, page: rez-1, look: false});
-                    this.paginations.push({content: rez, page: rez, look: false});
-
-                    rightPagin(this);
-
-                }
-
-            }
-
+        // Параметры запроса
+        let params = {
+          // account_key: this.data.api_key,
+          limit: this.paginCount,
+          offset: this.offsetPage,
+          search: this.search
+        };
+        
+        // Добавить строку стран
+        if( this.countries != null && this.countries.filter(function(e){return e.show}).length != 0){
+          params['countries'] = this.countries.reduce(function(acc,e){ if(e.show){acc.push(e.name)} return acc;}, []).join(',');
         }
+        // Добавить строку жанров
+        if( this.genres != null && this.genres.filter(function(e){return e.show}).length != 0){
+          params['genres'] = this.genres.reduce(function(acc,e){ if(e.show){acc.push(e.name)} return acc;}, []).join(',');
+        }
+        // Добавить года
+        if(this.range.length > 7){
+          params['years'] = this.range[this.rangeId].to + ',' + this.range[this.rangeId].do;
+        }
+        
+        this.postMethod('getVideo', params).then((response) => {
+          this.count = response.count;
+          this.videos = response.items;
+          
+          this.getPaginations();
+          this.$refs.articles__scrol.scrollTop = 0;
+
+          if(
+            this.countries == null && 
+            this.genres == null && 
+            typeof response.countries != "undefined" && 
+            typeof response.genres != "undefined"
+          ){
+            this.countries = this.modificationResponse(response.countries);
+            this.genres = this.modificationResponse(response.genres);
+          }
+        });
+        },
+
+
+      modificationResponse: function(object){
+        return object.map(function(element){ 
+          return { id: element.id, name: element.name, show: false };
+        });
+      },
+
+
+
+      openTiket: function(id, name){
+        this.modal = true;
+        this.modalPage.tiket = true;
+        this.tiket.title = `Обновление видеофаила "${name}"`;
+        this.tiket.data.idFilm = id;
+      },
+      sendTiket: function(){
+        this.postMethod('tikets.add',{
+          tupe: 'film',
+          title: this.tiket.title,
+          message: this.tiket.text,
+          data: JSON.stringify( this.tiket.data )
+        }).then(() => {
+          this.closeModal();
+        })
+      },
+
+
+
+
+        
+
+        /*
+      // Движение мыши на ползунке деапазона
+      rangeMoveMous: function(e){
+        if(this.range.flagMove){
+          if( (this.range.cursorPosition - e.clientX) > 0 ){
+            // right
+            if(this.range.positionMin < (this.range.width - 10) && this.range.activSpoter == 'Min'){
+              this.range.positionMin += (this.range.cursorPosition - e.clientX);
+            }
+            if(this.range.positionMax < this.range.positionMin - 20 && this.range.activSpoter == 'Max'){
+              this.range.positionMax += (this.range.cursorPosition - e.clientX);
+            }
+          }else if( (this.range.cursorPosition - e.clientX) < 0 ){
+            // left
+            if(this.range.positionMin > this.range.positionMax + 20 && this.range.activSpoter == 'Min'){
+              this.range.positionMin += (this.range.cursorPosition - e.clientX);
+            }
+            if(this.range.positionMax > -6 && this.range.activSpoter == 'Max'){
+              this.range.positionMax += (this.range.cursorPosition - e.clientX);
+            }
+          }
+          this.range.cursorPosition = e.clientX;
+        }
+      },
+      rangeDownMous: function(e, spoter){
+          this.range.activSpoter = spoter;
+          this.range.flagMove = true;
+          this.range.cursorPosition = e.clientX;
+      },
+      */
         
     }
   }
 </script>
 
-<style lang='scss' scoped>
 
-.tikets-s__input{
+<style lang="scss">
+  // 38cf99
+  // 2fb887
+
+  // #34db93
+  // #40c173
+
+  .el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #2fb887;
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #38cf99;
+    color: #fff;
+  }
+  
+</style>
+
+
+<style lang='scss' scoped>
+  .tikets-s__input{
     display: inline-block;
     width: 100%;
     padding: 8px 15px;
@@ -1040,38 +870,42 @@
     margin-right: 10px;
   }
   
-    .articles{
+  .articles{
     width: 100%;
     min-height: 0;
     overflow: hidden;
     display: flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: stretch;
     flex-grow: 10;
     padding: 0 10px;
-}
+    position: relative;
+  }
 
-.articles__head{
-    box-shadow: 0px 1px 0px #dddddd;
-}
+  .articles__head{
+      box-shadow: 0px 1px 0px #dddddd;
+  }
 
-.articles__scrol{
+  .articles__scrol{
+      width: 100%;
+      min-height: 0;
+      overflow: hidden;
+      flex-grow: 10;
+  }
+
+
+  .articles__pagination{
     width: 100%;
-    min-height: 0;
-    overflow: hidden;
-    flex-grow: 10;
-}
-.articles__pagination{
+    background: #fff;
     padding: 15px 0;
     box-shadow: 0px -1px 0px #dddddd;
     text-align: center;
-}
+    // position: fixed;
+    bottom: 0;
+  }
+
+
 .articles__pagin-item{
     display: inline-block;
     background: #40c173;

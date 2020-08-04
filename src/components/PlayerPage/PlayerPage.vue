@@ -1315,9 +1315,10 @@
                       </div>
                   </div>
 
-                  <div class="player-update__colum" id="playerbildercontent">
-                      <div id="playerbilder" ref="playerbilder" style="width:100%;height:300px;" v-once></div>
-                  </div>
+                    <div class="player-update__colum" id="playerbildercontent">
+                        <div id="playerbilder" ref="playerbilder" style="width:100%;height:300px;" v-once></div>
+                        <player-fin :styles="{width:'100%',height:'300px', marginTop:'10px'}"></player-fin>
+                    </div>
 
               </div>
 
@@ -1337,6 +1338,8 @@
   import paddingInput from '~/components/PlayerPage/PaddingInput';
   import positionList from '~/components/PlayerPage/PositionList';
 
+  import player from '~/assets/js/vendor/player-kholobok/src/App';
+
   // import Playerjs from '~/assets/js/playerjs_fin';
 
   export default {
@@ -1347,7 +1350,8 @@
       'color-picker': colorPicker,
       'position-list': positionList,
       'icon-elements': iconElements,
-      'input-namber': inputNamber
+      'input-namber': inputNamber,
+      'player-fin': player
     },
 
     data: function(){return{
@@ -1476,6 +1480,7 @@
     }},
 
     created: function () {
+
       this.getList();
       this.$nextTick(function () {
         this.bilderPlayer = new Playerjs({
