@@ -1,27 +1,19 @@
 <template>
-  <main class="form-main">
-
+  <div class="form-main">
     <div class="form-in">
-
       <h1><a href="/">kholobok.biz</a></h1>
-
       <input type="text" v-model="login" placeholder="Логин">
       <input type="password" v-model="password" placeholder="Пароль">
-
       <button v-on:click="onSignIn()">Войти</button>
-
-      <!-- <div class="error-form-login"></div> -->
-
       <a href="/regin">Регистрация</a>
       <a href="/logreset">Забыли пароль?</a>
-
     </div>
-
-  </main>
+  </div>
 </template>
 
 <script>
-  import {routers} from '~/router/';
+  import { mapActions } from 'vuex'
+  
 
   export default {
     name: 'Authorization',
@@ -32,24 +24,24 @@
 
     }),
     async created() {
-      // console.log(routers);
+      console.log(this.token);
     },
     computed:{
-      
+      token(){
+        return this.$store.state.user.tokenRefresh
+      }
     },
     methods: {
       onSignIn () {
         const {login, password} = this;
-
-        this.$store.dispatch('USER_LOGIN', { login, password }).then((response) => {
-          console.log(response);
-
-          this.$store.dispatch('setMessages', { title: '277'});
-          this.$store.dispatch('setMessages', { title: '278'});
-          // this.$router.push('/');
+        this.userLogin({login, password}).then(() => {
+          this.$router.go();
         });
+      },
 
-      }
+      ...mapActions([
+        'userLogin'
+      ])
     }
   }
 </script>

@@ -1,5 +1,5 @@
 const path = require('path');
-const publicPath = 'html';
+const publicPath = 'kholobok.biz';
 const TerserPlugin = require('terser-webpack-plugin');
 //${publicPath}/
 module.exports = () => ({

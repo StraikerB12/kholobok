@@ -1,38 +1,39 @@
 <template>
   <div id="app">
     <messages></messages>
-    <router-view></router-view>
+  
+    <router-view>
+      <template v-slot:menu>
+        <Menu></Menu>
+      </template>
+      <template v-slot:header>
+        <Header></Header>
+      </template>
+    </router-view>
+
   </div>
 </template>
 
 <script>
-  import Messages from '~/components/info/Messages';
+  import Messages from '~/components/CompositeBlocks/Messages';
+  import Header from '~/components/CompositeBlocks/Header';
+  import Menu from '~/components/CompositeBlocks/Menu';
 
   export default {
     name: 'App',
     components: {
-      Messages
+      Messages,
+      Header,
+      Menu
     },
-    computed: {
-      
+    created(){
+      console.log(this.$router.currentRoute);
     },
-    async updated() {
-      
-    },
-    methods: {
-      
-    }
+    computed: {},
+    methods: {}
   }
 </script>
 
 <style lang="scss">
-  body{
-    padding: 0;
-    margin: 0;
-    
-  }
-  *{
-    box-sizing: border-box;
-  }
   @import '~font-awesome/css/font-awesome.min.css';
 </style>
