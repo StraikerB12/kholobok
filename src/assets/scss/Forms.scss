@@ -22,8 +22,8 @@
 .form__input input, .form__input textarea{
     background: #eef1f8;
     border: 1px solid #eef1f8;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     padding: 0 15px;
 
     color: #969db7;
@@ -45,17 +45,17 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    line-height: 50px;
+    line-height: 40px;
 }
 
 .form__input.el-input-number.is-controls-right .el-input-number__increase, 
 .form__input.el-input-number.is-controls-right .el-input-number__decrease {
-    height: 25px;
+    height: 20px;
 }
 .form__input.el-input-number.is-controls-right .el-input-number__increase [class*=el-icon], 
 .form__input.el-input-number.is-controls-right .el-input-number__decrease [class*=el-icon] {
     position: relative;
-    top: 3px; 
+    top: 1px; 
 }
 .el-input-number__decrease:hover:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled),
 .el-input-number__increase:hover:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled) {
@@ -90,6 +90,15 @@
 .form__upload-prevue-content{
     border: 1px solid #f2f5fc;
     height: 175px;
+}
+.form__upload-prevue-img{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.form__upload-baner .el-upload-list__item-name{
+    width: 200px;
+    margin-right: 0;
 }
 .form__upload-panel .form__label{
     padding: 4px 0 0 0;

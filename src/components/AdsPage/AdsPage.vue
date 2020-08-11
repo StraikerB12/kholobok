@@ -2,6 +2,7 @@
   <div class="main__content">
 
     <add-ads-form :visible.sync="addAdsVisible" @close="closeForm()"></add-ads-form>
+    <update-ads-form :visible.sync="updateAdsVisible" :data="adData" @close="closeForm()"></update-ads-form>
 
     <div class="content-site">
       <slot name="menu"></slot>
@@ -32,6 +33,15 @@
                   <el-table-column
                     type="selection"
                     width="55">
+                  </el-table-column>
+
+                  <el-table-column
+                    prop="name"
+                    label="Вкл/Выкл"
+                    width="100">
+                    <template slot-scope="scope">
+                      <el-switch v-model="scope.row.on" @change="onAd(scope.row.on, scope.row.id)"></el-switch>
+                    </template>
                   </el-table-column>
 
                   <el-table-column
@@ -107,24 +117,34 @@
 
 <script>
   import AddAdsForm from '~/components/AdsPage/AddAdsForm';
+  import UpdateAdsForm from '~/components/AdsPage/UpdateAdsForm';
 
   export default {
     name: 'AdsPage',
+
     components: {
-      AddAdsForm
+      AddAdsForm,
+      UpdateAdsForm
     },
+
     data: () => ({
       addAdsVisible: false,
+      updateAdsVisible: false,
+
       data: [],
-      selectedData: []
+      selectedData: [],
+
+      adData: null
     }),
+
     async created() {
       this.getData();
     },
+
     computed:{
       title(){ return this.$router.currentRoute.meta.title},
-
     },
+
     methods: {
 
       getData(){
@@ -156,13 +176,26 @@
       },
 
       openUpdate(index){
-        console.log(index);
+        this.adData = this.data[index]
+        this.updateAdsVisible = true;
       },
 
 
       closeForm(){
         this.addAdsVisible = false;
+        this.updateAdsVisible = false;
         this.getData();
+      },
+
+      onAd(value, id){
+        // console.log(value, id);
+        this.postMethod('ads.on', {
+          on: value,
+          id: id
+        })
+        .then(() => {
+          this.getData();
+        });
       },
       
     }

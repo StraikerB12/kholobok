@@ -1338,7 +1338,7 @@
   import paddingInput from '~/components/PlayerPage/PaddingInput';
   import positionList from '~/components/PlayerPage/PositionList';
 
-  import player from '~/assets/js/vendor/player-kholobok/src/App';
+  import player from '~/assets/js/vendor/player/src/App';
 
   // import Playerjs from '~/assets/js/playerjs_fin';
 
