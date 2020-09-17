@@ -22,8 +22,8 @@
 .form__input input, .form__input textarea{
     background: #eef1f8;
     border: 1px solid #eef1f8;
-    height: 40px;
-    line-height: 40px;
+    height: 36px;
+    line-height: 36px;
     padding: 0 15px;
 
     color: #969db7;
@@ -45,17 +45,28 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    line-height: 40px;
+    line-height: 36px;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 .form__input.el-input-number.is-controls-right .el-input-number__increase, 
 .form__input.el-input-number.is-controls-right .el-input-number__decrease {
-    height: 20px;
+    height: 18px;
 }
 .form__input.el-input-number.is-controls-right .el-input-number__increase [class*=el-icon], 
 .form__input.el-input-number.is-controls-right .el-input-number__decrease [class*=el-icon] {
     position: relative;
-    top: 1px; 
+    // top: 1px; 
 }
 .el-input-number__decrease:hover:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled),
 .el-input-number__increase:hover:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled) {
@@ -66,6 +77,26 @@
     color: #44ecb0;
 }
 
+.el-input .el-input__clear {
+    position: relative;
+    top: -6px;
+}
+
+
+.form__grup{
+    border: 1px solid #eef1f8;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+    margin-bottom: 10px;
+}
+.form__grup-label{
+    position: absolute;
+    top: -10px;
+    background: #fff;
+    font-family: 'Montserrat-Medium';
+    padding: 0 5px;
+}
 
 .form__upload-baner{
     padding: 20px 0;
@@ -111,6 +142,83 @@
     margin: 4px 0;
     width: 105px;
 }
+
+
+
+
+
+
+
+
+.form__label--small{
+    display: block;
+    padding: 6px 0;
+    font-size: 12px;
+    color: #b1b1b1;
+    font-family: 'Montserrat-Medium';
+}
+.form__input--small input, .form__input--small textarea{
+    background: #eef1f8;
+    border: 1px solid #eef1f8;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 10px;
+
+    color: #969db7;
+    font-size: 14px;
+}
+.form__input--small input:focus{
+    border: 1px solid #44ecb0;
+}
+.form__input--small .el-input__suffix {
+    top: 6px;
+    transform: scale(1.2);
+}
+
+.form__input--small.el-input-number {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    line-height: 28px;
+}
+.form__input--small.el-input .el-input__clear {
+    position: relative;
+    top: -10px;
+}
+
+.form__grup--small{
+    border: 1px solid #eef1f8;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+}
+.form__grup-label--small{
+    position: absolute;
+    top: -10px;
+    background: #fff;
+    font-size: 12px;
+    font-family: 'Montserrat-Medium';
+    padding: 0 5px;
+}
+
+.form__input--small.el-input-number.is-controls-right .el-input-number__increase, 
+.form__input--small.el-input-number.is-controls-right .el-input-number__decrease {
+    height: 14px;
+}
+.form__input--small.el-input-number.is-controls-right .el-input-number__increase [class*=el-icon], 
+.form__input--small.el-input-number.is-controls-right .el-input-number__decrease [class*=el-icon] {
+    position: relative;
+    // top: 1px; 
+}
+
+
+
+
+
+
+
+
+
 .el-radio.is-bordered + .el-radio.is-bordered {
     margin-left: 0;
 }
@@ -148,12 +256,36 @@
     color: #44ecb0;
 }
 
+// Флажок
 .el-checkbox__inner:hover {
     border-color: #38cf99;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
     background-color: #38cf99;
     border-color: #38cf99;
+}
+
+// Переключалеь булевый
+.el-switch.is-checked .el-switch__core {
+    border-color: #38cf99;
+    background-color: #38cf99;
+}
+
+// Кнопки переключения
+.el-radio.is-bordered.is-checked {
+    border-color: #38cf99;
+}
+.el-radio__input.is-checked + .el-radio__label {
+    color: #38cf99;
+}
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: #38cf99;
+    background: #38cf99;
+}
+
+
+.el-table .cell {
+    word-break: normal;
 }
 
 

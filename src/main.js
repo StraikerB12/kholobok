@@ -24,7 +24,7 @@ import store from '~/store';
 import DynamicStyle from 'vue-dynamic-style';
 
 
-Vue.use(DynamicStyle, { prefix: '', scoped: false});
+Vue.use(DynamicStyle, { prefix: 'site-pro-', scoped: false});
 Vue.use(TrendChart);
 Vue.use(ElementUI, { locale })
 Vue.use(VueClipboard);

@@ -3,6 +3,8 @@
 
     <add-ads-form :visible.sync="addAdsVisible" @close="closeForm()"></add-ads-form>
     <update-ads-form :visible.sync="updateAdsVisible" :data="adData" @close="closeForm()"></update-ads-form>
+    <all-setings-form :visible.sync="setingsAdsVisible" @close="closeForm()"></all-setings-form>
+
 
     <div class="content-site">
       <slot name="menu"></slot>
@@ -21,6 +23,9 @@
                   </div>
                   <div class="section__title-button-rever" @click="deleteList()">
                     <i class="icon el-icon-delete"></i>
+                  </div>
+                  <div class="section__title-button-rever" @click="setingsAdsVisible = true">
+                    <i class="icon el-icon-setting"></i>
                   </div> 
               </div>
               <div class="section__content">
@@ -32,7 +37,7 @@
 
                   <el-table-column
                     type="selection"
-                    width="55">
+                    width="45">
                   </el-table-column>
 
                   <el-table-column
@@ -53,7 +58,7 @@
                   <el-table-column
                     prop="type"
                     label="Тип"
-                    width="120">
+                    width="105">
                     <template slot-scope="scope">
                       <div v-if="scope.row.type == 'code'" class="tag">Код</div>
                       <div v-if="scope.row.type == 'link'" class="tag">Ссылка</div>
@@ -73,7 +78,8 @@
 
                   <el-table-column
                     prop="sale"
-                    label="Цена">
+                    label="Цена"
+                    width="60">
                   </el-table-column>
                   <el-table-column
                     prop="procent"
@@ -86,14 +92,15 @@
                   </el-table-column>
                   <el-table-column
                     prop="showsNow"
-                    label="Сегодня показов">
+                    label="Сегодня показов"
+                    width="90">
                   </el-table-column>
 
 
                   <el-table-column
                     prop="name"
                     label=""
-                    width="80">
+                    width="60">
                     <template slot-scope="scope">
                       <div class="table__button" @click="openUpdate(scope.$index)">
                         <i class="el-icon-edit"></i>
@@ -118,18 +125,21 @@
 <script>
   import AddAdsForm from '~/components/AdsPage/AddAdsForm';
   import UpdateAdsForm from '~/components/AdsPage/UpdateAdsForm';
+  import AllSetingsForm from '~/components/AdsPage/AllSetingsForm';
 
   export default {
     name: 'AdsPage',
 
     components: {
       AddAdsForm,
-      UpdateAdsForm
+      UpdateAdsForm,
+      AllSetingsForm
     },
 
     data: () => ({
       addAdsVisible: false,
       updateAdsVisible: false,
+      setingsAdsVisible: false,
 
       data: [],
       selectedData: [],
@@ -150,7 +160,6 @@
       getData(){
         this.postMethod('ads.get', {})
         .then((response) => {
-          console.log(response);
           this.data = response;
         });
       },
@@ -184,6 +193,7 @@
       closeForm(){
         this.addAdsVisible = false;
         this.updateAdsVisible = false;
+        this.setingsAdsVisible = false;
         this.getData();
       },
 
@@ -196,6 +206,10 @@
         .then(() => {
           this.getData();
         });
+      },
+
+      allSetingsOpen(){
+
       },
       
     }

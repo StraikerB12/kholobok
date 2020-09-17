@@ -19,6 +19,15 @@
       display: inline-block;
     }
 
+    &__button-out{
+      max-width: 100px;
+      font-size: 13px;
+      color: #2fb887;
+      font-family: 'Montserrat-Regular';
+      // padding: 0 0 0 12px;
+      cursor: pointer;
+    }
+
     &__title-button{
       height:50px;
       padding: 0 20px;

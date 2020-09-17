@@ -31,6 +31,7 @@
         "js-object-clone": "^0.4.2",
         "moment": "^2.24.0",
         "npm": "^6.4.1",
+        "vast-player": "^0.2.10",
         "vue": "^2.6.10",
         "vue-apexcharts": "^1.5.3",
         "vue-clipboard2": "^0.3.1",

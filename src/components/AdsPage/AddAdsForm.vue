@@ -60,12 +60,29 @@
       </div>
 
       <div>
-        <label class="form__label" for="">Позиция рекламы</label>
-        <el-radio-group size="small" v-model="ad.position">
-          <el-radio-button label="start">Начало</el-radio-button>
-          <el-radio-button label="center">Середина</el-radio-button>
-          <el-radio-button label="end">Конец</el-radio-button>
-        </el-radio-group>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <label class="form__label" for="">Позиция рекламы</label>
+            <el-radio-group size="small" v-model="ad.position">
+              <el-radio-button label="start">Начало</el-radio-button>
+              <el-radio-button label="center">Середина</el-radio-button>
+              <el-radio-button label="end">Конец</el-radio-button>
+            </el-radio-group>
+          </el-col>
+
+          <el-col :span="6">
+            <div class="">
+              <label class="form__label" for="">Бюджет</label>
+              <el-input
+                class="form__input"
+                controls-position="right"
+                :min="1" :max="100"
+                v-model="ad.lock"
+                clearable>
+              </el-input>
+            </div>
+          </el-col>
+        </el-row>
       </div>
 
 
@@ -166,7 +183,9 @@
         name: '',
         sale: 30,
         procent: 30,
-        position: 'start'
+        position: 'start',
+
+        lock: ''
       },
 
       fileList: []
