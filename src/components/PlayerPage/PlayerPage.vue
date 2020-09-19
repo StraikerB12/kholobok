@@ -8,7 +8,7 @@
         <main>
           <div class="main">
 
-            <!-- <div id="vast" class="vast" style="width: 300px: height:200px;"></div> -->
+            
 
             <div class="player-list" v-if="!updatePlayer">
 
@@ -38,8 +38,6 @@
                             
 
                             </div>
-
-                            {{value.new_player.panel.style.background}}
                           </div>
                         </div>
 
@@ -49,7 +47,7 @@
                   </el-row>
 
 
-
+                  <div id="vast" class="vast"></div>
 
                 </div>
               </section>
@@ -242,18 +240,20 @@
     created: function () {
 
       this.$nextTick(function () {
-        // console.log(document.getElementById('vast'));
-        // let player = new VASTPlayer(document.getElementById('vast'));
 
-        // console.log(player);
-        // const urlAds = 'https://cdn.laim.tv/v1/placements/6Lb0KoVGnyYpPHe0lmdF6ABIfOi29gFrL_W8n3GTRJYpRUUJnWvk/code/vpaid/1?w=__player-width__&h=__player-height__&url=__page-url__&cb=__random-number__&C_ITEM_TITLE=__item-title__&ITEM_DESCRIPTION=__item-description__&ITEM_MEDIAID=__item-mediaid__&ITEM_FILE=__item-file__&ITEM_DURATION=__item-duration__&ITEM_TAGS=__item-tags__&ITEM_CUSTOMPARAM=__item-customparam__';
+        console.log(document.getElementById('vast'));
+
+        let player = new VASTPlayer(document.getElementById('vast'));
+
+        console.log(player);
+        const urlAds = 'https://cdn.laim.tv/v1/placements/6Lb0KoVGnyYpPHe0lmdF6ABIfOi29gFrL_W8n3GTRJYpRUUJnWvk/code/vpaid/1?w=__player-width__&h=__player-height__&url=__page-url__&cb=__random-number__&C_ITEM_TITLE=__item-title__&ITEM_DESCRIPTION=__item-description__&ITEM_MEDIAID=__item-mediaid__&ITEM_FILE=__item-file__&ITEM_DURATION=__item-duration__&ITEM_TAGS=__item-tags__&ITEM_CUSTOMPARAM=__item-customparam__';
         
-        // player.load(urlAds)
-        // .then(function startAd() {
-        //     return player.startAd();
-        // }).catch(function(reason) {
-        //     setTimeout(function() { throw reason; }, 0);
-        // });
+        player.load(urlAds)
+        .then(function startAd() {
+            return player.startAd();
+        }).catch(function(reason) {
+            setTimeout(function() { throw reason; }, 0);
+        });
       });
 
       this.getList();
@@ -349,6 +349,17 @@
 
 
 <style lang='scss' scoped>
+  .vast{
+    width: 300px; 
+    height: 200px;
+    position: relative;
+
+    & video{
+      // display: none;
+    }
+  }
+
+
   .player-list__item-content{
       width: 100%;
       border-radius: 3px;
