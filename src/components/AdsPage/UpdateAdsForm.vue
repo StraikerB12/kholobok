@@ -121,6 +121,12 @@
           </el-input>
         </div>
 
+        <div class="body-content" v-if="ad.type == 'vast'">
+          <el-input placeholder="Please input" v-model="ad.body">
+            <!-- <template slot="prepend">Http://</template> -->
+          </el-input>
+        </div>
+
         
 
         <div slot="footer" class="dialog-footer">

@@ -11,27 +11,26 @@
     <!-- Modals -->
     <div class="modal" v-show="modal">
 
-        <!-- Show video -->
-        <div class="modal__form" v-show="modalPage.film">
-            <div class="close">
-                <div class="close__btn" v-on:click="closeModal()">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </div>
+      <!-- Show video -->
+      <div class="modal__form" v-show="modalPage.film">
+        <div class="close">
+            <div class="close__btn" v-on:click="closeModal()">
+                <i class="fa fa-times" aria-hidden="true"></i>
             </div>
-            <iframe :src=" 'https://api.kholobok.biz/show/' + filmId " frameborder="0" width="610" height="370"></iframe>
         </div>
-        <!-- End show video -->
 
-        <!-- Show video -->
-        <div class="modal__form" v-show="modalPage.newfilm">
-            <div class="close">
-                <div class="close__btn" v-on:click="closeModal()">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </div>
-            </div>
-            <iframe :src=" 'https://api.kholobok.biz/newshow/' + filmId " frameborder="0" width="610" height="370"></iframe>
-        </div>
-        <!-- End show video -->
+        <!-- <iframe :src=" 'https://api.kholobok.biz/show/' + filmId " frameborder="0" width="610" height="370"></iframe> -->
+        
+        <player-fin 
+          v-if="dataFilm != null"
+          :stylePanel="dataFilm.style" 
+          :playList="dataFilm.list"
+          :styles="{width:'610px',height:'370px'}">
+        </player-fin>
+
+      </div>
+      <!-- End show video -->
+
 
 
         <!-- Add video -->
@@ -328,7 +327,7 @@
         <div class="panels__panel"><!-- Countries -->
             <span class="panels__title">Страны</span>
             <div class="panels__list" :class="{ 'panels__list--more': panelCountries }">
-                <div class="panels__list-item" v-for="(country, index) in countries">
+                <div class="panels__list-item" v-for="(country, index) in countries" :key="index">
                     <div class="cheked">
                         <input 
                             class="cheked__input" 
@@ -406,7 +405,7 @@
                                 <span class="element-cont">{{ value.kinopoisk }}</span>
                             </p>
                             <p class="articles__item-part articles__head-7">
-                                <a href="#" v-on:click.prevent="showNewfilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
+                                <!-- <a href="#" v-on:click.prevent="showNewfilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a> -->
                                 <a href="#" v-on:click.prevent="showFilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
                                 <a href="#" v-on:click.prevent="copyAdress(value.id)" title="Скопировать"><i class="fa fa-code" aria-hidden="true"></i></a>
                                 <a href="#" v-on:click.prevent="openTiket(value.id, value.ru_name)" title="Обновление/Ошибка"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
@@ -442,71 +441,78 @@
 </template>
 
 <script>
+  import player from '~/assets/js/vendor/player/src/App';
+
   export default {
     name: 'VideoPage',
-    data: function(){return{
+    components: {
+      'player-fin': player
+    },
+    data(){return{
 
-        videos: null,
-        count: null,
-        countries: null,
-        genres: null,
+      videos: null,
+      count: null,
+      countries: null,
+      genres: null,
 
-        search: '',
-        panelGenres: false,
-        panelCountries: false,
-        panelYears: false,
-        range: [
-            { name:'Old', to:0, do:1950},
-            { name:'50+', to:1950, do:1960},
-            { name:'60+', to:1960, do:1970},
-            { name:'70+', to:1970, do:1980},
-            { name:'80+', to:1980, do:1990},
-            { name:'90+', to:1990, do:2000},
-            { name: '2000', to:2000, do:2001}
-        ],
-        rangeId: 0,
+      search: '',
+      panelGenres: false,
+      panelCountries: false,
+      panelYears: false,
+      range: [
+          { name:'Old', to:0, do:1950},
+          { name:'50+', to:1950, do:1960},
+          { name:'60+', to:1960, do:1970},
+          { name:'70+', to:1970, do:1980},
+          { name:'80+', to:1980, do:1990},
+          { name:'90+', to:1990, do:2000},
+          { name: '2000', to:2000, do:2001}
+      ],
+      rangeId: 0,
 
-        count_vdb: 0,
+      count_vdb: 0,
 
-        updateOffset: 0,//this.data.videodb.count_vdb,
-        steps: 2,
-        next: null,
-        preolaoded: false,
+      updateOffset: 0,//this.data.videodb.count_vdb,
+      steps: 2,
+      next: null,
+      preolaoded: false,
 
-        updateUpOffset: 0,
-        preolaodedUp: false,
-        stepsUp: 0,
+      updateUpOffset: 0,
+      preolaodedUp: false,
+      stepsUp: 0,
 
-        paginations: [],
-        paginCount: 20,
-        page: 1,
+      paginations: [],
+      paginCount: 20,
+      page: 1,
 
-        modal: false,
-        modalPage: {
-            film: false,
-            add: false,
-            info: false,
-            tiket: false,
-            newfilm: false
-        },
-        filmId: 0,
-        filmIndex: null,
+      modal: false,
+      modalPage: {
+          film: false,
+          add: false,
+          info: false,
+          tiket: false,
+          newfilm: false
+      },
+      filmId: 0,
+      filmIndex: null,
 
-        updateFilmData: null,
-        updateFilmFlag: false,
+      updateFilmData: null,
+      updateFilmFlag: false,
 
-        tiket: {
-            text: '',
-            title: '',
-            data: {}
-        }
+      tiket: {
+          text: '',
+          title: '',
+          data: {}
+      },
+
+      dataFilm: null
 
     }},
 
     created: function () {
 
       if(this.isRight){
-        this.postMethod('video.info').then(({count}) => {
+        this.postMethod('videos.info').then(({count}) => {
           this.count_vdb = count;
           this.updateOffset = count;
         });
@@ -523,24 +529,27 @@
       }
       this.range.push({name:'Все', to:0, do:new Date().getFullYear(), check: true});
       this.range = this.range.reverse();
+
       // стартовая выборка списка фильмов
       this.videosGet(this.page);
+
+      
     },
 
     watch: {
-        updateOffset: function () {
-            if(this.progress == 100){
-                this.preolaoded = false;
-                this.count_vdb = this.updateOffset;
-                this.videosGet(this.page);
-            }
-        },
-        updateUpOffset: function () {
-            if(this.progressUp == 100){
-                // this.preolaodedUp = false;
-                this.videosGet(this.page);
-            }
+      updateOffset: function () {
+        if(this.progress == 100){
+          this.preolaoded = false;
+          this.count_vdb = this.updateOffset;
+          this.videosGet(this.page);
         }
+      },
+      updateUpOffset: function () {
+        if(this.progressUp == 100){
+          // this.preolaodedUp = false;
+          this.videosGet(this.page);
+        }
+      }
     },
 
     computed: {
@@ -571,22 +580,27 @@
 
     methods: {
 
+      getVideoData(id){
+        this.postMethod('videos.dataFilm', {id}).then(({dataplayer, playList}) => {
+          this.dataFilm = { style: JSON.parse(dataplayer), list: playList};
+        });
+      },
+
 
       paginationEvents(e){
         this.videosGet(e);
       },
 
       // Пердпросмотр фильма
-      showFilm: function(id){
+      showFilm(id){
+        this.getVideoData(id);
+
+
         this.filmId = id;
         this.modal = true;
         this.modalPage.film = true;
       },
-      showNewfilm(id){
-        this.filmId = id;
-        this.modal = true;
-        this.modalPage.newfilm = true;
-      },
+
 
       // Информация о фильме
       showInfo: function(index){
@@ -631,7 +645,7 @@
 
         // console.log({ element: JSON.stringify(this.updateFilmData)});
         this.postMethod('updateVideo', { 
-            element: JSON.stringify(this.updateFilmData)
+          element: JSON.stringify(this.updateFilmData)
         }).then((response) => {
           // console.log(response);
         })
@@ -648,6 +662,8 @@
         }
         this.updateFilmFlag = false;
         this.updateFilmData = null;
+
+        this.dataFilm = null;
       },
 
       // Скопировать адрес
@@ -750,7 +766,6 @@
           this.count = response.count;
           this.videos = response.items;
           
-          this.getPaginations();
           this.$refs.articles__scrol.scrollTop = 0;
 
           if(
@@ -763,7 +778,7 @@
             this.genres = this.modificationResponse(response.genres);
           }
         });
-        },
+      },
 
 
       modificationResponse: function(object){

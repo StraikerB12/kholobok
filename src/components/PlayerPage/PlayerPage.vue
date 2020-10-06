@@ -191,7 +191,8 @@
   import Menu from '~/components/PlayerPage/ComponentsPlayer/Menu';
   import PlayList from '~/components/PlayerPage/ComponentsPlayer/PlayList';
 
-  const VASTPlayer = require('vast-player');
+  import VASTPlayer from '~/assets/js/vendor/vast-player2';
+  // const VASTPlayer = require('vast-player');
  
   export default {
     name: 'PlayerPage',
@@ -243,17 +244,48 @@
 
         console.log(document.getElementById('vast'));
 
-        let player = new VASTPlayer(document.getElementById('vast'));
+        let player = new VASTPlayer(document.getElementById('vast'), { vast: { maxRedirects: 1 }});
 
         console.log(player);
         const urlAds = 'https://cdn.laim.tv/v1/placements/6Lb0KoVGnyYpPHe0lmdF6ABIfOi29gFrL_W8n3GTRJYpRUUJnWvk/code/vpaid/1?w=__player-width__&h=__player-height__&url=__page-url__&cb=__random-number__&C_ITEM_TITLE=__item-title__&ITEM_DESCRIPTION=__item-description__&ITEM_MEDIAID=__item-mediaid__&ITEM_FILE=__item-file__&ITEM_DURATION=__item-duration__&ITEM_TAGS=__item-tags__&ITEM_CUSTOMPARAM=__item-customparam__';
         
+        
+
+
+
         player.load(urlAds)
         .then(function startAd() {
-            return player.startAd();
-        }).catch(function(reason) {
-            setTimeout(function() { throw reason; }, 0);
+
+          console.log('Ad load!');
+
+          return player.startAd();
+
+        }).catch((reason) => {
+          setTimeout(function() { throw reason; }, 0);
         });
+
+        console.log(player);
+
+
+        player.once('AdStarted', function() {
+          console.log('AdStarted');
+        });
+        
+
+        player.once('AdVideoStart', function() {
+          console.log('AdVideoStart');
+        });
+        
+        player.once('AdVideoComplete', function() {
+          console.log('AdVideoComplete');
+        });
+
+
+        player.once('AdStopped', function() {
+          console.log('AdStopped');
+        });
+
+
       });
 
       this.getList();

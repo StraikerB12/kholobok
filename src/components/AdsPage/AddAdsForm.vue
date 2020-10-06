@@ -7,11 +7,9 @@
       width="30%"
       :before-close="close">
 
-      <el-button class="button-type" @click="next('code')"><i class="icon el-icon-share"></i> Стороний код</el-button>
+      <el-button class="button-type" @click="next('vast')"><i class="icon el-icon-share"></i> VAST</el-button>
       <el-button class="button-type" @click="next('baner')"><i class="icon el-icon-files"></i> Банер</el-button>
       <el-button class="button-type" @click="next('link')"><i class="icon el-icon-link"></i> Ссылка</el-button>
-
-      <!-- <iframe src="data:text/html;base64,V2VsY29tZSB0byA8Yj5iYXNlNjQuZ3VydTwvYj4h"></iframe> -->
 
     </el-dialog>
 
@@ -149,6 +147,12 @@
       <div class="body-content" v-if="ad.type == 'link'">
         <el-input placeholder="Please input" v-model="ad.body">
           <template slot="prepend">Http://</template>
+        </el-input>
+      </div>
+
+      <div class="body-content" v-if="ad.type == 'vast'">
+        <el-input placeholder="Please input" v-model="ad.body">
+          <!-- <template slot="prepend">Http://</template> -->
         </el-input>
       </div>
 

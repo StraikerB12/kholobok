@@ -3,7 +3,10 @@
     <el-row :gutter="5">
 
       <el-col :span="cols" v-if="count > 0">
-        <label  v-if="count > 1" class="form__label--small" for="">Верх</label>
+
+        <label v-if="count > 2" class="form__label--small" for="">Верх</label>
+        <label v-if="count == 2" class="form__label--small" for="">Верх Низ</label>
+
         <el-input
           class="form__input--small"
           controls-position="right"
@@ -14,7 +17,10 @@
 
       <el-col :span="cols" v-if="count > 1">
         <div class="">
-          <label class="form__label--small" for="">Право</label>
+
+          <label v-if="count > 2" class="form__label--small" for="">Право</label>
+          <label v-if="count == 2" class="form__label--small" for="">Право Лево</label>
+
           <el-input
             class="form__input--small"
             controls-position="right"

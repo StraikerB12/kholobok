@@ -10,7 +10,7 @@
 
       <el-col :span="3">
         <label class="form__label--small">Цвет фона</label>
-        <el-color-picker v-model="color" size="small" show-alpha></el-color-picker>
+        <color v-model="color" show-alpha></color>
       </el-col>
 
       <el-col :span="3">
@@ -32,13 +32,15 @@
 
   import Indents from '~/components/PlayerPage/ComponentsStyles/Indents';
   import ValuePx from '~/components/PlayerPage/ComponentsStyles/ValuePx';
+  import Color from '~/components/PlayerPage/ComponentsStyles/Color';
 
   export default {
     name: 'Panel',
 
     components: {
       'indents': Indents,
-      'value-px': ValuePx
+      'value-px': ValuePx,
+			'color': Color
     },
     props: ['value'],
     data: () => {return{

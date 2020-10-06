@@ -10,7 +10,7 @@
 
       <el-col :span="3">
         <label class="form__label--small">Цвет фона</label>
-        <el-color-picker v-model="value.style.background" size="small" show-alpha></el-color-picker>
+        <color v-model="value.style.background" show-alpha></color>
       </el-col>
 
       <el-col :span="6">
@@ -44,18 +44,18 @@
 
       <el-col :span="3">
         <label class="form__label--small">Цвет полосы</label>
-        <el-color-picker v-model="value.styleLine.background" size="small" show-alpha></el-color-picker>
+        <color v-model="value.styleLine.background" show-alpha></color>
       </el-col>
 
       <el-col :span="3">
         <label class="form__label--small">Цвет заполнения</label>
-        <el-color-picker v-model="value.stylePlay.background" size="small" show-alpha></el-color-picker>
+        <color v-model="value.stylePlay.background" show-alpha></color>
       </el-col>
 
 
       <el-col :span="3">
         <label class="form__label--small">Цвет курсора</label>
-        <el-color-picker v-model="value.stylePoint.background" size="small" show-alpha></el-color-picker>
+        <color v-model="value.stylePoint.background" show-alpha></color>
       </el-col>
 
       <el-col :span="6">
@@ -84,6 +84,7 @@
   import Indents from '~/components/PlayerPage/ComponentsStyles/Indents';
   import ValuePx from '~/components/PlayerPage/ComponentsStyles/ValuePx';
   import Scale from '~/components/PlayerPage/ComponentsStyles/Scale';
+  import Color from '~/components/PlayerPage/ComponentsStyles/Color';
 
   export default {
     name: 'LevelPanel',
@@ -91,7 +92,8 @@
 			'value-px': ValuePx,
 			'indents': Indents,
       'border': Border,
-      'scale': Scale
+      'scale': Scale,
+			'color': Color
 		},
     props: ['value'],
     data: () => {return{

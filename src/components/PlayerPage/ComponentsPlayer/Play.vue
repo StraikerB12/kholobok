@@ -20,7 +20,7 @@
 
         <el-col :span="6">
           <label class="form__label--small">Цвет фона</label>
-          <el-color-picker v-model="value.style.background" size="small" show-alpha></el-color-picker>
+          <color v-model="value.style.background" show-alpha></color>
         </el-col>
 
       </el-row>
@@ -43,7 +43,7 @@
 
         <el-col :span="6">
           <label class="form__label--small">Цвет фона</label>
-          <el-color-picker v-model="value.styleHover.background" size="small" show-alpha></el-color-picker>
+          <color v-model="value.styleHover.background" show-alpha></color>
         </el-col>
 
 
@@ -58,13 +58,15 @@
   import Indents from '~/components/PlayerPage/ComponentsStyles/Indents';
   import BorderRadius from '~/components/PlayerPage/ComponentsStyles/BorderRadius';
   import Scale from '~/components/PlayerPage/ComponentsStyles/Scale';
+  import Color from '~/components/PlayerPage/ComponentsStyles/Color';
 
   export default {
     name: 'Play',
     components: {
       'indents': Indents,
       'border-radius': BorderRadius,
-      'scale': Scale
+      'scale': Scale,
+			'color': Color
     },
     props: ['value'],
     data: () => {return{

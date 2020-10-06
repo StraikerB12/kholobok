@@ -63,6 +63,7 @@
                       <div v-if="scope.row.type == 'code'" class="tag">Код</div>
                       <div v-if="scope.row.type == 'link'" class="tag">Ссылка</div>
                       <div v-if="scope.row.type == 'baner'" class="tag">Банер</div>
+                      <div v-if="scope.row.type == 'vast'" class="tag">VAST</div>
                     </template>
                   </el-table-column>
 

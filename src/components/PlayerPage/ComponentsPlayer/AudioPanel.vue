@@ -10,7 +10,7 @@
 
       <el-col :span="3">
         <label class="form__label--small">Цвет фона</label>
-        <el-color-picker v-model="value.style.background" size="small" show-alpha></el-color-picker>
+		<color v-model="value.style.background" show-alpha></color>
       </el-col>
 
       <el-col :span="6">
@@ -34,7 +34,7 @@
 
 			<el-col :span="3">
         <label class="form__label--small">Цвет фона</label>
-        <el-color-picker v-model="value.styleHover.background" size="small" show-alpha></el-color-picker>
+		<color v-model="value.styleHover.background" show-alpha></color>
       </el-col>
 
 		</el-row>
@@ -44,16 +44,18 @@
 
 <script>
 
-  import BorderRadius from '~/components/PlayerPage/ComponentsStyles/BorderRadius';
+  	import BorderRadius from '~/components/PlayerPage/ComponentsStyles/BorderRadius';
 	import Border from '~/components/PlayerPage/ComponentsStyles/Border';
 	import Indents from '~/components/PlayerPage/ComponentsStyles/Indents';
+	import Color from '~/components/PlayerPage/ComponentsStyles/Color';
 
 	export default {
 		name: 'AudioPanel',
 		components: {
 			'border-radius': BorderRadius,
 			'indents': Indents,
-			'border': Border
+			'border': Border,
+			'color': Color
 		},
 		props: ['value'],
 		data: () => {return{

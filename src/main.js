@@ -21,7 +21,7 @@ import App from '~/App';
 import {router} from '~/router';
 import store from '~/store';
 
-import DynamicStyle from 'vue-dynamic-style';
+import DynamicStyle from './assets/js/vendor/vue-dynamic-style';
 
 
 Vue.use(DynamicStyle, { prefix: 'site-pro-', scoped: false});
