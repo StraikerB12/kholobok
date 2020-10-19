@@ -23,12 +23,16 @@
     background: #eef1f8;
     border: 1px solid #eef1f8;
     height: 36px;
-    line-height: 36px;
-    padding: 0 15px;
+    line-height: 18px;
+    padding: 9px 15px;
 
     color: #969db7;
     font-size: 16px;
 }
+.form__input textarea{
+    height: auto;
+}
+
 .el-textarea__inner:focus {
     outline: 0;
     border-color: #44ecb0;
@@ -46,6 +50,34 @@
     display: inline-block;
     width: 100%;
     line-height: 36px;
+}
+
+
+.form__button-slise-input{
+    display: flex;
+    background: #eef1f8;
+    border: 1px solid #eef1f8;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 15px;
+
+    color: #969db7;
+    font-size: 16px;
+
+    margin-left: 10px;
+    cursor: pointer;
+
+    align-items: center;
+    border-radius: 5px;
+}
+
+.form__button-slise-input:hover {
+    border-color: #C0C4CC;
+}
+
+.form__button-slise-input i{
+    margin-right: 5px;
+    
 }
 
 

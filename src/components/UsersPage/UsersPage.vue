@@ -1,80 +1,96 @@
 <template>
-  <div class="content-site">
-    <slot name="menu"></slot>
-    <main>
+  <div class="main__content">
 
-      <!-- Modals -->
-      <modal-add-user v-if="addUserShow" :visible="addUserShow" @close="closeModal()"></modal-add-user>
-      <modal-update-user v-if="updateUserShow" :visible="updateUserShow" :user="usersList[index].element" @close="closeModal()"></modal-update-user>
+    <!-- Modals -->
+    <modal-add-user v-if="addUserShow" :visible="addUserShow" @close="closeModal()"></modal-add-user>
+    <modal-update-user v-if="updateUserShow" :visible="updateUserShow" :user="usersList[index].element" @close="closeModal()"></modal-update-user>
 
 
-
-      <div class="main">
+    <div class="content-site">
+      <slot name="menu"></slot>
+      <div>
         <slot name="header"></slot>
-        <div class="main__content">
+        <main>
+          <div class="main">
 
-          <div class="tikets-s">
-              <div class="tikets-s__panel tikets-s__panel--center">
-                <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'users' }" v-on:click="openPageUsers('users')">Клиенты</div>
-                <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'kontrol' }" v-on:click="openPageUsers('kontrol')">Управляющие</div>
-                <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'block' }" v-on:click="openPageUsers('block')">Заблокированные</div>
+            <section class="section">
+              <div>
+                <h2 class="section__title">{{ title }}</h2>
               </div>
-              <div class="tikets-s__panel">
-                <div class="tikets-s__button-l button" v-on:click="putStatusUser(0)">Заблокировать</div>
-                <div class="tikets-s__button-l button" v-on:click="putStatusUser(2)">Разблокировать</div>
-                <div class="tikets-s__button-r button" v-on:click="addUserShow = true">Создать пользователя</div>
-              </div>
-            </div>
+              <div class="section__content">
 
 
-            <section class="articles">
-              <!-- Head users -->
-              <div class="articles__head">
-                <div class="table__col--50"></div>
-                <p class="table__col-2--50">Тип</p>
-                <p class="table__col-2">Логин</p>
-                <p class="table__col-2">Статус</p>
-                <p class="table__col-4">Ключ</p>
-              </div>
-              <!-- End head users -->
 
-              <div class="articles__scrol" ref="articles__scrol">
-                <!-- For users -->
-                <div v-for="(value, index) in usersList" class="articles__item" :key="index">
-
-                  <div class="articles__item-part table__col--50">
-                    <div class="cheked">
-                        <input class="cheked__input" v-model="value.chek" type="checkbox" name="" :id=" 'chek' + value.element.id ">
-                        <label class="cheked__label" :for=" 'chek' + value.element.id "><div></div></label>
-                    </div>
+                <div class="tikets-s">
+                  <div class="tikets-s__panel tikets-s__panel--center">
+                    <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'users' }" v-on:click="openPageUsers('users')">Клиенты</div>
+                    <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'kontrol' }" v-on:click="openPageUsers('kontrol')">Управляющие</div>
+                    <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'block' }" v-on:click="openPageUsers('block')">Заблокированные</div>
                   </div>
-                  <p class="articles__item-part table__col-2--50"> 
-                    <type-user :type="value.element.tupe"></type-user> 
-                  </p>
-
-                  <p class="articles__item-part table__col-2">
-                    {{ value.element.login }}
-                  </p>
-                  
-                  <p class="articles__item-part table__col-2"> 
-                    <status-user :status="value.element.status"></status-user> 
-                  </p>
-
-                  <p class="articles__item-part table__col-3">
-                    {{ value.element.api_key }}
-                  </p>
-
-                  <p class="articles__item-part table__col-3">
-                    <button class="table_button" @click="updateUser(index)">Редактировать</button>
-                  </p>
-                    
+                  <div class="tikets-s__panel">
+                    <div class="tikets-s__button-l button" v-on:click="putStatusUser(0)">Заблокировать</div>
+                    <div class="tikets-s__button-l button" v-on:click="putStatusUser(2)">Разблокировать</div>
+                    <div class="tikets-s__button-r button" v-on:click="addUserShow = true">Создать пользователя</div>
+                  </div>
                 </div>
-                <!-- End for users -->
+
+
+                <section class="articles">
+                  <!-- Head users -->
+                  <div class="articles__head">
+                    <div class="table__col--50"></div>
+                    <p class="table__col-2--50">Тип</p>
+                    <p class="table__col-2">Логин</p>
+                    <p class="table__col-2">Статус</p>
+                    <p class="table__col-4">Ключ</p>
+                  </div>
+                  <!-- End head users -->
+
+                  <div class="articles__scrol" ref="articles__scrol">
+                    <!-- For users -->
+                    <div v-for="(value, index) in usersList" class="articles__item" :key="index">
+
+                      <div class="articles__item-part table__col--50">
+                        <div class="cheked">
+                            <input class="cheked__input" v-model="value.chek" type="checkbox" name="" :id=" 'chek' + value.element.id ">
+                            <label class="cheked__label" :for=" 'chek' + value.element.id "><div></div></label>
+                        </div>
+                      </div>
+                      <p class="articles__item-part table__col-2--50"> 
+                        <type-user :type="value.element.tupe"></type-user> 
+                      </p>
+
+                      <p class="articles__item-part table__col-2">
+                        {{ value.element.login }}
+                      </p>
+                      
+                      <p class="articles__item-part table__col-2"> 
+                        <status-user :status="value.element.status"></status-user> 
+                      </p>
+
+                      <p class="articles__item-part table__col-3">
+                        {{ value.element.api_key }}
+                      </p>
+
+                      <p class="articles__item-part table__col-3">
+                        <button class="table_button" @click="updateUser(index)">Редактировать</button>
+                      </p>
+                        
+                    </div>
+                    <!-- End for users -->
+                  </div>
+                </section>
+
+
+
               </div>
             </section>
-        </div>
+
+          </div>
+        </main>
       </div>
-    </main>
+    </div>
+
   </div>
 </template>
 
@@ -116,6 +132,10 @@
 
     created: function () {
       this.getUsers();
+    },
+
+    computed:{
+      title(){ return this.$router.currentRoute.meta.title},
     },
 
     methods: {

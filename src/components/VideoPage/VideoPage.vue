@@ -2,13 +2,11 @@
   <div class="main__content">
 
     
-
-
-
-
-
-  
     <!-- Modals -->
+
+    <video-info :visible.sync="videoInfoFlag" :data="updateFilmData" @close="closeForm()"></video-info>
+    <show-video :visible.sync="videoShowFlag" :data="filmId" @close="closeForm()"></show-video>
+
     <div class="modal" v-show="modal">
 
       <!-- Show video -->
@@ -51,7 +49,7 @@
 
 
         <!-- Show info -->
-        <div class="modal__form" v-show="modalPage.info">
+        <!-- <div class="modal__form" v-show="modalPage.info">
             <div class="close">
                 <div class="close__btn" v-on:click="closeModal()">
                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -60,132 +58,8 @@
 
 
             
-            <div class="modal__info-film" v-if="filmIndex != null">
-
-                <div class="modal__info-film-image">
-                    <img :src="videos[filmIndex].img" alt="" class="modal__info-film-img">
-
-                    <button class="button" v-on:click="updateFilmSave()" v-if="updateFilmFlag">Сохранить</button>
-                    <button class="button" v-on:click="updateFilm()" v-else-if="isRight">Редактировать</button>
-
-                    <div v-if="updateFilmFlag">
-                        <div class="modal__info-film-text">
-                            <p class="modal__info-film-title-tupe">Блокировка</p>
-                        </div>
-                        <div class="modal__info-film-text">
-                            <div>
-                                <div class="cheked">
-                                    <input class="cheked__input" type="checkbox" v-model="updateFilmData.lock.RU" name="" id="chekedContryRu">
-                                    <label class="cheked__label" for="chekedContryRu"><div></div></label>
-                                </div>
-                                Россия
-                            </div>
-                        </div>
-                        <div class="modal__info-film-text">
-                            <div>
-                                <div class="cheked">
-                                    <input class="cheked__input" type="checkbox" v-model="updateFilmData.lock.UA" name="" id="chekedContryUa">
-                                    <label class="cheked__label" for="chekedContryUa"><div></div></label>
-                                </div>
-                                Украина
-                            </div>
-                        </div>
-
-                        <div class="modal__info-film-text">
-                            <div>
-                                <div class="cheked">
-                                    <input class="cheked__input" type="checkbox" v-model="updateFilmData.lock.SNG" name="" id="chekedContrySng">
-                                    <label class="cheked__label" for="chekedContrySng"><div></div></label>
-                                </div>
-                                СНГ
-                            </div>
-                        </div>
-                        <div class="modal__info-film-text">
-                            <div>
-                                <div class="cheked">
-                                    <input class="cheked__input" type="checkbox" v-model="updateFilmData.lock.FULL" name="" id="chekedContryFull">
-                                    <label class="cheked__label" for="chekedContryFull"><div></div></label>
-                                </div>
-                                Полная
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-
-                <div class="modal__info-film-contener">
-
-                    <div class="modal__info-film-text" v-if="updateFilmFlag">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Изображение</p>
-                            <input class="panels__input modal__input" type="text" v-model="updateFilmData.img">
-                        </div>
-                    </div>
-
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Название</p>
-                            <input class="panels__input modal__input" type="text" v-if="updateFilmFlag" v-model="updateFilmData.ru_name">
-                            <p class="modal__info-film-tupe" v-else>{{ videos[filmIndex].ru_name }}</p>
-                        </div>
-                    </div>
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Оригинальное название</p>
-                            <input class="panels__input modal__input" type="text" v-if="updateFilmFlag" v-model="updateFilmData.name">
-                            <p class="modal__info-film-tupe" v-else>{{ videos[filmIndex].name }}</p>
-                        </div>
-                    </div>
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Страна</p>
-                            <input class="panels__input modal__input" type="text" v-if="updateFilmFlag" v-model="updateFilmData.country">
-                            <p class="modal__info-film-tupe" v-else>{{ videos[filmIndex].country }}</p>
-                        </div>
-                    </div>
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Год</p>
-                            <input class="panels__input modal__input" type="text" v-if="updateFilmFlag" v-model="updateFilmData.year">
-                            <p class="modal__info-film-tupe" v-else>{{ videos[filmIndex].year }}</p>
-                        </div>
-                    </div>
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Жанры</p>
-                            <textarea class="panels__input modal__input" rows="2" v-if="updateFilmFlag" v-model="updateFilmData.genre"></textarea>
-                            <p class="modal__info-film-tupe" v-else>{{ videos[filmIndex].genre }}</p>
-                        </div>
-                    </div>
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-2">
-                            <p class="modal__info-film-title-tupe">Кинопоиск</p>
-                            <p class="modal__info-film-tupe">
-                                <a :href=" 'https://www.kinopoisk.ru/film/' + videos[filmIndex].kinopoisk " target="_blank" class="modal__info-film-tupe-link">
-                                    {{ videos[filmIndex].kinopoisk }}
-                                </a>
-                            </p>
-                        </div>
-                        <div class="modal_info-coll-2">
-                            <p class="modal__info-film-title-tupe">IMDb</p>
-                            <p class="modal__info-film-tupe">
-                                <a :href=" 'https://www.imdb.com/title/' + videos[filmIndex].imdb " target="_blank" class="modal__info-film-tupe-link">
-                                    {{ videos[filmIndex].imdb }}
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal__info-film-text">
-                        <div class="modal_info-coll-4">
-                            <p class="modal__info-film-title-tupe">Описание</p>
-                            <textarea class="panels__input modal__input" rows="8" v-if="updateFilmFlag" v-model="updateFilmData.description"></textarea>
-                            <p class="modal__info-film-tupe modal__info-film-diskript" v-else>{{ videos[filmIndex].description }}</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+            
+        </div> -->
         <!-- End show info -->
 
         <!-- Tiket video -->
@@ -367,65 +241,101 @@
             <section class="section">
               <div>
                 <h2 class="section__title">{{ title }}</h2>
+                <div class="section__title-button" v-if="isRight" @click="addAdsVisible = true">
+                  <i class="icon el-icon-setting"></i>
+                  Управление
+                </div>
               </div>
               <div class="section__content">
 
-                <section class="articles">
-                    <!-- Head video -->
-                    <div class="articles__head">
-                        <div class="articles__head-1"></div>
-                        <p class="articles__head-2">Тип</p>
-                        <p class="articles__head-3">Название</p>
-                        <p class="articles__head-4">Качество</p>
-                        <p class="articles__head-5">Озвучка</p>
-                        <p class="articles__head-6">КиноПоиск</p>
-                        <p class="articles__head-7">Код</p>
-                    </div>
-                    <!-- End head video -->
-                    <div class="articles__scrol" ref="articles__scrol">
-                        <!-- For video -->
-                        <div v-for="(value, index) in videos" :key="index" class="articles__item">
-                            <div class="articles__item-part articles__head-1">
-                                <div class="cheked" v-if="isRight">
-                                    <input class="cheked__input" type="checkbox" name="" :id=" 'chek' + value.id ">
-                                    <label class="cheked__label" :for=" 'chek' + value.id "><div></div></label>
-                                </div>
-                                <a href="#" v-on:click.prevent="showInfo(index)"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                            </div>
-                            <p class="articles__item-part articles__head-2">
-                                <span class="element-cont" v-if=" value.tupe == 'movie' ">фильм</span>
-                                <span class="element-cont" v-else>сериал</span>
-                            </p>
-                            <p class="articles__item-part articles__head-3">{{ value.ru_name }}</p>
-                            <p class="articles__item-part articles__head-4">
-                                <span class="element-cont">{{ value.quality }}</span>
-                            </p>
-                            <p class="articles__item-part articles__head-5">{{ value.translation }}</p>
-                            <p class="articles__item-part articles__head-6">
-                                <span class="element-cont">{{ value.kinopoisk }}</span>
-                            </p>
-                            <p class="articles__item-part articles__head-7">
-                                <!-- <a href="#" v-on:click.prevent="showNewfilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a> -->
-                                <a href="#" v-on:click.prevent="showFilm(value.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
-                                <a href="#" v-on:click.prevent="copyAdress(value.id)" title="Скопировать"><i class="fa fa-code" aria-hidden="true"></i></a>
-                                <a href="#" v-on:click.prevent="openTiket(value.id, value.ru_name)" title="Обновление/Ошибка"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
-                            </p>
-                        </div>
-                        <!-- End for video -->
-                    </div>
 
-
-                  <div class="articles__pagination">
-                    <el-pagination
-                      background
-                      layout="prev, pager, next"
-                      :total="count"
-                      :page-size="paginCount"
-                      :current-page="page"
-                      @current-change="videosGet">
-                    </el-pagination>
+                <div class="search-block">
+                  <el-input
+                    class="form__input"
+                    v-model="search"
+                    placeholder="Поиск"
+                    clearable>
+                  </el-input>
+                  <div class="form__button-slise-input">
+                    <i class="icon el-icon-search"></i> Искать
                   </div>
-                </section>
+                  <div class="form__button-slise-input">
+                    <i class="icon el-icon-set-up"></i> Фильтр
+                  </div>
+                </div>
+                
+
+                <el-table
+                  :data="videos"
+                  stripe
+                  style="width: 100%">
+
+                  <el-table-column
+                    v-if="isRight"
+                    type="selection"
+                    width="45">
+                  </el-table-column>
+
+                  <el-table-column
+                    width="36">
+                    <template slot-scope="scope">
+                      <a href="#" v-on:click.prevent="showInfo(scope.$index)"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                    </template>
+                  </el-table-column>
+
+
+                  <el-table-column
+                    label="Тип"
+                    width="105">
+                    <template slot-scope="scope">
+                      <div class="tag" v-if="scope.row.tupe == 'movie'">фильм</div>
+                      <div class="tag" v-else>сериал</div>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column
+                    prop="ru_name"
+                    label="Название">
+                  </el-table-column>
+                  <el-table-column
+                    label="Качество"
+                    width="120">
+                    <template slot-scope="scope">
+                      <div class="tag">{{ scope.row.quality }}</div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="translation"
+                    label="Озвучка">
+                  </el-table-column>
+                  <el-table-column
+                    label="КиноПоиск"
+                    width="105">
+                    <template slot-scope="scope">
+                      <div class="tag">{{ scope.row.kinopoisk }}</div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="Код"
+                    width="140">
+                    <template slot-scope="scope">
+                      <a href="#" v-on:click.prevent="showFilm(scope.row.id)" title="Просмотр"><i class="fa fa-film" aria-hidden="true"></i></a>
+                      <a href="#" v-on:click.prevent="copyAdress(scope.row.id)" title="Скопировать"><i class="fa fa-code" aria-hidden="true"></i></a>
+                      <a href="#" v-on:click.prevent="openTiket(scope.row.id, scope.row.ru_name)" title="Обновление/Ошибка"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+                    </template>
+                  </el-table-column>
+                </el-table>
+
+                <div class="articles__pagination">
+                  <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="count"
+                    :page-size="paginCount"
+                    :current-page="page"
+                    @current-change="videosGet">
+                  </el-pagination>
+                </div>
 
               </div>
             </section> 
@@ -443,12 +353,20 @@
 <script>
   import player from '~/assets/js/vendor/player/src/App';
 
+  import videoInfo from '~/components/VideoPage/VideoInfo';
+  import showVideo from '~/components/VideoPage/ShowVideo';
+
   export default {
     name: 'VideoPage',
     components: {
-      'player-fin': player
+      'player-fin': player,
+      'video-info': videoInfo,
+      'show-video': showVideo
     },
     data(){return{
+
+      videoInfoFlag: false,
+      videoShowFlag: false,
 
       videos: null,
       count: null,
@@ -497,15 +415,12 @@
       filmIndex: null,
 
       updateFilmData: null,
-      updateFilmFlag: false,
 
       tiket: {
           text: '',
           title: '',
           data: {}
       },
-
-      dataFilm: null
 
     }},
 
@@ -580,12 +495,6 @@
 
     methods: {
 
-      getVideoData(id){
-        this.postMethod('videos.dataFilm', {id}).then(({dataplayer, playList}) => {
-          this.dataFilm = { style: JSON.parse(dataplayer), list: playList};
-        });
-      },
-
 
       paginationEvents(e){
         this.videosGet(e);
@@ -593,20 +502,15 @@
 
       // Пердпросмотр фильма
       showFilm(id){
-        this.getVideoData(id);
-
-
         this.filmId = id;
-        this.modal = true;
-        this.modalPage.film = true;
+        this.videoShowFlag = true;
       },
-
 
       // Информация о фильме
       showInfo: function(index){
+        this.updateFilmData = this.videos[index];
+        this.videoInfoFlag = true;
         this.filmIndex = index;
-        this.modal = true;
-        this.modalPage.info = true;
       },
 
       // Добавление фильма
@@ -615,41 +519,12 @@
         this.modalPage.add = true;
       },
 
-      // Редактирование фильма
-      updateFilm: function(){
-          this.updateFilmFlag = true; // Показать интерфейс
-          this.updateFilmData = { ...this.videos[this.filmIndex] }; // Получить данные
-          let lock = { // Новый объект для блокировки
-            'RU':false,
-            'UA':false,
-            'SNG':false,
-            'FULL':false
-          };
-          if(this.updateFilmData.lock != null){ // Обновление объекта на основе данных
-            this.updateFilmData.lock.split(',').map(function(el){ lock[el] = true; });
-          }
-          this.updateFilmData.lock = lock; // Замена строки на объект
+      closeForm(){
+        this.videoInfoFlag = false;
+        this.videoShowFlag = false;
       },
 
-      // Сохранить изменения
-      updateFilmSave: function(){
-        this.updateFilmFlag = false;
-
-        let lock = [];
-        for(let key in this.updateFilmData.lock){
-            if(this.updateFilmData.lock[key]){
-                lock.push(key); 
-            }
-        }
-        this.updateFilmData.lock = lock.join(',');
-
-        // console.log({ element: JSON.stringify(this.updateFilmData)});
-        this.postMethod('updateVideo', { 
-          element: JSON.stringify(this.updateFilmData)
-        }).then((response) => {
-          // console.log(response);
-        })
-      },
+      
 
         
       // Закрыть все модалки
@@ -666,6 +541,7 @@
         this.dataFilm = null;
       },
 
+      
       // Скопировать адрес
       copyAdress: function(id){
         this.$copyText('<iframe src="https://api.kholobok.biz/show/' + id + '" frameborder="0" width="610" height="370" allowfullscreen></iframe>').then((e) => {
@@ -805,42 +681,7 @@
           this.closeModal();
         })
       },
-
-
-
-
         
-
-        /*
-      // Движение мыши на ползунке деапазона
-      rangeMoveMous: function(e){
-        if(this.range.flagMove){
-          if( (this.range.cursorPosition - e.clientX) > 0 ){
-            // right
-            if(this.range.positionMin < (this.range.width - 10) && this.range.activSpoter == 'Min'){
-              this.range.positionMin += (this.range.cursorPosition - e.clientX);
-            }
-            if(this.range.positionMax < this.range.positionMin - 20 && this.range.activSpoter == 'Max'){
-              this.range.positionMax += (this.range.cursorPosition - e.clientX);
-            }
-          }else if( (this.range.cursorPosition - e.clientX) < 0 ){
-            // left
-            if(this.range.positionMin > this.range.positionMax + 20 && this.range.activSpoter == 'Min'){
-              this.range.positionMin += (this.range.cursorPosition - e.clientX);
-            }
-            if(this.range.positionMax > -6 && this.range.activSpoter == 'Max'){
-              this.range.positionMax += (this.range.cursorPosition - e.clientX);
-            }
-          }
-          this.range.cursorPosition = e.clientX;
-        }
-      },
-      rangeDownMous: function(e, spoter){
-          this.range.activSpoter = spoter;
-          this.range.flagMove = true;
-          this.range.cursorPosition = e.clientX;
-      },
-      */
         
     }
   }
@@ -866,6 +707,26 @@
 
 
 <style lang='scss' scoped>
+
+  .fa{
+    font-size: 20px;
+    color: #cecece;
+    padding: 0 5px 0 8px;
+    position: relative;
+    top: 0px;
+  }
+
+  .search-block{
+    display: flex;
+    padding-bottom: 30px;
+  }
+
+
+
+
+
+
+
   .tikets-s__input{
     display: inline-block;
     width: 100%;
@@ -885,30 +746,6 @@
     margin-right: 10px;
   }
   
-  .articles{
-    width: 100%;
-    min-height: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    flex-grow: 10;
-    padding: 0 10px;
-    position: relative;
-  }
-
-  .articles__head{
-      box-shadow: 0px 1px 0px #dddddd;
-  }
-
-  .articles__scrol{
-      width: 100%;
-      min-height: 0;
-      overflow: hidden;
-      flex-grow: 10;
-  }
-
 
   .articles__pagination{
     width: 100%;
@@ -921,167 +758,6 @@
   }
 
 
-.articles__pagin-item{
-    display: inline-block;
-    background: #40c173;
-    color: rgba(255, 255, 255, 0.9);
-    
-    width: 26px;
-    line-height: 26px;
-    text-align: center;
-    margin: 0 2px;
-    border-radius: 3px;
-    font-size: 14px;
-    font-family: 'Montserrat-Bold';
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    cursor: pointer;
-}
-.articles__pagin-item:hover{
-    background: #45d37d;
-}
-.articles__pagination span{
-    padding: 0 8px;
-}
-.articles__pagin-item--look{
-    background: #d8d8d8;
-}
-.articles__pagin-item--look:hover{
-    background: #d8d8d8;
-}
-
-
-.articles__head{
-    display: flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-}
-
-
-
-.articles__head > p, .articles__head > div{
-    float: left;
-    font-size: 14px;
-    font-family: 'Montserrat-Medium';
-    padding: 15px 0 10px 0;
-}
-
-.articles__head-1{
-    width: 60px;
-}
-.articles__head-2{
-    width: 80px;
-}
-.articles__head-3{
-    width: calc(55% - 240px);
-}
-.articles__head-4{
-    width: 100px;
-}
-.articles__head-5{
-    width: calc(45% - 200px);
-}
-.articles__head-6{
-    width: 100px;
-}
-.articles__head-7{
-    width: 100px;
-}
-
-
-
-
-.articles__head-7 symbol{
-    width: 20px;
-    height: 20px;
-}
-
-
-
-
-.articles__item{
-    overflow: hidden;
-    width: 100%;
-    box-shadow: 0px 1px 0px #dddddd;
-    font-size: 12px;
-
-    display: flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-}
-.articles__item-part{
-    height: 50px;
-    padding: 10px 0;
-
-    display: flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-
-    align-items: center;
-}
-
-.articles__item-part i{
-    font-size: 20px;
-    color: #cecece;
-    padding: 0 5px 0 8px;
-    position: relative;
-    top: 0px;
-}
-.articles__item-part a:hover i{
-    color: #323232;
-}
-.articles__head-7 a:nth-child(2) i{
-    font-size: 16px;
-    line-height: 20px;
-}
-.articles__head-7 a:nth-child(3) i{
-    font-size: 16px;
-    line-height: 20px;
-}
-
-.element-cont{
-    display: inline;
-    background: #40c173;
-    color: rgba(255, 255, 255, 0.9);
-    padding: 3px 6px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-family: 'Montserrat-Bold';
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-}
-
-
-
-@media all and (min-width: 1440px) {
-    .articles__item{
-        font-size: 14px;
-    }
-    .element-cont{
-        font-size: 12px;
-    }
-}
 @keyframes sk-three-bounce {
     0%, 80%, 100% {
       transform: scale(0.5);
