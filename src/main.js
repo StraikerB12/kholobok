@@ -31,6 +31,7 @@ Vue.use(VueClipboard);
 
 
 
+
 (async () => {
 
   Vue.mixin({

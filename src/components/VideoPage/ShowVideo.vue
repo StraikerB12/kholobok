@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title=""
+      title="Предпросмотр"
       :visible.sync="visibleStep"
       width="800px"
       :before-close="close">

@@ -70,7 +70,6 @@
                 v-if="updateFilmFlag"
                 class="form__input"
                 v-model="updateFilmData.img"
-                placeholder="Поиск"
                 clearable>
               </el-input>
             </div>
@@ -83,7 +82,6 @@
                 v-if="updateFilmFlag"
                 class="form__input"
                 v-model="updateFilmData.ru_name"
-                placeholder="Поиск"
                 clearable>
               </el-input>
               <p class="modal__info-film-tupe" v-else>{{ data.ru_name }}</p>
@@ -96,7 +94,6 @@
                 v-if="updateFilmFlag"
                 class="form__input"
                 v-model="updateFilmData.name"
-                placeholder="Поиск"
                 clearable>
               </el-input>
               <p class="modal__info-film-tupe" v-else>{{ data.name }}</p>
@@ -109,7 +106,6 @@
                 v-if="updateFilmFlag"
                 class="form__input"
                 v-model="updateFilmData.country"
-                placeholder="Поиск"
                 clearable>
               </el-input>
               <p class="modal__info-film-tupe" v-else>{{ data.country }}</p>
@@ -122,7 +118,6 @@
                 v-if="updateFilmFlag"
                 class="form__input"
                 v-model="updateFilmData.year"
-                placeholder="Поиск"
                 clearable>
               </el-input>
               <p class="modal__info-film-tupe" v-else>{{ data.year }}</p>
@@ -137,7 +132,6 @@
                 type="textarea"
                 :rows="2"
                 v-model="updateFilmData.genre"
-                placeholder="Поиск"
                 clearable>
               </el-input>
               <p class="modal__info-film-tupe" v-else>{{ data.genre }}</p>
@@ -171,7 +165,6 @@
                 type="textarea" 
                 :rows="8" 
                 v-model="updateFilmData.description" 
-                placeholder="Поиск" 
                 clearable>
               </el-input>
 
@@ -198,7 +191,9 @@
     props: ['visible', 'data'],
     data: () => ({
       visibleStep: false,
-      updateFilmFlag: false
+      updateFilmFlag: false,
+
+      updateFilmData: null
     }),
     async created() {},
     computed:{
@@ -215,6 +210,7 @@
       close(){
         this.visibleStep = false;
         this.updateFilmFlag = false;
+        this.updateFilmData = null;
         this.$emit('close');
       },
 

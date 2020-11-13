@@ -76,6 +76,9 @@ export const routers = [
   },
 
 
+  
+
+
   {
     path: '/video',
     name: 'VideoPage',
@@ -111,6 +114,33 @@ export const routers = [
       visible: true,
       rights: []
     }
+  },
+
+  {
+    path: '/articles',
+    name: 'ArticlesPage',
+    component: () => import('~/components/ArticlesPage/ArticlesPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Статьи",
+      visible: true,
+      rights: [],
+      type: 'sub'
+    },
+  },
+  {
+    path: '/articles/:id',
+    name: 'ArticlePage',
+    component: () => import('~/components/ArticlesPage/ArticlePage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Статья",
+      visible: false,
+      rights: [],
+      type: 'sub'
+    },
   },
   
   {

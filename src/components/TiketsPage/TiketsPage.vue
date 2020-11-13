@@ -2,53 +2,7 @@
   <div class="main__content">
 
     <!-- Modals -->
-    <div class="modal" v-show="modal">
-      <!-- New tiket -->
-      <div class="modal__form" v-show="modalPage.tiket">
-        <div class="close">
-          <div class="close__btn" v-on:click="closeModal()">
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </div>
-        </div>
-        <input 
-          type="text" 
-          class="tikets-s__input" 
-          placeholder="Тема обращения" 
-          v-model="titleTiket">
-        <textarea 
-          class="tikets-s__input" 
-          cols="30" 
-          rows="10"
-          placeholder="Текст обращения" 
-          v-model="textTiket">
-        </textarea>
-        <button class="button tikets-s__button-l" v-on:click="sendTiket()">Отправить</button>
-      </div>
-      <!-- End new tiket -->
-
-      <!-- New tiket video -->
-      <div class="modal__form" v-show="modalPage.film">
-        <div class="close">
-          <div class="close__btn" v-on:click="closeModal()">
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </div>
-        </div>
-        <input 
-          type="text" 
-          class="tikets-s__input" 
-          placeholder="Название фильма" 
-          v-model="titleTiket">
-        <textarea 
-          class="tikets-s__input" 
-          cols="30" 
-          rows="10"
-          placeholder="Текст обращения" 
-          v-model="textTiket">
-        </textarea>
-        <button class="button tikets-s__button-l" v-on:click="sendTiketVideo()">Отправить</button>
-      </div>
-      <!-- End new tiket video -->
-    </div>
+    <tiket-modal :visible.sync="tiketFlag" :type="tiketType" @close="closeForm()"></tiket-modal>
 
     <div class="content-site">
       <slot name="menu"></slot>
@@ -57,91 +11,141 @@
         <main>
           <div class="main">
 
+
             <section class="section">
               <div>
                 <h2 class="section__title">{{ title }}</h2>
               </div>
-              <div class="section__content">
 
-                <div v-if="!tiketShow" class="tikets-s">
-                  <div class="tikets-s__panel tikets-s__panel--center">
-                    <div class="tikets-s__button-plat" :class="{ activ: !pageTikets }" v-on:click="openPageTikets(false)">Активные тикеты</div>
-                    <div class="tikets-s__button-plat" :class="{ activ: pageTikets }" v-on:click="openPageTikets(true)">Закрытые тикеты</div>
+              <el-row :gutter="20">
+
+                <el-col :span="6">
+                  <div class="section__content">
+
+                    <div v-if="!tiketShow">
+                      <el-divider content-position="left">Разделы</el-divider>
+                      <div class="form__menu-item" :class="{ active: !pageTikets }" v-on:click="openPageTikets(false)">Активные тикеты</div>
+                      <div class="form__menu-item" :class="{ active: pageTikets }" v-on:click="openPageTikets(true)">Закрытые тикеты</div>
+
+                      <el-divider content-position="left">Типы</el-divider>
+                      <div class="form__menu-item" :class="{ active: typeTikets == 'tiket' }" v-on:click="getTikets('tiket')">Обращения</div>
+                      <div class="form__menu-item" :class="{ active: typeTikets == 'domain' }" v-on:click="getTikets('domain')">Домены</div>
+                      <div class="form__menu-item" :class="{ active: typeTikets == 'film' }" v-on:click="getTikets('film')">Фильмы</div>
+                      <div class="form__menu-item" :class="{ active: typeTikets == 'cent' }" v-on:click="getTikets('cent')">Вывод средств</div>
+
+                      <el-divider content-position="left">Действия</el-divider>
+                      <div class="form__button" v-on:click="openForm('film')">Заказать фильм</div>
+                      <div class="form__button" v-on:click="openForm('tiket')">Создать тикет</div>
+                    </div>
+
                   </div>
-                  <div class="tikets-s__panel">
-                    <div class="tikets-s__button-l button" v-on:click="getTikets('tiket')">Обращения</div>
-                    <div class="tikets-s__button-l button" v-on:click="getTikets('domain')">Домены</div>
-                    <div class="tikets-s__button-l button" v-on:click="getTikets('film')">Фильмы</div>
-                    <div class="tikets-s__button-r button" v-on:click="openModal('film')">Заказать фильм</div>
-                    <div class="tikets-s__button-r button" v-on:click="openModal('tiket')">Создать тикет</div>
-                  </div>
-                  <div class="tikets-s__content">
-                    <div 
-                      class="tikets-s__item" 
-                      v-for="(value, index) in tiketsList" 
-                      v-on:click="openTiket(value.id, index)" 
-                      :key="index">
-                      <h3 class="tikets-s__item-title">
-                        {{ value.title }} 
-                        <status-tiket :status="value.status"></status-tiket>
-                      </h3>
-                      <type-tiket :type="value.tupe"></type-tiket>
-                      <div class="tikets-s__item-prev-message">
-                        {{ value.message.name }}: {{ value.message.message }}
+                </el-col>
+
+                <el-col :span="18">
+                  <div class="section__content">
+
+                    <div v-if="!tiketShow" class="tikets-s">
+                      <div class="tikets-s__content">
+
+                        <div 
+                          class="tikets-s__item" 
+                          v-for="(value, index) in tiketsList" 
+                          v-on:click="openTiket(value.id, index)" 
+                          :key="index">
+                          <h3 class="tikets-s__item-title">
+                            {{ value.title }} 
+                            <status-tiket :status="value.status"></status-tiket>
+                          </h3>
+                          <type-tiket :type="value.tupe"></type-tiket>
+                          <div class="tikets-s__item-prev-message">
+                            {{ value.message.name }}: {{ value.message.message }}
+                          </div>
+                        </div>
+                        <div v-if="tiketsList && tiketsList.length == 0" style="text-align:center">Данных нет</div>
+                        
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                <div v-else class="tikets-s__tiket">
-                  <div class="tikets-s__panel">
-                    <div class="tikets-s__button-l button" v-on:click="closeTiket()">Назад</div>
-                    <div class="tikets-s__button-r button" v-on:click="statusCloseTiket()">Закрыть тикет</div>
-                    <template v-if="isRight">
-                      <div 
-                        v-if="tiketsList[tiketIndex].status != 4" 
-                        class="tikets-s__button-r button" 
-                        v-on:click="statusRassmotrTiket()"
-                      >Рассмотрение</div>
-                      <div 
-                        v-if="tiketsList[tiketIndex].status != 4 && tiketsList[tiketIndex].tupe == 'domain'" 
-                        class="tikets-s__button-r button" 
-                        v-on:click="statusNotDomain()"
-                      >Отклонить</div>
-                      <div 
-                        v-if="tiketsList[tiketIndex].status != 4 && tiketsList[tiketIndex].tupe == 'domain'" 
-                        class="tikets-s__button-r button" 
-                        v-on:click="statusYesDomain()"
-                      >Принять</div>
-                    </template>
-                  </div>
+                    <div v-else class="tikets-s__tiket">
+                      <div class="tikets-s__panel">
+                        <div class="tikets-s__button-l button" v-on:click="closeTiket()">Назад</div>
+                        <div class="tikets-s__button-r button" v-on:click="statusCloseTiket()">Закрыть тикет</div>
+                        <template v-if="isRight">
+                          <div 
+                            v-if="tiketsList[tiketIndex].status != 4" 
+                            class="tikets-s__button-r button" 
+                            v-on:click="statusRassmotrTiket()"
+                          >Рассмотрение</div>
+                          <div 
+                            v-if="tiketsList[tiketIndex].status != 4 && tiketsList[tiketIndex].tupe == 'domain'" 
+                            class="tikets-s__button-r button" 
+                            v-on:click="statusNotDomain()"
+                          >Отклонить</div>
+                          <div 
+                            v-if="tiketsList[tiketIndex].status != 4 && tiketsList[tiketIndex].tupe == 'domain'" 
+                            class="tikets-s__button-r button" 
+                            v-on:click="statusYesDomain()"
+                          >Принять</div>
 
-                  <div class="tikets-s__messages">
-                    <h3 class="tikets-s__item-title">
-                      {{ tiketsList[tiketIndex].title }} 
-                      <status-tiket :status="tiketsList[tiketIndex].status"></status-tiket>
-                    </h3>
-                    <type-tiket :type="tiketsList[tiketIndex].tupe"></type-tiket>
-                    <div class="tikets-s__mes-item" v-for="(value, index) in tiketMessages" :key="index">
-                      <span class="tikets-s__mes-item-name">{{ value.name }}</span>
-                      <span class="tikets-s__item-tupe">{{ value.created_at }}</span>
-                      <div>{{ value.message }}</div>
+                          <div 
+                            v-if="tiketsList[tiketIndex].status != 4 && tiketsList[tiketIndex].tupe == 'cent'" 
+                            class="tikets-s__button-r button" 
+                            v-on:click="statusNotCent()"
+                          >Отклонить</div>
+                          <div 
+                            v-if="tiketsList[tiketIndex].status != 4 && tiketsList[tiketIndex].tupe == 'cent'" 
+                            class="tikets-s__button-r button" 
+                            v-on:click="statusYesCent()"
+                          >Принять</div>
+                        </template>
+                      </div>
+
+                      <div class="tikets-s__messages">
+                        <h3 class="tikets-s__item-title">
+                          {{ tiketsList[tiketIndex].title }} 
+                          <status-tiket :status="tiketsList[tiketIndex].status"></status-tiket>
+                        </h3>
+                        <type-tiket :type="tiketsList[tiketIndex].tupe"></type-tiket>
+
+                        <div v-if="dataTiket != null && dataTiket.summ != null && dataTiket.dataCent != null && dataTiket.score != null">
+
+                          Сумма: {{ dataTiket.summ }}₽ | 
+
+                          <span v-if="dataTiket.cent == 'card'">Банковская карта</span>
+                          <span v-if="dataTiket.cent == 'yandex'">Яндек кошелек</span>
+                          <span v-if="dataTiket.cent == 'qiwi'">QiWi</span>
+                          <span v-if="dataTiket.cent == 'webMoney'">Web Money</span>
+
+                          : {{ dataTiket.dataCent }} | 
+
+                          <span> Состояние счета клиента: {{ dataTiket.score }} </span>
+
+                        </div>
+
+                        <div class="tikets-s__mes-item" v-for="(value, index) in tiketMessages" :key="index">
+                          <span class="tikets-s__mes-item-name">{{ value.name }}</span>
+                          <span class="tikets-s__item-tupe">{{ value.created_at }}</span>
+                          <div>{{ value.message }}</div>
+                        </div>
+                        <div v-if="tiketsList[tiketIndex].status != 4">
+                          <textarea 
+                            class="tikets-s__input" 
+                            cols="30" 
+                            rows="10"
+                            placeholder="Сообщение" 
+                            v-model="textMessage">
+                          </textarea>
+                          <button class="button tikets-s__button-l" v-on:click="sendMessage()">Отправить</button>
+                        </div>
+                      </div>
                     </div>
-                    <div v-if="tiketsList[tiketIndex].status != 4">
-                      <textarea 
-                        class="tikets-s__input" 
-                        cols="30" 
-                        rows="10"
-                        placeholder="Сообщение" 
-                        v-model="textMessage">
-                      </textarea>
-                      <button class="button tikets-s__button-l" v-on:click="sendMessage()">Отправить</button>
-                    </div>
-                  </div>
-                </div>
 
-              </div>
+                  </div>
+                </el-col>
+              </el-row>
+
             </section>
+
 
           </div>
         </main>
@@ -155,24 +159,23 @@
   import StatusTiket from '~/components/TiketsPage/StatusTiket';
   import TypeTiket from '~/components/TiketsPage/TypeTiket';
 
+  import TiketModal from '~/components/TiketsPage/TiketModal';
+
 
   export default {
     name: 'TiketsPage',
 
     components:{
       StatusTiket,
-      TypeTiket
+      TypeTiket,
+      TiketModal
     },
 
     data: function(){return{
 
-      modal: false,
-      modalPage: {
-          film: false,
-          tiket: false
-      },
-      titleTiket: "",
-      textTiket: "",
+      tiketFlag: false,
+      tiketType: '',
+
 
       tiketsList: null,
       tiketShow: false,
@@ -181,7 +184,10 @@
 
       textMessage: '',
 
-      pageTikets: false
+      pageTikets: false,
+      typeTikets: 'tiket',
+
+      dataTiket: null
 
     }},
 
@@ -200,37 +206,40 @@
     methods: {
 
       init: function(){
-        this.postMethod('tikets.get', {
-          close: this.pageTikets
-        }).then( response => {
-          this.tiketsList = response;
-        });
+        this.getTikets('tiket');
       },
 
-      getTikets: function(tupe){
+      getTikets: function(type){
+        this.typeTikets = type;
         this.postMethod('tikets.get', {
           close: this.pageTikets,
-          tupe: tupe
+          tupe: type
         }).then( response => {
           this.tiketsList = response;
         });
       },
 
-      openModal: function(modal){
-        this.modal = true;
-        this.modalPage[modal] = true;
+
+
+
+      openForm: function(type){
+        this.tiketFlag = true;
+        this.tiketType = type;
       },
-      closeModal: function(){
-        this.modal = false;
-        for (const key in this.modalPage) {
-          this.modalPage[key] = false;
-        }
+      closeForm(){
+        this.tiketFlag = false;
+        this.init();
       },
+
+
 
 
       openTiket: function(id, index){
         this.tiketShow = true;
         this.tiketIndex = index;
+
+        this.dataTiket = JSON.parse( this.tiketsList[this.tiketIndex].data );
+
         this.getMessageList(id);
       },
 
@@ -251,6 +260,7 @@
 
       closeTiket: function(){
         this.tiketShow = false;
+        this.dataTiket = null;
       },
 
       openPageTikets: function(open){
@@ -258,27 +268,7 @@
         this.init();
       },
 
-      sendTiket: function(){
-        this.postMethod('tikets.add', {
-          tupe: 'tiket',
-          title: this.titleTiket,
-          message: this.textTiket
-        }).then(() => {
-          this.closeModal();
-          this.init();
-        })
-      },
-
-      sendTiketVideo: function(){
-        this.postMethod('tikets.add', {
-          tupe: 'film',
-          title: 'Заказ фильма: ' + this.titleTiket,
-          message: this.textTiket
-        }).then( response => {
-          this.closeModal();
-          this.init();
-        });
-      },
+      
 
       sendMessage: function(){
         const id = this.tiketsList[this.tiketIndex].id;
@@ -309,6 +299,35 @@
           id: id
         }).then( response => {});
       },
+
+
+
+      statusNotCent: function(){
+        this.statusPutTiket(3); 
+        let {id} = JSON.parse( this.tiketsList[this.tiketIndex].data );
+
+        this.postMethod('users.putStatusCent', {
+          id: id,
+          status: 0
+        }).then( response => {});
+      },
+      statusYesCent: function(){
+        let {id, idUser, summ} = JSON.parse( this.tiketsList[this.tiketIndex].data );
+
+        this.statusPutTiket(4); 
+
+        this.postMethod('tikets.addMessage', {
+          id: this.tiketsList[this.tiketIndex].id,
+          message: "Операция совершена."
+        }).then( response => {});
+
+        this.postMethod('users.putStatusCent', {
+          id: id,
+          idUser: idUser,
+          summ: summ,
+          status: 2
+        }).then( response => {});
+      },
       
 
       statusCloseTiket: function(){
@@ -322,7 +341,7 @@
         const id = this.tiketsList[this.tiketIndex].id;
         this.postMethod('tikets.statPut', {
           id: id,
-            status: nom
+          status: nom
         }).then( response => {
           this.init();
         });
@@ -345,6 +364,13 @@
 </script>
 
 <style lang='scss' scoped>
+  .el-divider.el-divider--horizontal .el-divider__text.is-left , .el-divider.el-divider--horizontal .el-divider__text.is-right{
+    color: #cccccc;
+    font-size: 12px;
+  }
+  .el-divider.el-divider--horizontal{
+    margin: 24px 0 15px
+  }
   .tikets-s{
       padding: 0 10px;
   }

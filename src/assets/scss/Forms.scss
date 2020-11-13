@@ -52,6 +52,36 @@
     line-height: 36px;
 }
 
+.form__button{
+    width: 100%;
+    height: 30px;
+    padding: 0 10px;
+    background: #38cf99;
+    border: 1px solid #38cf99;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    font-size: 12px;
+    font-family: 'Montserrat-Regular';
+    display: block;
+    margin-left: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.form__button:disabled{
+    background: #eeeeee;
+    color: #a3a3a3;
+}
+
+.form__button:active, .form__button:focus {
+    outline: none;
+    border: 1px solid #bebebe;
+}
+.form__button::-moz-focus-inner {
+    border: 0;
+}
 
 .form__button-slise-input{
     display: flex;
@@ -83,6 +113,35 @@
 
 
 
+
+.form__menu-item{
+    height: 30px;
+    display: block;
+    padding: 0 5px 0 10px;
+    font-size: 14px;
+    line-height: 30px;
+    color: #38cf99;
+    cursor: pointer;
+    position: relative;
+    margin: 10px 0;
+
+    &:hover{
+        background: rgba(56, 207, 154, 0.1);
+    }
+    &.active{
+        background: rgba(56, 207, 154, 0.1);
+    }
+    &.active:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #38cf99;
+        width: 2px;
+        height: 100%;
+        border-radius: 0 3px 3px 0;
+    }
+}
 
 
 
@@ -338,6 +397,27 @@
     padding: 6px 15px;
     border-radius: 100px;
 }
+.tag-color--blue{
+    color: #fff;
+    background: #3ca6e4;
+}
+.tag-color--yellow{
+    color: #fff;
+    background: #f1b22a;
+}
+.tag-color--red{
+    color: #fff;
+    background: #ec5e5e;
+}
+.tag-color--gray{
+    color: #fff;
+    background: #cecece;
+}
+.tag-color--grin{
+    color: #fff;
+    background: #1bd361;
+}
+
 
 .tag-border{
     display: inline-block;
