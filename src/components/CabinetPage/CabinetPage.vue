@@ -458,7 +458,7 @@
   }
 
   .section__content{
-    min-height: 30vh;
+    min-height: 340px;
   }
 
   .cent-block{

@@ -25,6 +25,7 @@
         <el-submenu v-else :key="index" :index="index+''" class="menu__item">
           <template slot="title">
             <a
+              v-if="item.meta.access.includes(status)"
               :href="item.path" 
               :title="item.meta.title" 
               :class="{active: item.path == route}" 
@@ -32,6 +33,15 @@
               <div class="menu__icon" :class="item.name"></div>
               <span class="menu__name" slot="title">{{ item.meta.title }}</span>
             </a>
+
+            <div
+              v-else
+              :title="item.meta.title" 
+              :class="{active: item.path == route}" 
+              class="menu__href">
+              <div class="menu__icon" :class="item.name"></div>
+              <span class="menu__name" slot="title">{{ item.meta.title }}</span>
+            </div>
           </template>
 
           <el-menu-item v-for="(subItem, subIndex) in artikles" :key="subIndex" :index="index+'-'+subIndex">

@@ -105,16 +105,13 @@
     }},
 
     created: function () {
+      console.log(this.isRight);
       if(this.isRight)this.init();
     },
 
     watch: {
       visible: function (newValue) {
         if(newValue) this.visibleStep = true;
-      },
-
-      isRight(){
-        return this.$store.state.user.status == 'client' || this.$store.state.user.status == 'managing' ? false : true;
       },
 
       'kinoPoisk.progressSteps': function (newValue) {
@@ -155,6 +152,12 @@
       },
       offsetPage: function () {
         return this.paginCount * (this.page - 1);
+      },
+
+      
+
+      isRight(){
+        return this.$store.state.user.status == 'client' || this.$store.state.user.status == 'managing' ? false : true;
       },
     },
 

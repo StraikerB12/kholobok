@@ -126,7 +126,8 @@ export const routers = [
       title: "Статьи",
       visible: true,
       rights: [],
-      type: 'sub'
+      type: 'sub',
+      access: ['redactor','administrator']
     },
   },
   {
