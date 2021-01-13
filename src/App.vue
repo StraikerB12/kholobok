@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <messages></messages>
   
     <router-view>
       <template v-slot:menu>
@@ -9,20 +8,23 @@
       <template v-slot:header>
         <Header></Header>
       </template>
+      <template v-slot:messages>
+        <SystemMessages></SystemMessages>
+      </template>
     </router-view>
 
   </div>
 </template>
 
 <script>
-  import Messages from '~/components/CompositeBlocks/Messages';
+  import SystemMessages from '~/components/CompositeBlocks/SystemMessages';
   import Header from '~/components/CompositeBlocks/Header';
   import Menu from '~/components/CompositeBlocks/Menu';
 
   export default {
     name: 'App',
     components: {
-      Messages,
+      SystemMessages,
       Header,
       Menu
     },

@@ -69,7 +69,7 @@ export const routers = [
     props: true,
     meta: {
       middleware: [auth],
-      title: "Кабиет",
+      title: "Кабинет",
       visible: false,
       rights: []
     },

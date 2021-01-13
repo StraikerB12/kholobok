@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="Фильтр"
+    title="Управление"
     :visible.sync="visibleStep"
     width="800px"
     :before-close="close">
@@ -52,6 +52,8 @@
               </div>
             </div>
           </div>
+
+          
 
         </div>
         <!-- End update video bd -->
@@ -175,8 +177,6 @@
 
           this.kinoPoisk.countVideo = countVideo;
           this.kinoPoisk.countDropVideo = countDropVideo;
-
-          console.log(kinoPoisk);
         });
       },
 

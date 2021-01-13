@@ -6,12 +6,13 @@
     :before-close="close">
 
     <label class="form__label">Сумма вывода</label>
-    <el-input
+    <el-input-number
       class="form__input"
       :rows="2"
+      :controls="false"
       v-model="titleTiket"
       clearable>
-    </el-input>
+    </el-input-number>
     <p class="error" v-if="titleTiket > data.summ">Сумма превышает остаток на счету</p>
 
     <label class="form__label">кошелек вывода</label>
@@ -23,6 +24,8 @@
         :value="item.key">
       </el-option>
     </el-select>
+
+    <span style="text-align: center; color: #b1b1b1; padding-top: 10px">Вывод средств осуществляется в первую неделю месяца</span> 
 
     <div slot="footer" class="dialog-footer">
       <el-button @click="close()">Отмена</el-button>
@@ -81,16 +84,20 @@
       },
 
       sendTiket(){
-        if(this.titleTiket != '' && this.centSelect != null){
-          this.postMethod('tikets.addCent', {
-            title: this.titleTiket,
-            cent: this.centSelect
-          }).then(() => {
-            this.close();
-          });
-        }else{
-          this.$message.error('Заполните все поля');
-        }
+        if( !(this.titleTiket != '' && this.centSelect != null) ){ this.$message.error('Заполните все поля'); return; }
+        if( this.titleTiket > this.data.summ ){ this.$message.error('Сумма больше остатка по счету'); return; }
+
+
+        this.postMethod('tikets.addCent', {
+          title: this.titleTiket,
+          cent: this.centSelect
+        }).then(() => {
+          this.close();
+        });
+
+        
+          
+        
       },
 
     }

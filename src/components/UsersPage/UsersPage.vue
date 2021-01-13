@@ -1,9 +1,49 @@
 <template>
   <div class="main__content">
 
-    <!-- Modals -->
+    <!-- Modals userData = null-->
     <modal-add-user v-if="addUserShow" :visible="addUserShow" @close="closeModal()"></modal-add-user>
-    <modal-update-user v-if="updateUserShow" :visible="updateUserShow" :user="usersList[index].element" @close="closeModal()"></modal-update-user>
+    <modal-update-user v-if="updateUserShow" :visible="updateUserShow" :user="usersList[index]" @close="closeModal()"></modal-update-user>
+
+    <el-dialog
+      title="Операции кошелька"
+      :visible.sync="centOperationForm"
+      :before-close="closeOperation"
+      width="500px">
+      <div v-if="userData != null">
+        <el-table
+          :data="userData.operation"
+          style="width: 100%">
+
+          <el-table-column
+            prop="created_at"
+            label="Дата"
+            width="180">
+
+          </el-table-column>
+
+          <el-table-column
+            prop="status"
+            label="Статус"
+            width="180">
+            <template slot-scope="scope">
+              <div v-if="scope.row.status == 0" class="tag tag-color--red">Отклонена</div>
+              <div v-if="scope.row.status == 1" class="tag tag-color--yellow">Рассмотрение</div>
+              <div v-if="scope.row.status == 2" class="tag">Выполнена</div>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            prop="summ"
+            label="Сумма">
+
+          </el-table-column>
+
+        </el-table>
+      </div>
+    </el-dialog>
+
+
 
 
     <div class="content-site">
@@ -16,10 +56,24 @@
             <section class="section">
               <div>
                 <h2 class="section__title">{{ title }}</h2>
+
+                <div class="section__title-buttons">
+                  <div class="section__title-button" @click="addUserShow = true">
+                    <i class="icon el-icon-plus"></i>
+                    Создать пользователя
+                  </div>
+                  <div class="section__title-button-rever" @click="putStatusUser(0)">
+                    <i class="icon el-icon-lock"></i>
+                    Заблокировать
+                  </div>
+                  <div class="section__title-button-rever" @click="putStatusUser(2)">
+                    <i class="icon el-icon-unlock"></i>
+                    Разблокировать
+                  </div>
+                </div>
+                
               </div>
               <div class="section__content">
-
-
 
                 <div class="tikets-s">
                   <div class="tikets-s__panel tikets-s__panel--center">
@@ -27,61 +81,57 @@
                     <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'kontrol' }" v-on:click="openPageUsers('kontrol')">Управляющие</div>
                     <div class="tikets-s__button-plat" :class="{ activ: pageUsers == 'block' }" v-on:click="openPageUsers('block')">Заблокированные</div>
                   </div>
-                  <div class="tikets-s__panel">
-                    <div class="tikets-s__button-l button" v-on:click="putStatusUser(0)">Заблокировать</div>
-                    <div class="tikets-s__button-l button" v-on:click="putStatusUser(2)">Разблокировать</div>
-                    <div class="tikets-s__button-r button" v-on:click="addUserShow = true">Создать пользователя</div>
-                  </div>
                 </div>
 
-
                 <section class="articles">
-                  <!-- Head users -->
-                  <div class="articles__head">
-                    <div class="table__col--50"></div>
-                    <p class="table__col-2--50">Тип</p>
-                    <p class="table__col-2">Логин</p>
-                    <p class="table__col-2">Статус</p>
-                    <p class="table__col-4">Ключ</p>
-                  </div>
-                  <!-- End head users -->
-
-                  <div class="articles__scrol" ref="articles__scrol">
-                    <!-- For users -->
-                    <div v-for="(value, index) in usersList" class="articles__item" :key="index">
-
-                      <div class="articles__item-part table__col--50">
-                        <div class="cheked">
-                            <input class="cheked__input" v-model="value.chek" type="checkbox" name="" :id=" 'chek' + value.element.id ">
-                            <label class="cheked__label" :for=" 'chek' + value.element.id "><div></div></label>
-                        </div>
-                      </div>
-                      <p class="articles__item-part table__col-2--50"> 
-                        <type-user :type="value.element.tupe"></type-user> 
-                      </p>
-
-                      <p class="articles__item-part table__col-2">
-                        {{ value.element.login }}
-                      </p>
-                      
-                      <p class="articles__item-part table__col-2"> 
-                        <status-user :status="value.element.status"></status-user> 
-                      </p>
-
-                      <p class="articles__item-part table__col-3">
-                        {{ value.element.api_key }}
-                      </p>
-
-                      <p class="articles__item-part table__col-3">
-                        <button class="table_button" @click="updateUser(index)">Редактировать</button>
-                      </p>
-                        
-                    </div>
-                    <!-- End for users -->
-                  </div>
+                  <!-- For users -->
+                  <el-table
+                    :data="usersList"
+                    stripe
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange">
+                    <el-table-column
+                      type="selection"
+                      width="45">
+                    </el-table-column>
+                    <el-table-column
+                      label="Тип"
+                      width="180">
+                      <template slot-scope="scope">
+                        <span v-if="scope.row.tupe == 'administrator'" class="tag">Администратор</span>
+                        <span v-if="scope.row.tupe == 'managing'" class="tag">Менджер</span>
+                        <span v-if="scope.row.tupe == 'redactor'" class="tag">Редактор</span>
+                        <span v-if="scope.row.tupe == 'client'" class="tag">Клиент</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      label="Статус"
+                      width="180">
+                      <template slot-scope="scope">
+                        <span v-if="scope.row.status == 0" class="tag-border">Заблокированн</span>
+                        <span v-if="scope.row.status == 1" class="tag-border">Активен</span>
+                        <span v-if="scope.row.status == 2" class="tag-border">Подтвержден</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="login"
+                      label="Логин">
+                    </el-table-column>
+                    <el-table-column
+                      prop="api_key"
+                      label="Ключ">
+                    </el-table-column>
+                    <el-table-column
+                      label=""
+                      width="200">
+                      <template slot-scope="scope">
+                        <div class="table__button" @click="updateUser(scope.$index)"><i class="el-icon-edit"></i></div>
+                        <div class="table__button" @click="openOperationList(scope.row.id)"><i class="el-icon-s-order"></i></div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                  <!-- End for users -->
                 </section>
-
-
 
               </div>
             </section>
@@ -95,8 +145,6 @@
 </template>
 
 <script>
-  import typeUser from '~/components/UsersPage/TypeUser';
-  import statusUser from '~/components/UsersPage/StatusUser';
 
   import addUser from '~/components/UsersPage/ModalFormAddUser';
   import updateUser from '~/components/UsersPage/ModalFormUpdateUser';
@@ -105,39 +153,31 @@
     name: 'UsersPage',
     props: ['data'],
     components:{
-      'type-user': typeUser,
-      'status-user': statusUser,
       'modal-add-user': addUser,
       'modal-update-user': updateUser
     },
     data: function(){return{
-
       usersList: null,
       pageUsers: 'users',
-      
-
       addUserShow: false,
       updateUserShow: false,
-
+      selectedData: [],
       index: 0,
-
       validList: [
         { item: 'login', error: false, text: 'Незаполнен логин' },
         { item: 'password', error: false, text: 'Незаполнен пароль' },
         { item: 'email', error: false, text: 'Незаполнен email' }
       ],
-      errorList: []
-
+      errorList: [],
+      userData: null,
+      centOperationForm: false
     }},
-
     created: function () {
       this.getUsers();
     },
-
     computed:{
       title(){ return this.$router.currentRoute.meta.title},
     },
-
     methods: {
 
       getUsers: function(type){
@@ -145,16 +185,12 @@
           page: this.pageUsers,
           tupe: type
         }).then(response => {
-          console.log(response);
-          this.usersList = response.map(function(element){ 
-            return { element: element, chek: false };
-          });
+          this.usersList = response;
         })
       },
 
-
-
       updateUser(index){
+        console.log(this.usersList[index], index);
         this.updateUserShow = true;
         this.index = index;
       },
@@ -165,12 +201,12 @@
         this.getUsers();
       },
 
-      
-
       putStatusUser: function(status){
-        const ids = this.usersList
-        .filter(function(element){ return element.chek; })
-        .map(function(element){ return element.element.id; });
+
+        const ids = this.selectedData.map(item => item.id);
+        // const ids = this.usersList
+        // .filter(function(element){ return element.chek; })
+        // .map(function(element){ return element.element.id; });
 
         this.postMethod('users.putStatus', {
           ids: ids,
@@ -180,9 +216,28 @@
         })
       },
 
+      handleSelectionChange(list){
+        this.selectedData = list;
+        if(list.length != 0){}
+      },
+
       openPageUsers: function(open){
         this.pageUsers = open;
         this.getUsers();
+      },
+
+      openOperationList(id){
+        this.centOperationForm = true;
+        this.postMethod('users.infoId', {
+          id: id
+        }).then(response => {
+          this.userData = response;
+          console.log(response);
+        })
+      },
+      closeOperation(){
+        console.log('closeOperation');
+        this.centOperationForm = false;
       },
 
       generateKey: function(){
@@ -195,7 +250,6 @@
         return pass;
       },
 
-
       sendTiket: function(){
         this.postMethod('tikets.add', {
           tupe: 'tiket',
@@ -206,8 +260,7 @@
           this.init();
         })
       },
-        
-        
+
     }
   }
 </script>

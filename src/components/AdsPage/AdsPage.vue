@@ -17,15 +17,18 @@
             <section class="section">
               <div>
                   <h2 class="section__title">{{ title }}</h2>
-                  <div class="section__title-button" @click="addAdsVisible = true">
-                      <i class="icon el-icon-plus"></i>
-                      Создать объявление
-                  </div>
-                  <div class="section__title-button-rever" @click="deleteList()">
-                    <i class="icon el-icon-delete"></i>
-                  </div>
-                  <div class="section__title-button-rever" @click="setingsAdsVisible = true">
-                    <i class="icon el-icon-setting"></i>
+
+                  <div class="section__title-buttons">
+                    <div class="section__title-button" @click="addAdsVisible = true">
+                        <i class="icon el-icon-plus"></i>
+                        Создать объявление
+                    </div>
+                    <div class="section__title-button-rever" @click="deleteList()">
+                      <i class="icon el-icon-delete"></i>
+                    </div>
+                    <div class="section__title-button-rever" @click="setingsAdsVisible = true">
+                      <i class="icon el-icon-setting"></i>
+                    </div>
                   </div> 
               </div>
               <div class="section__content">

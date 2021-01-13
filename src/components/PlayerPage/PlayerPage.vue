@@ -8,7 +8,7 @@
         <main>
           <div class="main">
 
-            
+            <slot name="messages"></slot>
 
             <div class="player-list" v-if="!updatePlayer">
 

@@ -8,6 +8,8 @@
         <main>
           <div class="main">
 
+            <slot name="messages"></slot>
+
             <section class="section">
               <div>
                 <h2 class="section__title">{{ data.title }}</h2>
@@ -61,13 +63,15 @@
 
   .prosmotr {
     box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Montserrat-Medium';
     font-size: 13px;
     height: 100%;
     margin: 0 auto;
     position: relative;
 
-    max-width: 500px;
+    color: #606266;
+
+    max-width: 600px;
 
 
     .ql-container.ql-disabled .ql-tooltip {
@@ -99,9 +103,15 @@
       p,
       pre,
       ul {
+      padding: 5px 0;
       margin: 0;
       padding: 0;
       counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+    }
+    p{
+      font-size: 14px;
+      padding: 5px 0;
+      font-family: 'Montserrat-Medium';
     }
       ol,
       ul {
@@ -634,28 +644,43 @@
      .ql-direction.ql-active svg:first-child {
       display: none;
     }
-       h1 {
+
+    h1{
       font-size: 2em;
+      padding-bottom: 10px;
+      font-family: 'Montserrat-Bold';
     }
-       h2 {
+
+    h2{
       font-size: 1.5em;
+      font-family: 'Montserrat-Bold';
     }
-       h3 {
+
+    h3 {
       font-size: 1.17em;
+      font-family: 'Montserrat-Bold';
     }
-       h4 {
+
+    h4 {
       font-size: 1em;
+      font-family: 'Montserrat-Bold';
     }
-       h5 {
+
+    h5 {
       font-size: 0.83em;
+      font-family: 'Montserrat-Bold';
     }
-       h6 {
+
+    h6 {
+      font-family: 'Montserrat-Bold';
       font-size: 0.67em;
     }
-       a {
+
+    a {
       text-decoration: underline;
     }
-       blockquote {
+
+    blockquote {
       border-left: 4px solid #ccc;
       margin-bottom: 5px;
       margin-top: 5px;
@@ -672,16 +697,20 @@
       margin-top: 5px;
       padding: 5px 10px;
     }
-       code {
+
+    code{
       font-size: 85%;
       padding: 2px 4px;
     }
-       pre.ql-syntax {
+
+    pre.ql-syntax{
       background-color: #23241f;
       color: #f8f8f2;
       overflow: visible;
+      padding: 8px 10px;
     }
-       img {
+
+    img{
       max-width: 100%;
     }
      .ql-picker {

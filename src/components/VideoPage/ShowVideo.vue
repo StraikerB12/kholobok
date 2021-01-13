@@ -8,6 +8,7 @@
 
       <player-fin 
         v-if="dataFilm != null"
+        :filmId="data"
         :stylePanel="dataFilm.style" 
         :playList="dataFilm.list"
         :styles="{width:'740px',height:'370px'}">

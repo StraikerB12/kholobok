@@ -225,7 +225,7 @@
             'FULL':false
           };
           if(this.updateFilmData.lock != null){ // Обновление объекта на основе данных
-            this.updateFilmData.lock.split(',').map(function(el){ lock[el] = true; });
+            this.updateFilmData.lock.map(function(el){ lock[el] = true; });
           }
           this.updateFilmData.lock = lock; // Замена строки на объект
       },
@@ -235,12 +235,20 @@
         this.updateFilmFlag = false;
 
         let lock = [];
+
+        console.log(this.updateFilmData.lock);
+      
         for(let key in this.updateFilmData.lock){
           if(this.updateFilmData.lock[key]){
-            lock.push(key); 
+            lock.push(key);
           }
         }
-        this.updateFilmData.lock = lock.join(',');
+
+        if(lock.length > 0){
+          this.updateFilmData.lock = lock.join(',');
+        }else{
+          this.updateFilmData.lock = null;
+        }
 
         this.postMethod('updateVideo', { 
           element: JSON.stringify(this.updateFilmData)
