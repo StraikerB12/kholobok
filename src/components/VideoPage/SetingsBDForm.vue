@@ -16,6 +16,8 @@
             <p class="panels__text">Загруженно: {{ count_vdb }} фаилов</p>
             <p class="panels__text">Шагов: <input class="panels__input-let" type="text" v-model="steps"> < 6 </p>
           </div>
+
+          <button class="form__button" v-on:click="clickBtnVDB()">Загрузить</button>
           <div class="panels__progress-bar">
             <div v-if="preolaoded">
               <div class="panels__progress-text">
@@ -32,7 +34,8 @@
               </div>
             </div>
           </div>
-          <button class="form__button" v-on:click="clickBtnVDB()">Загрузить</button>
+          
+
           <button class="form__button" v-on:click="clickBtnUpdateVDB()">Обновить</button>
           <div>
             <p class="panels__text">Стартовая точка: <input class="panels__input-let" type="text" v-model.number="updateUpOffset"></p>
@@ -40,7 +43,7 @@
           <div class="panels__progress-bar">
             <div v-if="preolaodedUp">
               <div class="panels__progress-text">
-                {{ progressUp }}% / {{ stepsUp }}
+                {{ progressUp }}% <!-- / {{ stepsUp }} -->
                 <div class="preolaoded">
                   <span></span>
                   <span></span>
@@ -53,7 +56,7 @@
             </div>
           </div>
 
-          
+
 
         </div>
         <!-- End update video bd -->
@@ -117,7 +120,7 @@
       },
 
       'kinoPoisk.progressSteps': function (newValue) {
-        if(newValue == 0) this.kinoPoisk.update = false;
+        if(newValue == 0) this.kinoPoisk.update = false; this.$emit('start');
       },
 
 
@@ -130,7 +133,7 @@
       },
       updateUpOffset: function () {
         if(this.progressUp == 100){
-          // this.preolaodedUp = false;
+          this.preolaodedUp = false;
           this.$emit('start');
         }
       }

@@ -30,8 +30,6 @@ Vue.use(ElementUI, { locale })
 Vue.use(VueClipboard);
 
 
-
-
 (async () => {
 
   Vue.mixin({

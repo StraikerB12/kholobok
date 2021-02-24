@@ -46,14 +46,10 @@
                     </div>
                   </el-row>
 
-
-                  <!-- <div id="vast" class="vast"></div> -->
-
                 </div>
               </section>
 
             </div>
-
 
 
             <div class="player-form" v-else>
@@ -175,8 +171,6 @@
 
 <script>
 
-  // import Playerjs from '~/assets/js/playerjs_fin';
-
   import player from '~/assets/js/vendor/player/src/App';
 
   import Play from '~/components/PlayerPage/ComponentsPlayer/Play';
@@ -190,9 +184,6 @@
   import LinePanel from '~/components/PlayerPage/ComponentsPlayer/LinePanel';
   import Menu from '~/components/PlayerPage/ComponentsPlayer/Menu';
   import PlayList from '~/components/PlayerPage/ComponentsPlayer/PlayList';
-
-  import VASTPlayer from '~/assets/js/vendor/vast-player2';
-  // const VASTPlayer = require('vast-player');
  
   export default {
     name: 'PlayerPage',
@@ -239,60 +230,9 @@
     }},
 
     created: function () {
-
-      // this.$nextTick(function () {
-
-      //   console.log(document.getElementById('vast'));
-
-      //   let player = new VASTPlayer(document.getElementById('vast'), { vast: { maxRedirects: 1 }});
-
-      //   console.log(player);
-      //   const urlAds = 'https://cdn.laim.tv/v1/placements/6Lb0KoVGnyYpPHe0lmdF6ABIfOi29gFrL_W8n3GTRJYpRUUJnWvk/code/vpaid/1?w=__player-width__&h=__player-height__&url=__page-url__&cb=__random-number__&C_ITEM_TITLE=__item-title__&ITEM_DESCRIPTION=__item-description__&ITEM_MEDIAID=__item-mediaid__&ITEM_FILE=__item-file__&ITEM_DURATION=__item-duration__&ITEM_TAGS=__item-tags__&ITEM_CUSTOMPARAM=__item-customparam__';
-        
-        
-
-
-
-      //   player.load(urlAds)
-      //   .then(function startAd() {
-
-      //     console.log('Ad load!');
-
-      //     return player.startAd();
-
-      //   }).catch((reason) => {
-      //     setTimeout(function() { throw reason; }, 0);
-      //   });
-
-      //   console.log(player);
-
-
-      //   player.once('AdStarted', function() {
-      //     console.log('AdStarted');
-      //   });
-        
-
-      //   player.once('AdVideoStart', function() {
-      //     console.log('AdVideoStart');
-      //   });
-        
-      //   player.once('AdVideoComplete', function() {
-      //     console.log('AdVideoComplete');
-      //   });
-
-
-      //   player.once('AdStopped', function() {
-      //     console.log('AdStopped');
-      //   });
-
-
-      // });
-
       this.getList();
     },
 
-    // mounted: function () {this.$nextTick(function () {});},
-    // updated: function () {this.$nextTick(function () {});},
 
     watch: {
       dataStyle: {
@@ -320,36 +260,15 @@
 
       getList(){
         // Запрос к api
-
         this.postMethod('domains.get')
         .then(response => {
-          console.log(response);
-
           response = response.map(function(el){ 
             el.new_player = JSON.parse(el.new_player);
             return el; 
           });
-
-          console.log(response);
-
           this.list = response;
-          // this.updateListPlayers();
         });
-
       },
-
-
-      // updateListPlayers(){
-      //   this.$nextTick(function () {
-
-      //     this.list = this.list.map(function(el){ 
-      //       el.play = new Playerjs({id: `player${el.id}`, file:'https://plrjs.com/x.mp4'});
-      //       el.play.elements(JSON.parse(el.player));
-      //       return el; 
-      //     });
-
-      //   });
-      // },
 
       playerUp(player){
         this.updatePlayer = true;
@@ -361,7 +280,6 @@
         this.updatePlayer = false;
         this.activPlayer = null;
         this.getList();
-        this.updateListPlayers();
       },
 
     }

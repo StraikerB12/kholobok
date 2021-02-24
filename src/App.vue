@@ -28,6 +28,7 @@
       Header,
       Menu
     },
+
     created(){
       console.log(this.$router.currentRoute);
     },

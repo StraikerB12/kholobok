@@ -370,7 +370,6 @@
         this.postMethod('getVideo', params).then((response) => {
           this.count = response.count;
           this.videos = response.items.map(item => {
-            console.log(item);
             if(item.lock != null)item.lock = item.lock.split(',');
             return item;
           });

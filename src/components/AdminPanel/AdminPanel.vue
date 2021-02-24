@@ -61,6 +61,13 @@
                         label="Текст">
                       </el-table-column>
 
+                      <el-table-column
+                        width="40">
+                        <template slot-scope="scope">
+                          <a href="#" v-on:click.prevent="deleteMessege(scope.row.id)" title="Удалить"><i class="icon el-icon-close" aria-hidden="true"></i></a>
+                        </template>
+                      </el-table-column>
+
                     </el-table>
 
 
@@ -101,6 +108,7 @@
         this.postMethod('system.getMessage')
         .then((response) => {
           this.messages = response;
+          console.log(response);
         });
       },
 
@@ -112,11 +120,22 @@
           this.getMessages();
         });
       },
+
+      deleteMessege(id){
+        this.postMethod('system.deleteMessage', {
+          id
+        }).then((response) => {
+          this.getMessages();
+        });
+      }
       
     }
   }
 </script>
 
 <style lang='scss' scoped>
-  
+  .icon{
+    font-size: 18px;
+    color: #949393;
+  }
 </style>

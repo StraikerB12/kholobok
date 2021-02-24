@@ -24,8 +24,8 @@
     </div>
 
     <footer class="landing-footer">
-        <div>Все права защещены</div>
-        <div>kholobok.biz 2019 ©</div>
+        <div>Все права защищены</div>
+        <div>v 1.02.0 kholobok.biz 2019 ©</div>
     </footer>
 
   </div>
@@ -98,10 +98,11 @@
 
 
 
-  .block1{
-      min-height: 1000px;
-      position: relative;
-  }
+    .block1{
+        height: calc(100vh - 167px);
+        min-height: 1000px;
+        position: relative;
+    }
 
   .block1 .images{
       width: 1200px;

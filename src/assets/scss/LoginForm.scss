@@ -62,6 +62,9 @@ body, body *{
     cursor: pointer;
     outline: none;
 }
+.form-in button.dis{
+    background: #9b9b9b; 
+}
 .form-in button:active{
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     transform: scale(1.01);

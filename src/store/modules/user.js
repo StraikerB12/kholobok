@@ -30,6 +30,21 @@ export default {
     },
 
     actions: {
+      userRegistr: ({commit, dispatch}, user) => {
+        return new Promise((resolve) => {
+          dispatch('requestApi', {url: 'oauth/registr', data: user})
+          .then(({bearer_token, refresh_token, right, name}) => {
+            commit('setToken', bearer_token);
+            commit('setTokenRefresh', refresh_token);
+            commit('setStatus', right);
+            commit('setName', name);
+            resolve();
+          }).catch((error) => {
+            console.log(error);
+          })
+        });
+      },
+
       userLogin: ({commit, dispatch}, user) => {
         return new Promise((resolve) => {
           dispatch('requestApi', {url: 'oauth/login', data: user})

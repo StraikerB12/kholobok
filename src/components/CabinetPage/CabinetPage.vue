@@ -417,7 +417,7 @@
         }).then((response) => {
           if(response.status){
             this.listDomains.push(response.data);
-            if(!this.userAuth){
+            if(this.userAuth.status == "client"){
               this.postMethod('tikets.add', {
                 tupe: 'domain',
                 title: 'Модерация домена '+ this.domain,
@@ -429,6 +429,7 @@
             }
             this.domain = '';
           }
+
         });
       },
 
