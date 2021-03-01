@@ -341,14 +341,9 @@
     },
 
     computed:{
-      userAuth(){ 
-        return this.$store.state.user;
-      },
+      userAuth(){ return this.$store.state.user; },
       title(){ return this.$router.currentRoute.meta.title},
-
-      score(){ 
-        return Number(this.userInfo.score).toFixed(2); 
-      }
+      score(){ return Number(this.userInfo.score).toFixed(2);}
     },
 
     methods: {

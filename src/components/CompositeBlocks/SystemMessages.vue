@@ -1,14 +1,18 @@
 <template>
   <div class="system-messages">
 
-    <el-alert
-      v-for="(item, index) in messages"
-      :key="index"
-      :title="item.text"
-      :type="item.type"
-      :class="item.type"
-      class="system-messages__item">
-    </el-alert>
+    <template v-for="(item, index) in messages">
+      <el-alert
+        v-if="isVisible(item.id)"
+        :key="index"
+        :title="item.text"
+        :type="item.type"
+        :class="item.type"
+        @close="close(item.id)"
+        show-icon
+        class="system-messages__item">
+      </el-alert>
+    </template>
 
   </div>
 </template>
@@ -23,7 +27,6 @@
 
     async created() { 
       this.getMessages();
-      console.log(this.$router.currentRoute)
     },
 
     computed:{},
@@ -33,8 +36,22 @@
         this.postMethod('system.getMessage')
         .then((response) => {
           this.messages = response;
+          
         });
       },
+
+      isVisible(id){
+        // sessionStorage.setItem('test', 1);
+        let message = sessionStorage.getItem(id +'');
+        console.log(message);
+        if(message){ return false; }else{ return true; }
+      },
+
+      close(id){
+        sessionStorage.setItem(id +'', 200);
+      },
+
+
     }
   }
 </script>

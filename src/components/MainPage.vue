@@ -43,81 +43,85 @@
 
 <style lang='scss' scoped>
 
+
+
   .mainpage{
     background: #202125;
+    height: 100vh;
+    overflow: auto;
   }
 
   .block{
-      width: 100%;
-      overflow: hidden;
+    width: 100%;
+    overflow: hidden;
   }
 
   .contener{
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 9;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 9;
   }
 
   h1{
-      color: #fff;
-      font-family: 'ProximaNova-Black';
-      font-weight: normal;
-      font-size: 75px;
-      padding-top: 300px;
-      text-transform: uppercase;
-      line-height: 65px;
+    color: #fff;
+    font-family: 'ProximaNova-Black';
+    font-weight: normal;
+    font-size: 75px;
+    padding-top: 300px;
+    text-transform: uppercase;
+    line-height: 65px;
   }
 
 
   .landing-heder{
-      width: 100%;
-      padding: 20px 35px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      overflow: hidden;
+    width: 100%;
+    padding: 20px 35px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
   }
   .landing-heder .logo{
-      color:#fff;
-      float: left;
-      font-family: 'ProximaNova-Black';
-      font-size: 22px;
-      padding: 0 20px;
+    color:#fff;
+    float: left;
+    font-family: 'ProximaNova-Black';
+    font-size: 22px;
+    padding: 0 20px;
   }
 
   .landing-heder .panel{
-      float: right;
+    float: right;
   }
   .landing-heder .panel a{
-      font-family: 'ProximaNova-Light';
-      color: #fff;
-      font-size: 16px;
-      text-decoration: none;
-      line-height: 30px;
+    font-family: 'ProximaNova-Light';
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    line-height: 30px;
   }
 
 
 
 
     .block1{
-        height: calc(100vh - 167px);
-        min-height: 1000px;
-        position: relative;
+      height: calc(100vh - 167px);
+      min-height: 1000px;
+      position: relative;
     }
 
   .block1 .images{
-      width: 1200px;
-      height: 600px;
-      position: absolute;
-      top: 150px;
-      left: 35%;
-      z-index: 8;
+    width: 1200px;
+    height: 600px;
+    position: absolute;
+    top: 150px;
+    left: 35%;
+    z-index: 8;
   }
   .block1 .images div{
-      display: inline-block;
-      width: 300px;
-      height: 100%;
-      margin-left: 50px;
-      border-radius: 3px;
+    display: inline-block;
+    width: 300px;
+    height: 100%;
+    margin-left: 50px;
+    border-radius: 3px;
   }
 
   .block1 .images .image1{
@@ -131,11 +135,11 @@
   }
 
   .block1 p{
-      color: #fff;
-      font-family: 'ProximaNova-Light';
-      font-size: 16px;
-      padding-top: 10px;
-      padding-bottom: 50px;
+    color: #fff;
+    font-family: 'ProximaNova-Light';
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 50px;
   }
 
   .block1 a{

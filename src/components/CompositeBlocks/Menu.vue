@@ -17,8 +17,11 @@
             :title="item.meta.title" 
             :class="{active: item.path == route}" 
             class="menu__href">
-            <div class="menu__icon" :class="item.name"></div>
+            <div class="menu__icon" :class="item.name">
+              <div class="messages-indicator" v-if="item.name == 'TiketsPage' && countMessages != 0">{{countMessages}}</div>
+            </div>
             <span class="menu__name" slot="title">{{ item.meta.title }}</span>
+            
           </a>
         </el-menu-item>
 
@@ -68,6 +71,7 @@
 
 <script>
   import {routers} from '~/router';
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'Menu',
@@ -75,21 +79,25 @@
       data: [],
       isCollapse: true,
 
-      artikles: null
+      artikles: null,
     }),
     async created() {
-      console.log(this.$store.state.route);
       this.getArtikles();
+      
+      this.getNewMessages();
+      setInterval(() => { this.getNewMessages(); }, 30000);
     },
     computed:{
-        routers(){ 
-          console.log(this.status);
-          return routers.filter((item) => item.meta.visible && !item.meta.rights.includes(this.status) )
-        },
+        routers(){ return routers.filter((item) => item.meta.visible && !item.meta.rights.includes(this.status) ) },
         status(){ return this.$store.state.user.status},
-        route(){ return this.$store.state.route } //this.$router.currentRoute}
+        route(){ console.log('router', this.$store.state.route); return this.$store.state.route },
+
+        countMessages(){ return this.$store.state.tikets.messages },
     },
     methods: {
+      ...mapActions([
+        'getNewMessages'
+      ]),
 
       getArtikles(){
         this.postMethod('articles.get').then((response) => {
@@ -148,6 +156,8 @@
 <style lang='scss' scoped>
   // 38cf99
   // 2fb887
+
+  
 
   menu{
     min-height: 100vh;
@@ -214,6 +224,21 @@
           height: 30px;
           color: #a1a1a1;
           padding: 5px 15px;
+
+          .messages-indicator{
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            text-align: center;
+            line-height: 18px;
+            border-radius: 20px;
+            background: crimson;
+            color: #fff;
+            font-family: 'ProximaNova-Bold';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+          }
         }
 
         .menu__name{

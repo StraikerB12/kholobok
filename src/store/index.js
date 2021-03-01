@@ -6,6 +6,7 @@ import createPersistedState from "vuex-persistedstate";
 import { Notification } from 'element-ui';
 
 import user from './modules/user';
+import tikets from './modules/tikets';
 import {router} from '~/router';
 
 const siteUrl = 'https://api.kholobok.biz/';
@@ -31,7 +32,7 @@ export default new Vuex.Store({
   actions: {
 
     requestApi: ({state, dispatch, commit}, {url, data = null, method = 'POST'}) => {
-      console.log('Использование requestApi');
+      // console.log('Использование requestApi');
 
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${state.user.token}`;
@@ -40,7 +41,6 @@ export default new Vuex.Store({
         axios({ url: siteUrl + url, data, method})
         .then( async ({data: {data, messages}}) => {
 
-          
           // dispatch('setMessages', messages);
           if(messages.length > 0 ){
             messages.forEach(element => {
@@ -76,7 +76,8 @@ export default new Vuex.Store({
   },
 
   modules: {
-      user
+    user,
+    tikets
   },
   strict: true,
   plugins: [createPersistedState()]

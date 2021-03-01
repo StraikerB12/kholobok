@@ -91,6 +91,20 @@ export const routers = [
       rights: []
     }
   },
+
+  {
+    path: '/video/:type',
+    name: 'VideosPage',
+    component: () => import('~/components/VideoPage/VideoPage'),
+    props: true,
+    meta: {
+      middleware: [auth],
+      title: "Видео",
+      visible: false,
+      rights: []
+    }
+  },
+
   {
     path: '/tikets',
     name: 'TiketsPage',

@@ -29,18 +29,18 @@
                     Управление
                   </div>
 
-                  <div class="section__title-button-lin" @click="getMuves()">
+                  <a href="/video/films" :class="{ activ: type == 'films'}" class="section__title-button-lin">
                     <i class="icon el-icon-video-camera"></i>
                     Фильмы
-                  </div>
-                  <div class="section__title-button-lin" @click="getSerials()">
+                  </a>
+                  <a href="/video/serials" :class="{ activ: type == 'serials'}" class="section__title-button-lin">
                     <i class="icon el-icon-film"></i>
                     Сериалы
-                  </div>
-                  <div class="section__title-button-lin" @click="getLocks()">
+                  </a>
+                  <a href="/video/lock" :class="{ activ: type == 'lock'}" class="section__title-button-lin">
                     <i class="icon el-icon-close"></i>
                     Заблокированные
-                  </div>
+                  </a>
                 </div>
               </div>
               <div class="section__content">
@@ -222,6 +222,7 @@
       TiketModal,
       FilterForm
     },
+    props: ['type'],
     data(){return{
 
       videoInfoFlag: false, // Модалка с информацией о фильме
@@ -251,8 +252,23 @@
     created: function () {
       // хеш для страницы
       if( /page.*?(\d+)/.exec( window.location.hash ) != null) this.page = Number(/page.*?(\d+)/.exec( window.location.hash )[1]);
+
+
+      // стартовая выборка списка фильмов
+      if(this.type == 'films'){
+        // this.filter = {};
+        this.filter.type = 'movie';
+      }else if(this.type == 'serials'){
+        // this.filter = {};
+        this.filter.type = 'episode';
+      }else if(this.type == 'lock'){
+        // this.filter = {};
+        this.filter.lock = 'yes';
+      }
+
+      this.videosGet(this.page); 
       
-      this.videosGet(this.page); // стартовая выборка списка фильмов
+
     },
 
     computed: {
@@ -334,23 +350,10 @@
 
       clearFilter(){
         this.filter = {};
+        this.search = '';
         this.videosGet();
       },
-      getMuves(){
-        this.filter = {};
-        this.filter.type = 'movie';
-        this.videosGet();
-      },
-      getSerials(){
-        this.filter = {};
-        this.filter.type = 'episode';
-        this.videosGet();
-      },
-      getLocks(){
-        this.filter = {};
-        this.filter.lock = 'yes';
-        this.videosGet();
-      },
+      
 
       // Загрузка списка видео
       videosGet: function(page = 1){

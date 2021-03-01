@@ -38,7 +38,9 @@
   export default {
     name: 'Messages',
     data: () => ({ }),
-    async created() { },
+    async created() {
+      console.log('start messages');
+    },
     computed:{
       messagesList(){
         return this.$store.state.messages;

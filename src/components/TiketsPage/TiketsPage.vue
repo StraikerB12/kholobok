@@ -161,6 +161,8 @@
 
   import TiketModal from '~/components/TiketsPage/TiketModal';
 
+  import { mapActions } from 'vuex';
+
 
   export default {
     name: 'TiketsPage',
@@ -197,13 +199,14 @@
     },
 
     computed:{
-      isRight(){
-        return this.$store.state.user.status == 'client' || this.$store.state.user.status == 'redactor' ? false : true;
-      },
+      isRight(){ return this.$store.state.user.status == 'client' || this.$store.state.user.status == 'redactor' ? false : true; },
       title(){ return this.$router.currentRoute.meta.title},
     },
 
     methods: {
+      ...mapActions([
+        'getNewMessages'
+      ]),
 
       init: function(){
         this.getTikets('tiket');
@@ -220,8 +223,6 @@
       },
 
 
-
-
       openForm: function(type){
         this.tiketFlag = true;
         this.tiketType = type;
@@ -230,8 +231,6 @@
         this.tiketFlag = false;
         this.init();
       },
-
-
 
 
       openTiket: function(id, index){
@@ -255,6 +254,12 @@
             el.created_at = this.getDataS(el.created_at);
             return el;
           });
+
+          if(this.isRight) {
+            let ids = this.tiketMessages.map(item => { return item.id; });
+            this.postMethod('tikets.read', {ids: ids.join(',')}).then( response => { this.getNewMessages() });
+          }
+
         });
       },
 
@@ -332,6 +337,7 @@
 
       statusCloseTiket: function(){
         this.statusPutTiket(4); 
+        this.closeTiket();
       },
       statusRassmotrTiket: function(){
         this.statusPutTiket(2); 
