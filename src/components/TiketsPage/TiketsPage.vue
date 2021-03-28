@@ -255,10 +255,9 @@
             return el;
           });
 
-          if(this.isRight) {
-            let ids = this.tiketMessages.map(item => { return item.id; });
-            this.postMethod('tikets.read', {ids: ids.join(',')}).then( response => { this.getNewMessages() });
-          }
+          let ids = this.tiketMessages.map(item => { return item.id; });
+          this.postMethod('tikets.read', {ids: ids.join(',')}).then( response => { this.getNewMessages() });
+          
 
         });
       },
@@ -289,17 +288,23 @@
 
 
       statusNotDomain: function(){
+        let id = JSON.parse( this.tiketsList[this.tiketIndex].data ).id;
         this.statusPutTiket(3); 
+        this.postMethod('tikets.addMessage', {
+          id: this.tiketsList[this.tiketIndex].id,
+          message: "Ваш домен отклонен."
+        }).then( response => {});
+        this.postMethod('domains.notComplit', {
+          id: id
+        }).then( response => {});
       },
       statusYesDomain: function(){
         let id = JSON.parse( this.tiketsList[this.tiketIndex].data ).id;
         this.statusPutTiket(4); 
-
         this.postMethod('tikets.addMessage', {
           id: this.tiketsList[this.tiketIndex].id,
           message: "Ваш домен принят."
         }).then( response => {});
-
         this.postMethod('domains.complit', {
           id: id
         }).then( response => {});

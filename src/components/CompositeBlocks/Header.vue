@@ -6,10 +6,23 @@
       <ul class="header__menu">
         <li class="header__item"></li>
         <li class="header__item">
-          <a class="header__item-name" href="/cabinet" title="Кабинет"><i class="lni-cog"></i></a> 
+          <a 
+            class="header__item-name header__item-name--border" 
+            href="/cabinet" 
+            title="Кабинет">
+            <span>Личный кабинет</span>
+            <i class="lni-cog"></i>
+          </a> 
         </li>
         <li class="header__item"> 
-          <a class="header__item-name" v-on:click.prevent="onSignOut()" href="#" title="Выход" style="transform: rotate(180deg)"><i class="lni-exit"></i></a> 
+          <a 
+            class="header__item-name" 
+            v-on:click.prevent="onSignOut()" 
+            href="#" 
+            title="Выход">
+            <span>Выход</span>
+            <i class="lni-exit" style="transform: rotate(180deg)"></i>
+          </a> 
         </li>
       </ul>
 
@@ -76,20 +89,34 @@
         align-items: stretch; 
     }
     .header__item{
-        padding: 0 0 0 30px;
+      padding: 0 0 0 30px;
+      
     }
     .header__item-name{
-        color: #bcbcbc;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        text-decoration: none;
+      color: #bcbcbc;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 34px;
+      display: flex;
+      & span{
+        padding: 0 8px;
+      }
+      & i{
         font-size: 22px;
         line-height: 34px;
-        display: inline-block;
-        transform-origin: 10px 15px;
+        padding: 0 5px;
+      }
+      &--border{
+        border: 1px solid rgba(188, 188, 188, 0.6);
+        border-radius: 4px;
+      }
+      &--border:hover{
+        border: 1px solid rgba(56, 207, 154, 0.6);
+      }
     }
     .header__item-name:hover{
-        color: #38cf99;
+      color: #38cf99;
+      
     }
 </style>

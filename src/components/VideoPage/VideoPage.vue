@@ -247,9 +247,10 @@
 
       filmId: 0,
       filmIndex: null,
-    }},
 
-    created: function () {
+      userInfo: null
+    }},
+    async created() {
       // хеш для страницы
       if( /page.*?(\d+)/.exec( window.location.hash ) != null) this.page = Number(/page.*?(\d+)/.exec( window.location.hash )[1]);
 
@@ -267,20 +268,13 @@
       }
 
       this.videosGet(this.page); 
-      
-
+      await this.getUserInfo();
     },
 
     computed: {
       title(){ return this.$router.currentRoute.meta.title},
-
-      isRight(){
-        return this.$store.state.user.status == 'client' || this.$store.state.user.status == 'managing' ? false : true;
-      },
-
-      offsetPage: function () {
-        return this.paginCount * (this.page - 1);
-      },
+      isRight(){ return this.$store.state.user.status == 'client' || this.$store.state.user.status == 'managing' ? false : true; },
+      offsetPage: function () { return this.paginCount * (this.page - 1); },
     },
 
     mounted: function () {
@@ -288,6 +282,12 @@
     },
 
     methods: {
+
+      async getUserInfo(){
+        await this.postMethod('users.info').then(response => {
+          this.userInfo = response;
+        });
+      },
 
       // Пердпросмотр фильма
       showFilm(id){
@@ -319,7 +319,7 @@
 
       // Скопировать адрес
       copyAdress: function(id){
-        let link = '://api.kholobok.biz/show/' + id;
+        let link = `://${this.userInfo.domain}/show/${id}`;
 
         if(this.flagHttpsLink){ link = 'https'+ link; }else{ link = 'http'+ link; }
         if(this.flagFraimeLink){link = '<iframe src="'+ link +'" frameborder="0" width="610" height="370" allowfullscreen></iframe>'}
@@ -352,6 +352,7 @@
         this.filter = {};
         this.search = '';
         this.videosGet();
+        this.$router.push('VideoPage')
       },
       
 
@@ -359,7 +360,7 @@
       videosGet: function(page = 1){
 
         this.page = page;
-        console.log(page);
+        // console.log(page);
         window.location.hash = 'page'+ page;
 
         // Параметры запроса

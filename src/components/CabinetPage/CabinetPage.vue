@@ -69,7 +69,7 @@
 
               <el-row :gutter="20">
 
-                <el-col :xl="6" :lg="12" :md="12">
+                <el-col :xl="6" :lg="8" :md="12">
                   <div class="section__content">
 
                     <h2 class="login">{{ userInfo.login }}</h2>
@@ -77,47 +77,92 @@
 
                     <h3 class="cabinet__title-rang">Смена пароля</h3>
                     <form v-on:submit.prevent="checkForm" action="" method="post" class="">
-                      <input 
-                        id="oldPassword" 
-                        type="password" 
-                        class="cabinet__input" 
-                        name="oldPassword" 
-                        placeholder="Старый пароль" 
-                        v-model="oldPassword">
-                      <br>
-                      <input 
-                        id="newPassword" 
-                        type="password" 
-                        class="cabinet__input" 
-                        name="newPassword" 
-                        placeholder="Новый пароль"
-                        v-model="newPassword">
-                      <br>
-                      <input 
-                        id="password-confirm" 
-                        type="password" 
-                        class="cabinet__input" 
-                        name="passwordConfirmation" 
-                        placeholder="Повторите пароль" 
-                        v-model="passwordConfirmation">
-                      <br>
-                      <button class="button cabinet__button">Отправить</button>
+
+                      <div class="form__element-form">
+                        <el-input
+                          class="form__input"
+                          name="oldPassword" 
+                          id="oldPassword" 
+                          type="password" 
+                          placeholder="Старый пароль"
+                          v-model="oldPassword"
+                          clearable>
+                        </el-input>
+                      </div>
+                      <div class="form__element-form">
+                        <el-input
+                          id="newPassword" 
+                          type="password" 
+                          class="form__input" 
+                          name="newPassword" 
+                          placeholder="Новый пароль"
+                          v-model="newPassword"
+                          clearable>
+                        </el-input>
+                      </div>
+                      <div class="form__element-form">
+                        <el-input
+                          id="password-confirm" 
+                          type="password" 
+                          class="form__input" 
+                          name="passwordConfirmation" 
+                          placeholder="Повторите пароль" 
+                          v-model="passwordConfirmation"
+                          clearable>
+                        </el-input>
+                      </div>
+
+                      <button class="form__button">Сохранить</button>
                     </form>
 
 
                   </div>
                 </el-col>
 
-                <el-col :xl="6" :lg="12" :md="12">
+                <el-col :xl="6" :lg="8" :md="12">
                   <div class="section__content">
 
                     <h3 class="cabinet__title-rang">Ключ API</h3>
-                    <input class="cabinet__input" type="text" disabled :value="userInfo.api_key">
+                    <div class="form__element-form">
+                      <el-input
+                        type="text" 
+                        class="form__input" 
+                        disabled
+                        :value="userInfo.api_key"
+                        clearable>
+                      </el-input>
+                    </div>
+
+                    <div class="form__element-form">
+                      <label class="form__label" for="">
+                        Домен для ссылок
+                        <el-popover
+                          placement="bottom"
+                          width="200"
+                          trigger="click"
+                          content="Этот домен будет поставлен во все ссылки на фильмы, в том числе и отдаваемые через api.">
+                          <i slot="reference" class="el-icon-warning-outline icon-hover"></i>
+                        </el-popover>
+                      </label>
+
+                      <el-select class="form__input" style="margin-bottom:10px" @change="selectDomain" :value="userInfo.domain_id">
+                        <el-option label="api.kholobok.biz" value="0"></el-option>
+                        <el-option v-for="item in listIdDomains" :key="item.id" :label="item.name" :value="item.id+''"></el-option>
+                      </el-select>
+
+                      <el-alert
+                        title='Прежде чем изменять эту настройку, внесите изменнения в запись DNS своего домена для переадресации запросов'
+                        type="warning"
+                        show-icon
+                        :closable="false"
+                        class="warning system-messages__item">
+                      </el-alert>
+                    </div>
 
                   </div>
                 </el-col>
 
-                <el-col :xl="6" :lg="12" :md="12">
+                <el-col :xl="6" :lg="8" :md="12">
                   <div class="section__content">
 
                     <el-row :gutter="20">
@@ -199,15 +244,16 @@
                   </div>
                 </el-col>
 
-                <el-col :xl="6" :lg="12" :md="12">
+                <el-col :xl="6" :lg="8" :md="12">
                   <div class="section__content">
 
-                    <h3 class="cabinet__title-rang">Добавить домен</h3>
-                    <p class="cabinet__text-rang">
+                    <h3 class="cabinet__title-rang">Добавить домен</h3><br>
+
+                    <!-- <p class="cabinet__text-rang">
                       Вставте в корень сайта фаил<br>
                       <b>{{ userInfo.api_key }}.txt</b>
-                    </p>
-                    <p class="cabinet__text-rang">
+                    </p> -->
+                    <!-- <p class="cabinet__text-rang">
                       Домен следует вводить без 
                       <b>http://</b>, 
                       <b>https://</b>, 
@@ -215,59 +261,74 @@
                       <b>www</b> и без 
                       <b>/</b> на конце. <br>
                       Например: <b>site.ru</b>
-                    </p>
+                    </p> -->
+
+                    <el-alert
+                      :title="`Для добавления домена, вставте в корень сайта фаил ${userInfo.api_key}.txt`"
+                      type="success"
+                      show-icon
+                      :closable="false"
+                      class="success system-messages__item">
+                    </el-alert>
+
+                    <el-alert
+                      title='Домен следует вводить без: "http://", "https://", "//", "www" и без "/" на конце. Например: "site.ru"'
+                      type="warning"
+                      show-icon
+                      :closable="false"
+                      class="warning system-messages__item">
+                    </el-alert>
 
 
                     <el-row :gutter="20">
                       <el-col :span="16">
-
-                        <!-- <input 
-                          id="domain" 
-                          type="text" 
-                          class="cabinet__input" 
-                          placeholder="Домен" 
-                          v-model="domain"> -->
-                          <div class="">
-                            <!-- <label class="form__label" for="">Домен</label> -->
-                            <el-input
-                              class="form__input"
-                              controls-position="right"
-                              placeholder="Домен"
-                              v-model="domain"
-                              clearable>
-                            </el-input>
-                          </div>
-
+                        <div class="">
+                          <el-input
+                            class="form__input"
+                            controls-position="right"
+                            placeholder="Домен"
+                            v-model="domain"
+                            clearable>
+                          </el-input>
+                        </div>
                       </el-col>
                       <el-col :span="8">
                         <button class="form__button" v-on:click="addDomain()">Добавить</button>
                       </el-col>
                     </el-row>
 
-                    <!-- <div class="cabinet__list-domains">
-                      <p v-for="(value, index) in listDomains" :key="index" class="cabinet__list-domains-item">
-                        {{ value.name }} 
-                        <i class="cabinet__icons-btn fa fa-times" v-on:click="deleteDomain(value.id, index)" aria-hidden="true"></i>
-                      </p>
-                    </div> -->
-
                     <el-table
                       :data="listDomains"
                       stripe
                       style="width: 100%">
-
                       <el-table-column
                         prop="name"
                         label="Домен">
                       </el-table-column>
-
+                      <el-table-column
+                        align="right">
+                        <template slot="header">
+                          Одобрение 
+                          <el-popover
+                            placement="bottom"
+                            width="200"
+                            trigger="click"
+                            content="Статус домена, определяемый администратором. Если домен не принят, операции с ним запрещены.">
+                            <i slot="reference" class="el-icon-warning-outline icon-hover"></i>
+                          </el-popover>
+                        </template>
+                        <template slot-scope="scope">
+                          <span v-if="scope.row.status == 2" class="status-domain--red status-domain"></span>
+                          <span v-if="scope.row.status == 1" class="status-domain--green status-domain"></span>
+                          <span v-if="scope.row.status == 0" class="status-domain--yellow status-domain"></span>
+                        </template>
+                      </el-table-column>
                       <el-table-column
                         width="45">
                         <template slot-scope="scope">
                           <a href="#" v-on:click.prevent="deleteDomain(scope.row.id, scope.$index)"><i class="cabinet__icons-btn fa fa-times" aria-hidden="true"></i></a>
                         </template>
                       </el-table-column>
-
                     </el-table>
 
                   </div>
@@ -343,27 +404,24 @@
     computed:{
       userAuth(){ return this.$store.state.user; },
       title(){ return this.$router.currentRoute.meta.title},
-      score(){ return Number(this.userInfo.score).toFixed(2);}
+      score(){ return Number(this.userInfo.score).toFixed(2);},
+      listIdDomains(){ return this.listDomains.filter(item => item.status == '1'); }
     },
 
     methods: {
-
-      clickButtonTest(){
-        console.log('tyest');
-      },
 
       async getUserInfo(){
         await this.postMethod('users.info').then(response => {
           this.userInfo = response;
           this.centData = JSON.parse(response.cent);
-          console.log(response);
+          // console.log(response);
         });
       },
 
       async getListDomains(){
         await this.postMethod('domains.get').then(response => {
-          this.listDomains = response;
-          // console.log(response);
+          this.listDomains = response.map(item => ({ id: item.id, id_parent: item.id_parent, name: item.name, show: item.show, status: item.status }));
+          console.log(response);
         });
       },
 
@@ -428,12 +486,13 @@
         });
       },
 
-      deleteDomain: function (id, index) {
-        this.postMethod('domains.delete', {
-            id: id
-        }).then(() => {
-          this.listDomains.splice(index, 1);
-        });
+      selectDomain(id){
+        this.userInfo.domain_id = id;
+        this.postMethod('users.selectDomain', {id});
+      },
+
+      deleteDomain(id, index) {
+        this.postMethod('domains.delete', {id}).then(() => { this.listDomains.splice(index, 1); });
       },
 
 
@@ -477,6 +536,17 @@
 </script>
 
 <style lang='scss' scoped>
+  .status-domain{
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    &--red{ background: crimson; }
+    &--green{ background: forestgreen; }
+    &--yellow{ background: gold; }
+  }
+
+
+
   .login{
     font-family: 'Montserrat-Bold';
     color: #181f39;

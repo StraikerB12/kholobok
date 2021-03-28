@@ -49,3 +49,22 @@
 
     background: #1bd361;
 }
+
+
+.system-messages{
+
+    padding: 20px 0;
+    
+    &__item{
+      margin-bottom: 8px;
+      
+      &.success{ color:#4e9e26; border: 1px solid #67C23A; }
+      &.warning{ color:#c08124; border: 1px solid #E6A23C; }
+      &.error{ color:#be4a4a; border: 1px solid #F56C6C; }
+      &.info{ color:#6b6d72; border: 1px solid #909399; }
+
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+  }
